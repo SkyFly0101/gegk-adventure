@@ -49,6 +49,7 @@ G.GameMap = class GameMap {
       if (id === 0) continue;
       const t = this.tag(id);
       if (t === G.Terrain.Bridge && !countBridge && !(G.Game && G.Game.global.bridge > 0)) continue;
+      if (G.Terrain.ignorePassability(t)) continue; // Neutral tiles don't hide what's underneath
       if (t > 0) return t;
     }
     return 0;

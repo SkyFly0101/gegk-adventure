@@ -171,7 +171,8 @@ G.Player = class Player extends G.Character {
   }
   updateCommandNew() {
     const dir = G.Input.dir4();
-    if (G.Interpreter.mapRunning() || G.Game.inMenu || G.Game.messageShowing) return;
+    // No walking while a queued scene runs (e.g. the wild battle transition).
+    if (G.Interpreter.mapRunning() || G.Game.inMenu || G.Game.messageShowing || (G.MapScene && G.MapScene.current)) return;
     if (G.Game.global.iceSliding) { this.moveForward(); return; }
     if (this.movedLastFrame || (dir > 0 && dir === this.lastDir && G.time - this.lastDirTime >= 0.075)) {
       if (dir) this.moveGeneric(dir);

@@ -462,12 +462,9 @@ G.BattleScene = class BattleScene extends G.Scene {
     const slide = Math.round(this.slideIn * 240);
     const bx = side === 0 ? 126 + slide : 12 - slide, by = side === 0 ? 72 : 14;
     const w = side === 0 ? 108 : 102, h = side === 0 ? 38 : 28;
-    // panel with a slanted end like FireRed
+    // panel: dark 2px border around a cream fill with a shaded bottom strip
     ctx.fillStyle = '#404850';
-    ctx.beginPath();
-    if (side === 0) { ctx.moveTo(bx + 8, by); ctx.lineTo(bx + w, by); ctx.lineTo(bx + w, by + h); ctx.lineTo(bx, by + h); ctx.lineTo(bx, by + 8); }
-    else { ctx.moveTo(bx, by); ctx.lineTo(bx + w - 8, by); ctx.lineTo(bx + w, by + 8); ctx.lineTo(bx + w, by + h); ctx.lineTo(bx, by + h); }
-    ctx.closePath(); ctx.fill();
+    ctx.fillRect(bx, by, w, h);
     ctx.fillStyle = '#f8f8e8';
     ctx.fillRect(bx + 2, by + 2, w - 4, h - 4);
     ctx.fillStyle = '#e0e0c8';

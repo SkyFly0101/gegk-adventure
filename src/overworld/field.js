@@ -97,7 +97,9 @@ G.Field = {
     const p = G.Game.playerChar, m = G.World.map;
     if (G.Game.global.surfing) return this.encounterTable(m, 'Water') ? 'Water' : null;
     const tag = m.terrainTag(p.x, p.y);
-    if ((G.Terrain.isGrass(tag) || tag === G.Terrain.Sand) && this.encounterTable(m, 'Land')) return 'Land';
+    // Only grass tiles have land encounters (Essentials' land_wild_encounters:
+    // Grass, TallGrass, UnderwaterGrass, SootGrass); dirt paths use the Sand tag.
+    if ((G.Terrain.isGrass(tag) || tag === G.Terrain.UnderwaterGrass) && this.encounterTable(m, 'Land')) return 'Land';
     if (this.encounterTable(m, 'Cave')) return 'Cave';
     return null;
   },
