@@ -48,8 +48,20 @@ closest existing file. Replace them if you have the exact FireRed versions.
 - `assets/sprites/characters/trainer_YOUNGSTER_1.png` → currently shown as `trainer_YOUNGSTER`
 - `assets/sprites/characters/trainer_GENTLEMAN_2.png` → currently shown as `trainer_GENTLEMAN`
 - `assets/sprites/characters/trainer_COOLTRAINER_F1.png` → currently shown as `trainer_COOLTRAINER_F`
+- `assets/sprites/characters/pokemon_Cubone.png` → currently shown as `POKEMON_Cubone`
+- `assets/sprites/characters/pokemon_Nidorino.png` → currently shown as `POKEMON_Nidorino`
+- `assets/sprites/characters/pokemon_Psyduck.png` → currently shown as `POKEMON_Psyduck`
 - `assets/sprites/characters/NPC_Female2.png` → currently shown as `NPC 02`
+- `assets/sprites/characters/pokemon_Kangaskhan.png` → currently shown as `POKEMON_Kangaskhan`
+- `assets/sprites/characters/pokemon_Voltorb.png` → currently shown as `POKEMON_Voltorb`
+- `assets/sprites/characters/pokemon_Slowpoke.png` → currently shown as `POKEMON_Slowpoke`
 - `assets/sprites/characters/Item003.png` → currently shown as `Object ball`
+- `assets/sprites/characters/pokemon_Pidgeot.png` → currently shown as `POKEMON_Pidgeot`
+- `assets/sprites/characters/pokemon_Chansey.png` → currently shown as `POKEMON_Chansey`
+- `assets/sprites/characters/pokemon_Jigglypuff.png` → currently shown as `POKEMON_Jigglypuff`
+- `assets/sprites/characters/pokemon_Pikachu.png` → currently shown as `POKEMON_Pikachu`
+- `assets/sprites/characters/pokemon_Doduo.png` → currently shown as `POKEMON_Doduo`
+- `assets/sprites/characters/pokemon_Articuno.png` → currently shown as `POKEMON_Articuno`
 - `assets/sprites/characters/Healing balls 3.png` → currently shown as `Healing balls 1`
 - `assets/sprites/characters/Healing balls 4.png` → currently shown as `Healing balls 2`
 

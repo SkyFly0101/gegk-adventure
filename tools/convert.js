@@ -571,7 +571,11 @@ function auditAssets() {
   }
   const mm = readJSON(path.join(DATA, 'map_metadata.json'));
   for (const v of Object.values(mm)) if (v.BattleBack) want.backs.add(v.BattleBack);
-  const have = (dir, n, ext = '.ogg') => fs.existsSync(path.join(ASSETS, dir, n + ext));
+  // Exact-case check: macOS ignores case, but web servers (GitHub Pages) don't.
+  const listings = {};
+  const listing = (dir) => listings[dir] || (listings[dir] = fs.existsSync(path.join(ASSETS, dir)) ? fs.readdirSync(path.join(ASSETS, dir)) : []);
+  const have = (dir, n, ext = '.ogg') => listing(dir).includes(n + ext);
+  const caseMatch = (dir, n, ext) => { const f = listing(dir).find((x) => x.toLowerCase() === (n + ext).toLowerCase()); return f ? f.slice(0, -ext.length) : null; };
   const missing = {
     bgm: [...want.bgm].filter((n) => !have('audio/music', n) && !have('audio/music/me', n)),
     me: [...want.me].filter((n) => !have('audio/music/me', n) && !have('audio/music', n)),
@@ -584,7 +588,7 @@ function auditAssets() {
   const aliases = {};
   const manual = { NPC_Hiker: 'trainer_HIKER', NPC_Female2: 'NPC 02', 'Pokemon 09': 'Pokemon 10', Item003: 'Object ball', 'Healing balls 3': 'Healing balls 1', 'Healing balls 4': 'Healing balls 2' };
   for (const n of missing.characters) {
-    let alt = manual[n];
+    let alt = manual[n] || caseMatch('sprites/characters', n, '.png');
     if (!alt) { const base = n.replace(/_?\d+$/, ''); if (have('sprites/characters', base, '.png')) alt = base; }
     if (alt && have('sprites/characters', alt, '.png')) aliases[n] = alt;
   }

@@ -5,3 +5,5 @@ Map.zip
 pkmSprites.zip
 spritesRed.gz
 .DS_Store
+# Local preview settings (contain this computer's paths)
+.claude/
