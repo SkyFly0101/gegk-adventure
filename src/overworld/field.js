@@ -67,17 +67,16 @@ G.Field = {
     // Poison: 1 HP every 4 steps (FRLG lets Pokémon faint from poison)
     g.global.poisonSteps = ((g.global.poisonSteps || 0) + 1) % 4;
     if (g.global.poisonSteps === 0) {
-      let flash = false;
+      let hurt = false;
       for (const p of g.party) {
         if (p.status !== 'POISON' || p.hp <= 0) continue;
-        p.hp--; flash = true;
+        p.hp--; hurt = true;
         if (p.hp <= 0) {
           p.status = null;
           G.MapScene.queue(function* () { yield* G.MapScene.messageBox.show(`${p.name} fainted...`); });
         }
       }
-      if (flash) G.Screen.startFlash([255, 0, 255, 96], 0.2);
-      if (flash && !g.firstAble()) G.MapScene.queue(() => G.Field.whiteOut());
+      if (hurt && !g.firstAble()) G.MapScene.queue(() => G.Field.whiteOut());
     }
     // Friendship: +1 every 128 steps
     if (g.stats.steps % 128 === 0) for (const p of g.party) if (p.happiness < 255 && Math.random() < 0.5) p.happiness++;
