@@ -296,6 +296,22 @@ G.Character = class Character {
   }
 
   // Runs move route commands (RMXP codes 1-45).
+  // Cutscene routes often turn "Through" on for the NPC, which lets it walk
+  // over the player if the player isn't exactly where the kit expected. Wait
+  // up to half a second for the player to move out of the way; if they don't
+  // (the route really goes through that tile), step anyway so the scene can't
+  // lock up.
+  waitForPlayerToClear(code) {
+    const p = this.player;
+    if (this.isPlayer || !this.through || !this.moveRouteForcing || !p || p.map !== this.map || p.through) { this.blockedSince = null; return false; }
+    const d = { 1: 2, 2: 4, 3: 6, 4: 8 }[code];
+    const nx = this.x + G.U.dx(d), ny = this.y + G.U.dy(d);
+    if (!(p.x === nx && p.y === ny)) { this.blockedSince = null; return false; }
+    if (this.blockedSince == null) this.blockedSince = G.time;
+    if (G.time - this.blockedSince < 0.5) return true;
+    this.blockedSince = null;
+    return false;
+  }
   moveTypeCustom() {
     if (this.jumping() || this.moving() || !this.moveRoute) return;
     const list = this.moveRoute.list;
@@ -310,6 +326,7 @@ G.Character = class Character {
         else { if (this.moveRouteForcing) this.endForcedRoute(); this.stopCount = 0; return; }
       }
       const [code, p] = cmd;
+      if (code <= 4 && this.waitForPlayerToClear(code)) return;
       if (code <= 14) {
         switch (code) {
           case 1: this.moveGeneric(2); break;

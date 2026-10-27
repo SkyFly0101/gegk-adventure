@@ -225,8 +225,10 @@ G.Audio = (() => {
       const path = cfg.sfx[key];
       if (path === undefined) { console.warn('Unknown sfx key', key); return; }
       if (!path) { missing.add('sfx: ' + key); blip(key); return; }
-      api.playFile(path, 100, 100, key);
+      return api.playFile(path, 100, 100, key);
     },
+    // Stops a sound returned by sfx() / playFile() (e.g. the EXP-gain loop).
+    stopSfx(el) { if (el) { el.pause(); el.currentTime = 0; } },
     // Plays a sound by the name used in the story data (e.g. "Door enter").
     playSE(a) {
       if (muted || !a) return;

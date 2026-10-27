@@ -2,6 +2,10 @@
 // overworld uses: G.Battle.startWild / startTrainer.
 'use strict';
 
+// The message box / command menus along the bottom (FireRed's is 48px; it's
+// 40px here so it never overlaps the foe).
+const BOX_H = 40, BOX_Y = 160 - BOX_H;
+
 G.BattleScene = class BattleScene extends G.Scene {
   constructor({ wild, foeParty, trainer = null, rules = {} }) {
     super();
@@ -26,7 +30,7 @@ G.BattleScene = class BattleScene extends G.Scene {
     this.boxes = { 0: { visible: false, hp: 0, exp: 0 }, 1: { visible: false, hp: 0 } };
     this.playerTrainer = { visible: true, x: 40, frame: 0 };
     this.foeTrainer = { visible: !!trainer, x: 184 };
-    this.slideIn = 0;
+    this.slideIn = 1;           // start off-screen so the intro is one smooth slide
     this.overlayColor = null;
     this.ball = null;
     this.statsPanel = null;
@@ -104,7 +108,7 @@ G.BattleScene = class BattleScene extends G.Scene {
   *choose(text, choices) {
     yield* this.message(text, { wait: false });
     const cw = new G.UI.CommandWindow(choices, { cancelIndex: choices.length - 1 });
-    cw.x = G.Config.WIDTH - cw.w - 2; cw.y = 110 - cw.h;
+    cw.x = G.Config.WIDTH - cw.w - 2; cw.y = BOX_Y - 2 - cw.h;
     this.choiceWin = cw;
     const r = yield* cw.run();
     this.choiceWin = null;
@@ -217,12 +221,15 @@ G.BattleScene = class BattleScene extends G.Scene {
     box.hp = to;
     if (b.side === 0 && to > 0 && to <= b.totalHP / 4) G.Audio.sfx('lowHp');
   }
+  // The EXP-gain sound plays only while the bar is filling, so it never runs
+  // into the level-up sound that follows.
   *expAnim(b, from, to) {
     const box = this.boxes[0];
-    G.Audio.sfx('expGain');
+    const snd = G.Audio.sfx('expGain');
     const t0 = G.time;
     const len = Math.max(0.2, (to - from) * 1.2);
     while (G.time - t0 < len) { box.exp = G.U.lerp(from, to, (G.time - t0) / len); yield; }
+    G.Audio.stopSfx(snd);
     box.exp = to >= 1 ? 0 : to;
   }
   *statAnim(b, up) {
@@ -388,7 +395,7 @@ G.BattleScene = class BattleScene extends G.Scene {
       const img = A.get(`sprites/trainers/${G.Game.player.gender === 'female' ? 'POKEMONTRAINER_Leaf' : 'POKEMONTRAINER_Red'}_back.png`);
       if (img) {
         const fw = img.height;
-        ctx.drawImage(img, this.playerTrainer.frame * fw, 0, fw, fw, Math.round(this.playerTrainer.x - fw / 2 + 16 + slide), 112 - fw, fw, fw);
+        ctx.drawImage(img, this.playerTrainer.frame * fw, 0, fw, fw, Math.round(this.playerTrainer.x - fw / 2 + 16 + slide), BOX_Y - fw, fw, fw);
       }
     }
     this.drawBattler(ctx, 0, slide);
@@ -396,7 +403,7 @@ G.BattleScene = class BattleScene extends G.Scene {
     if (this.flash && this.flash.side < 0 && G.time < this.flash.until) {
       const [r, g, b, a] = this.flash.color;
       ctx.fillStyle = `rgba(${r},${g},${b},${(a || 255) / 255})`;
-      ctx.fillRect(0, 0, 240, 112);
+      ctx.fillRect(0, 0, 240, BOX_Y);
     }
     if (this.ball) this.drawBall(ctx);
     this.drawBox(ctx, 1);
@@ -460,8 +467,8 @@ G.BattleScene = class BattleScene extends G.Scene {
     if (!box.visible || !b.p) return;
     const p = b.p;
     const slide = Math.round(this.slideIn * 240);
-    const bx = side === 0 ? 126 + slide : 12 - slide, by = side === 0 ? 72 : 14;
-    const w = side === 0 ? 108 : 102, h = side === 0 ? 38 : 28;
+    const bx = side === 0 ? 126 + slide : 12 - slide, by = side === 0 ? BOX_Y - 42 : 14;
+    const w = side === 0 ? 108 : 102, h = side === 0 ? 40 : 28;
     // panel: dark 2px border around a cream fill with a shaded bottom strip
     ctx.fillStyle = '#404850';
     ctx.fillRect(bx, by, w, h);
@@ -483,55 +490,56 @@ G.BattleScene = class BattleScene extends G.Scene {
       ctx.fillStyle = '#f8f8f8'; ctx.fillRect(bx + 7, by + 19, 7, 3);
     }
     if (side === 0) {
-      G.Font.draw(ctx, `${Math.ceil(box.hp)}/${p.totalHP}`, bx + w - 6, by + 20, 'black', { align: 'right' });
-      G.UI.expBar(ctx, bx + 24, by + 32, 78, box.exp, { label: true });
+      // small digits in the gap between the HP bar and the EXP bar
+      G.UI.digits(ctx, `${Math.ceil(box.hp)}/${p.totalHP}`, bx + w - 7, by + 23, '#404040', { align: 'right' });
+      G.UI.expBar(ctx, bx + 24, by + 34, 78, box.exp, { label: true });
     }
   }
   drawMessageArea(ctx) {
     // FireRed's dark text box with a gold-trimmed frame
-    ctx.fillStyle = '#c89838'; ctx.fillRect(0, 112, 240, 48);
-    ctx.fillStyle = '#304860'; ctx.fillRect(2, 114, 236, 44);
-    ctx.fillStyle = '#285078'; ctx.fillRect(4, 116, 232, 40);
+    ctx.fillStyle = '#c89838'; ctx.fillRect(0, BOX_Y, 240, BOX_H);
+    ctx.fillStyle = '#304860'; ctx.fillRect(2, BOX_Y + 2, 236, BOX_H - 4);
+    ctx.fillStyle = '#285078'; ctx.fillRect(4, BOX_Y + 4, 232, BOX_H - 8);
     if (this.menu === 'fight') { this.drawFightMenu(ctx); return; }
     if (this.text) {
       let remaining = this.text.shown;
       this.text.lines.forEach((line, i) => {
         const vis = line.slice(0, Math.max(0, remaining)).filter((t) => t.ch).map((t) => t.ch).join('');
         remaining -= line.length;
-        G.Font.draw(ctx, vis, 10, 119 + i * 16, 'white');
+        G.Font.draw(ctx, vis, 10, BOX_Y + 4 + i * 15, 'white');
       });
-      if (this.text.arrow) G.UI.downArrow(ctx, 222, 146);
+      if (this.text.arrow) G.UI.downArrow(ctx, 222, BOX_Y + 27);
     }
     if (this.menu === 'command' || this.menu === 'safari') {
-      G.UI.frame(ctx, 120, 112, 120, 48, 'menu');
+      G.UI.frame(ctx, 120, BOX_Y, 120, BOX_H, 'menu');
       const s = G.Game.global.safari;
       const opts = this.menu === 'safari' ? [`BALL×${s ? s.balls : 0}`, 'BAIT', 'ROCK', 'RUN'] : ['FIGHT', 'BAG', 'POKéMON', 'RUN'];
       opts.forEach((o, i) => {
-        const x = 136 + (i % 2) * 52, y = 119 + Math.floor(i / 2) * 18;
+        const x = 136 + (i % 2) * 52, y = BOX_Y + 4 + Math.floor(i / 2) * 15;
         G.Font.draw(ctx, o, x, y, 'black');
         if (i === this.cursor) G.UI.cursor(ctx, x - 8, y + 2, '#303030');
       });
     }
   }
   drawFightMenu(ctx) {
-    G.UI.frame(ctx, 0, 112, 162, 48, 'menu');
-    G.UI.frame(ctx, 160, 112, 80, 48, 'menu');
+    G.UI.frame(ctx, 0, BOX_Y, 162, BOX_H, 'menu');
+    G.UI.frame(ctx, 160, BOX_Y, 80, BOX_H, 'menu');
     const b = this.core.player;
     b.moves.forEach((m, i) => {
-      const x = 14 + (i % 2) * 74, y = 119 + Math.floor(i / 2) * 18;
+      const x = 14 + (i % 2) * 74, y = BOX_Y + 4 + Math.floor(i / 2) * 15;
       const name = G.Data.moves[m.id].name.toUpperCase();
       G.Font.draw(ctx, name, x, y, 'black', { font: G.Font.width(name) > 64 ? 'narrow' : 'normal' });
       if (i === this.fightCursor) G.UI.cursor(ctx, x - 8, y + 2, '#303030');
     });
-    for (let i = b.moves.length; i < 4; i++) G.Font.draw(ctx, '-', 14 + (i % 2) * 74, 119 + Math.floor(i / 2) * 18, 'gray');
+    for (let i = b.moves.length; i < 4; i++) G.Font.draw(ctx, '-', 14 + (i % 2) * 74, BOX_Y + 4 + Math.floor(i / 2) * 15, 'gray');
     const m = b.moves[this.fightCursor];
     if (m) {
       const mx = G.Pokemon.maxPP(m);
       const ppColor = m.pp === 0 ? 'red' : m.pp <= mx / 4 ? ['#e08020', '#f8d0a0'] : 'black';
-      G.Font.draw(ctx, 'PP', 168, 119, 'black');
-      G.Font.draw(ctx, `${m.pp}/${mx}`, 232, 119, ppColor, { align: 'right' });
+      G.Font.draw(ctx, 'PP', 168, BOX_Y + 4, 'black');
+      G.Font.draw(ctx, `${m.pp}/${mx}`, 232, BOX_Y + 4, ppColor, { align: 'right' });
       const type = G.Data.moves[m.id].type;
-      G.Font.draw(ctx, 'TYPE/' + (G.Data.types[type] ? G.Data.types[type].name : type).toUpperCase(), 168, 137, 'black', { font: 'narrow' });
+      G.Font.draw(ctx, 'TYPE/' + (G.Data.types[type] ? G.Data.types[type].name : type).toUpperCase(), 168, BOX_Y + 19, 'black', { font: 'narrow' });
     }
   }
   drawStatsPanel(ctx) {

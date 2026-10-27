@@ -79,6 +79,9 @@ G.Main = {
       const s = Math.min(Number(sel.value), fit);
       this.canvas.style.width = 240 * s + 'px';
       this.canvas.style.height = 160 * s + 'px';
+      // a bigger scale than the window can show is shrunk to fit
+      const note = document.getElementById('scaleNote');
+      if (note) note.textContent = s < Number(sel.value) ? `(${s}× to fit the window)` : '';
       try { localStorage.setItem('gegk-adventure.scale', sel.value); } catch (e) { /* ignore */ }
     };
     sel.addEventListener('change', () => { apply(); this.canvas.focus(); });

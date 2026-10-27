@@ -171,8 +171,17 @@ G.Player = class Player extends G.Character {
   }
   updateCommandNew() {
     const dir = G.Input.dir4();
-    // No walking while a queued scene runs (e.g. the wild battle transition).
-    if (G.Interpreter.mapRunning() || G.Game.inMenu || G.Game.messageShowing || (G.MapScene && G.MapScene.current)) return;
+    // No walking while a queued scene runs (e.g. the wild battle transition),
+    // or while an event the player just triggered is about to start.
+    const busy = G.Interpreter.mapRunning() || G.Game.inMenu || G.Game.messageShowing || (G.MapScene && G.MapScene.current) ||
+      Object.values(this.map.events).some((e) => e.starting);
+    if (busy) { this.holdUntilRelease = true; return; }
+    // After talking to someone (or any scene), a direction still held from
+    // before doesn't move or turn the player until it's let go.
+    if (this.holdUntilRelease) {
+      if (dir) return;
+      this.holdUntilRelease = false;
+    }
     if (G.Game.global.iceSliding) { this.moveForward(); return; }
     if (this.movedLastFrame || (dir > 0 && dir === this.lastDir && G.time - this.lastDirTime >= 0.075)) {
       if (dir) this.moveGeneric(dir);
