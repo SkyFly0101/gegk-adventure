@@ -58,8 +58,13 @@ G.TitleScene = class TitleScene extends G.Scene {
     ctx.fillStyle = 'rgba(0,0,0,0.55)';
     ctx.fillRect(0, 128, 240, 32);
     const c = ['#f8f8f8', null];
-    G.Font.draw(ctx, 'Arrows: Move   Z: A   X: B', 120, 129, c, { align: 'center', font: 'small', shadow: false });
-    G.Font.draw(ctx, 'Enter: START   Shift: SELECT   M: Mute', 120, 143, c, { align: 'center', font: 'small', shadow: false });
+    if (G.Input.padConnected) {
+      G.Font.draw(ctx, 'Controller connected', 120, 129, c, { align: 'center', font: 'small', shadow: false });
+      G.Font.draw(ctx, 'D-pad/stick: Move   A   B   START   SELECT', 120, 143, c, { align: 'center', font: 'small', shadow: false });
+    } else {
+      G.Font.draw(ctx, 'Arrows: Move   Z: A   X: B', 120, 129, c, { align: 'center', font: 'small', shadow: false });
+      G.Font.draw(ctx, 'Enter: START   Shift: SELECT   M: Mute', 120, 143, c, { align: 'center', font: 'small', shadow: false });
+    }
   }
 };
 

@@ -204,6 +204,35 @@ G.MapSceneClass = class MapScene extends G.Scene {
     this.scroll.x = sx + G.U.dx(dir) * total;
     this.scroll.y = sy + G.U.dy(dir) * total;
   }
+  // Overworld animations from the kit (data/map_animations.json): played on
+  // a tile at 20 frames per second, like RMXP.
+  playMapAnimation(id, map, x, y) {
+    const a = G.Data.map_animations && G.Data.map_animations[id];
+    if (!a) return;
+    (this.mapAnims = this.mapAnims || []).push({ a, map, x, y, t0: G.time });
+    G.Assets.get(`sprites/animations/${a.graphic}.png`); // start loading
+  }
+  drawMapAnimations(ctx, cam) {
+    if (!this.mapAnims || !this.mapAnims.length) return;
+    this.mapAnims = this.mapAnims.filter((s) => (G.time - s.t0) * 20 < s.a.frames.length && G.World.maps.includes(s.map));
+    for (const s of this.mapAnims) {
+      const img = G.Assets.get(`sprites/animations/${s.a.graphic}.png`);
+      if (!img) continue;
+      const CELL = 96, cols = Math.max(1, Math.floor(img.width / CELL));
+      const frame = s.a.frames[Math.floor((G.time - s.t0) * 20)] || [];
+      // position 2 = the bottom of the tile, as for characters
+      const cx = (s.x + s.map.ox) * 16 + 8 - cam.x, cy = (s.y + s.map.oy) * 16 + 16 - cam.y;
+      for (const [pat, x, y, zoom, , mirror, opacity] of frame) {
+        const z = zoom / 100;
+        ctx.save();
+        ctx.globalAlpha = G.U.clamp(opacity / 255, 0, 1);
+        ctx.translate(Math.round(cx + x / 2), Math.round(cy + y / 2));
+        ctx.scale(mirror ? -z : z, z);
+        ctx.drawImage(img, (pat % cols) * CELL, Math.floor(pat / cols) * CELL, CELL, CELL, -CELL / 2, -CELL / 2, CELL, CELL);
+        ctx.restore();
+      }
+    }
+  }
   showAnimation(ch, id) { ch.bubble = { kind: id === 3 ? 'question' : 'exclamation', until: G.time + 0.8 }; }
 
   checkAutosaveTimer() {
@@ -264,6 +293,7 @@ G.MapSceneClass = class MapScene extends G.Scene {
       if (s.tile) G.Tilemap.drawTile(ctx, s.ts, s.id, s.sx, s.sy);
       else s.ch.draw(ctx, cam);
     }
+    this.drawMapAnimations(ctx, cam);
     this.drawDarkness(ctx, cam);
     G.Screen.drawMapEffects(ctx);
     G.Screen.drawPictures(ctx);

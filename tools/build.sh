@@ -15,6 +15,7 @@ fi
 
 ruby tools/rxdata2json.rb "_raw/map/Essentials FRLG/Data" _raw/json
 ruby tools/anims2json.rb "_raw/map/Essentials FRLG/Data" data/animations.json
+ruby tools/mapanims2json.rb "_raw/map/Essentials FRLG/Data" data/map_animations.json
 node tools/convert.js
 node tools/bundle.js
 echo "Done. Play with:  node tools/serve.js   (or open index.html)"

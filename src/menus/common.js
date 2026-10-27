@@ -120,12 +120,14 @@ G.ControlsHelpScene = class ControlsHelpScene extends G.Scene {
       ['Shift', 'SELECT: use registered item'],
       ['A / S', 'L / R buttons'],
       ['M', 'Mute / unmute sound'],
+      ['Controller', 'D-pad or stick, A, B, START,'],
+      ['', 'SELECT, shoulders = L / R'],
     ];
     rows.forEach(([k, v], i) => {
-      G.Font.draw(ctx, k, 18, 30 + i * 14, 'red', { font: 'narrow' });
-      G.Font.draw(ctx, v, 92, 30 + i * 14, 'dark', { font: 'narrow' });
+      G.Font.draw(ctx, k, 18, 28 + i * 12, 'red', { font: 'narrow' });
+      G.Font.draw(ctx, v, 92, 28 + i * 12, 'dark', { font: 'narrow' });
     });
-    G.Font.draw(ctx, 'Press Z to continue', 120, 134, 'gray', { align: 'center', font: 'small' });
+    G.Font.draw(ctx, G.Input.padConnected ? 'Press A to continue' : 'Press Z to continue', 120, 136, 'gray', { align: 'center', font: 'small' });
   }
 };
 

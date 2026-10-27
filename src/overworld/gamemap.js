@@ -15,6 +15,7 @@ G.Terrain = {
   ignorePassability: (t) => t === 13, // Neutral only; NoEffect (17) keeps its own passage flags
   mustWalk: (t) => t === 10 || t === 12,
   isBush: (t) => t === 2 || t === 10,
+  showsGrassRustle: (t) => t === 2 || t === 14, // Grass, SootGrass
 };
 
 G.GameMap = class GameMap {

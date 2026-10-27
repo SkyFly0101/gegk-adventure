@@ -31,6 +31,13 @@ rebuild the bundle with `node tools/bundle.js` (the server always reads the JSON
 | A / S | L / R | Change PC box |
 | M | — | Mute / unmute |
 
+**Game controllers** work too (any pad the browser reports with the standard layout, e.g. Xbox,
+PlayStation or Switch Pro): D-pad or left stick to move, bottom face button = A, right or left face
+button = B, Start = START, Select/Back = SELECT, shoulders or triggers = L / R. Press a button once
+after plugging the controller in so the browser notices it. The button mapping is `G.PadButtons`
+in `src/core/config.js`. Browsers only allow sound after a keyboard or mouse input, so if the game
+starts silent, press any key or click the page once.
+
 The controls are also shown on the title screen and under *CONTROLS* in the main menu.
 
 ## Saving

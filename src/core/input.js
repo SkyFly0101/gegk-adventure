@@ -22,10 +22,34 @@ G.Input = (() => {
   window.addEventListener('keyup', (e) => { down.delete(e.code); });
   window.addEventListener('blur', () => down.clear());
 
-  function isDown(b) { return G.Keys[b].some((c) => down.has(c) || tapped.has(c)); }
+  // Gamepads are polled once per frame (the Gamepad API has no key events).
+  const padDown = new Set();
+  let padConnected = false;
+  function pollPads() {
+    padDown.clear();
+    padConnected = false;
+    if (!navigator.getGamepads) return;
+    for (const pad of navigator.getGamepads()) {
+      if (!pad || !pad.connected) continue;
+      padConnected = true;
+      for (const b of buttons) {
+        const idx = G.PadButtons[b] || [];
+        if (idx.some((i) => pad.buttons[i] && pad.buttons[i].pressed)) padDown.add(b);
+      }
+      const [ax = 0, ay = 0] = pad.axes;
+      const dz = G.PadStickDeadzone;
+      if (Math.abs(ax) >= Math.abs(ay)) { if (ax < -dz) padDown.add('LEFT'); else if (ax > dz) padDown.add('RIGHT'); }
+      else if (ay < -dz) padDown.add('UP'); else if (ay > dz) padDown.add('DOWN');
+    }
+  }
+
+  function isDown(b) { return padDown.has(b) || G.Keys[b].some((c) => down.has(c) || tapped.has(c)); }
 
   return {
     update() {
+      const padWas = padDown.size;
+      pollPads();
+      if (padDown.size && !padWas && G.Audio) G.Audio.unlock();
       for (const b of buttons) {
         const tap = G.Keys[b].some((c) => tapped.has(c));
         const held = isDown(b);
@@ -52,6 +76,7 @@ G.Input = (() => {
       if (this.press('UP')) return 8;
       return 0;
     },
+    get padConnected() { return padConnected; },
     clear() { for (const b of buttons) { state[b] = isDown(b) ? 999 : 0; pressed[b] = false; } },
   };
 })();

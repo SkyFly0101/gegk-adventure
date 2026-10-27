@@ -452,10 +452,12 @@ G.Character = class Character {
     }
     if (this.jumping() && this.jumpFraction >= 1) {
       this.jumpTimer = null; this.jumpPeak = 0; this.jumpFraction = 0;
+      this.landedJump = true;
       this.realX = this.x * 16; this.realY = this.y * 16;
     }
     if (!this.jumping() && !this.moving()) {
       this.onStepTaken();
+      this.stepEffects();
       this.calculateBushDepth();
       this.stoppedThisFrame = true;
     } else if (!this.movedLastFrame || this.stoppedLastFrame) this.calculateBushDepth();
@@ -463,6 +465,19 @@ G.Character = class Character {
     this.movedThisFrame = true;
   }
   onStepTaken() {}
+  // Essentials' step effects: grass rustles when stepping onto grass, dust
+  // puffs when landing a jump. Bumping into a wall isn't a step.
+  stepEffects() {
+    const landed = this.landedJump;
+    this.landedJump = false;
+    if (this.x === this.lastStepX && this.y === this.lastStepY && !landed) return;
+    this.lastStepX = this.x; this.lastStepY = this.y;
+    const m = this.map;
+    if (!m || !G.MapScene || this.transparent || (!this.characterName && !this.isPlayer)) return;
+    if (!m.valid(this.x, this.y)) return;
+    if (landed) G.MapScene.playMapAnimation(2, m, this.x, this.y);
+    else if (G.Terrain.showsGrassRustle(m.terrainTag(this.x, this.y, true))) G.MapScene.playMapAnimation(1, m, this.x, this.y);
+  }
   updateStop(dt) {
     if (this.stepAnime) this.animeCount += dt;
     if (!this.starting && !this.locked) this.stopCount += dt;

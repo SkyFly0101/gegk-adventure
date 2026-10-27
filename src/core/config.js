@@ -35,3 +35,16 @@ G.Keys = {
   L: ['KeyA'],
   R: ['KeyS'],
 };
+
+// Game controllers (browser "standard" gamepad layout: 0 = bottom face
+// button, 1 = right face button, 12-15 = D-pad). The left stick also moves.
+G.PadButtons = {
+  A: [0],
+  B: [1, 2],      // right or left face button
+  START: [9],
+  SELECT: [8],
+  L: [4, 6],      // shoulder or trigger
+  R: [5, 7],
+  UP: [12], DOWN: [13], LEFT: [14], RIGHT: [15],
+};
+G.PadStickDeadzone = 0.5;
