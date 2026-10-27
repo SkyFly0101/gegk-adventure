@@ -9,6 +9,7 @@ G.OptionsScene = class OptionsScene extends G.Scene {
       { key: 'battleScene', label: 'BATTLE SCENE', values: ['ON', 'OFF'], map: [true, false] },
       { key: 'battleStyle', label: 'BATTLE STYLE', values: ['SHIFT', 'SET'], map: ['shift', 'set'] },
       { key: 'autosave', label: 'AUTO-SAVE', values: ['ON', 'OFF'], map: [true, false] },
+      { key: 'questGuide', label: 'QUEST GUIDE', values: ['ON', 'OFF'], map: [true, false] },
       { key: 'musicVolume', label: 'MUSIC', range: [0, 10] },
       { key: 'sfxVolume', label: 'SOUND FX', range: [0, 10] },
       { key: null, label: 'CANCEL' },
@@ -48,7 +49,7 @@ G.OptionsScene = class OptionsScene extends G.Scene {
     G.UI.frame(ctx, 2, 26, 236, 132, 'menu');
     const o = G.Game.options;
     this.rows.forEach((r, i) => {
-      const y = 32 + i * 17;
+      const y = 31 + i * 15;
       G.Font.draw(ctx, r.label, 18, y, 'dark');
       if (i === this.index) G.UI.cursor(ctx, 9, y + 2);
       if (!r.key) return;

@@ -8,7 +8,7 @@ G.Data = {
   async load() {
     const files = ['pokemon', 'moves', 'items', 'abilities', 'types', 'trainers', 'trainer_types',
       'encounters', 'metadata', 'map_metadata', 'map_connections', 'mapinfos', 'tilesets',
-      'system', 'common_events', 'town_map', 'character_aliases', 'animations', 'map_animations'];
+      'system', 'common_events', 'town_map', 'character_aliases', 'animations', 'map_animations', 'map_links'];
     const bundle = window.GEGK_DATA;
     const get = async (name) => {
       if (bundle) {

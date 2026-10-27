@@ -168,6 +168,7 @@ G.MapSceneClass = class MapScene extends G.Scene {
   onMapChanged(walked) {
     const m = G.World.map;
     G.Game.global.visited[m.id] = true;
+    this.questGoalUntil = G.time + 5; // show the pinned quest's goal again on each new map
     if (G.Game.global.flash !== m.id) G.Game.global.flash = 0; // Flash only lasts on its map
     G.Field.onSafariMapChange();
     // Escape Rope / Dig return to the last door taken from outdoors.
@@ -332,9 +333,43 @@ G.MapSceneClass = class MapScene extends G.Scene {
     G.Screen.drawPictures(ctx);
     G.Screen.drawFlash(ctx);
     this.drawAreaPopup(ctx);
+    this.drawQuestGuide(ctx, cam);
     this.messageBox.draw(ctx);
     if (this.overlay) this.overlay.draw(ctx);
     G.Save && G.Save.drawIcon(ctx);
+  }
+  // Pinned quest: a bobbing marker over the next door / person when it's on
+  // screen, and a small arrow + place name in the top-right corner.
+  drawQuestGuide(ctx, cam) {
+    if (!G.Quests || G.World.map.id === 1 || this.messageBox.active) return;
+    const g = G.Quests.guide();
+    if (!g) return;
+    const p = G.Game.playerChar;
+    let dir = g.dir || 0;
+    if (g.x != null) {
+      const dx = g.x - p.x, dy = g.y - p.y;
+      if (dx || dy) dir = G.Quests.dir8(dx, dy);
+      // marker over the target tile
+      const sx = g.x * 16 - cam.x + 8, sy = g.y * 16 - cam.y - 6 + Math.round(Math.sin(G.time * 6) * 2);
+      if (sx > -8 && sx < G.Config.WIDTH + 8 && sy > -8 && sy < G.Config.HEIGHT + 8 && (dx || dy)) G.UI.questArrow(ctx, sx, sy, 2);
+    }
+    // A compact box (at most ~half the screen wide): arrow + where to go.
+    // The goal ("Beat Brock...") shows underneath for a few seconds after
+    // entering a map or pinning a different quest, then folds away.
+    if (this.questShown !== g.quest.id) { this.questShown = g.quest.id; this.questGoalUntil = G.time + 5; }
+    const MAX_W = 116;
+    const fit = (t, w) => { if (G.Font.width(t, 'small') <= w) return t; while (t.length > 1 && G.Font.width(t + '..', 'small') > w) t = t.slice(0, -1); return t + '..'; };
+    const label = fit(g.label, MAX_W - (dir ? 22 : 10));
+    const showGoal = G.time < (this.questGoalUntil || 0);
+    const goal = showGoal ? fit(G.Quests.goal(g.quest), MAX_W - 10) : '';
+    const w = Math.max(G.Font.width(label, 'small') + (dir ? 22 : 10), goal ? G.Font.width(goal, 'small') + 10 : 0);
+    const h = goal ? 25 : 14;
+    const x = G.Config.WIDTH - w - 1, y = 1;
+    ctx.fillStyle = 'rgba(24,32,48,0.7)'; ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = '#f8d030'; ctx.fillRect(x, y, 2, h);
+    if (dir) G.UI.questArrow(ctx, x + 11, y + 7, dir);
+    G.Font.draw(ctx, label, x + (dir ? 19 : 6), y + 1, ['#f8f8f8', '#283040'], { font: 'small' });
+    if (goal) G.Font.draw(ctx, goal, x + 6, y + 12, ['#f8e8a0', '#283040'], { font: 'small' });
   }
   drawAreaPopup(ctx) {
     const a = this.areaPopup;

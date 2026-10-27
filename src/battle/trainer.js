@@ -18,6 +18,7 @@ G.Trainer = class Trainer {
     this.items = (t.items || []).slice();
     this.loseText = t.loseText || '...';
     this.party = t.party.map((m) => Trainer.makePokemon(m));
+    if (G.LevelCap) G.LevelCap.scaleTrainer(this, t);
     this.skill = tt.skillLevel ?? this.baseMoney;
   }
   static makePokemon(m) {

@@ -470,6 +470,29 @@ function convertMaps(conns) {
     (connections[m2] = connections[m2] || []).push({ map: m1, dx: -dx, dy: -dy });
   }
   writeJSON('map_connections.json', connections, true);
+
+  // Map link graph for the quest indicator: warps (doors, stairs, ladders:
+  // player-touch events with a direct Transfer Player) and edge connections.
+  const links = {};
+  for (const id of Object.keys(dims)) {
+    const out = [];
+    const m = readJSON(path.join(DATA, 'maps', `Map${String(id).padStart(3, '0')}.json`));
+    for (const e of Object.values(m.events)) {
+      for (const pg of e.pages) {
+        if (pg.trigger !== 1 && pg.trigger !== 2) continue;
+        const t = pg.list.find((c) => c[0] === 201 && c[2][0] === 0);
+        // skip cutscene triggers that happen to transfer the player
+        if (t && !/Encounter|Barrier|Event/i.test(e.name)) { out.push({ to: t[2][1], x: e.x, y: e.y, ax: t[2][2], ay: t[2][3] }); break; }
+      }
+    }
+    for (const c of connections[id] || []) {
+      const [w, h] = dims[id];
+      const dir = c.dy <= -dims[c.map][1] ? 8 : c.dy >= h ? 2 : c.dx < 0 ? 4 : 6;
+      out.push({ to: c.map, dir });
+    }
+    links[id] = out;
+  }
+  writeJSON('map_links.json', links, true);
   writeJSON('mapinfos.json', mapinfos, true);
 
   const tilesets = readJSON(path.join(RXJSON, 'Tilesets.json'));
@@ -514,6 +537,8 @@ function convertAssets(species) {
   report.battlebacks = copyDir(path.join(G, 'Battlebacks'), path.join(ASSETS, 'sprites/battlebacks'));
   report.pictures = copyDir(path.join(G, 'Pictures'), path.join(ASSETS, 'sprites/pictures'));
   report.transitions = copyDir(path.join(G, 'Transitions'), path.join(ASSETS, 'sprites/transitions'));
+  // Poké Ball sprites (8-frame spin strips + open frames) and catch burst effects
+  report.balls = copyDir(path.join(G, 'Battle animations'), path.join(ASSETS, 'sprites/battle/balls'), (f) => /^ball(Burst)?_.*\.png$/.test(f));
   report.windowskins = copyDir(path.join(G, 'Windowskins'), path.join(ASSETS, 'sprites/windowskins'), (f) => /frlg|signskin|choice 1\.png/.test(f));
   report.animations = copyDir(path.join(G, 'Animations'), path.join(ASSETS, 'sprites/animations'));
   report.weather = copyDir(path.join(G, 'Weather'), path.join(ASSETS, 'sprites/weather'));

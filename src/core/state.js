@@ -125,7 +125,7 @@ G.GameState = class GameState {
     }, d.global || {});
     this.stats = Object.assign({ steps: 0, battles: 0, caught: 0, poke_center_count: 0, gym_leader_attempts: [0, 0, 0, 0, 0, 0, 0, 0],
       elite_four_attempts: 0, hall_of_fame_entry_count: 0, drinks_bought: 0, drinks_won: 0, revived_fossil_count: 0 }, d.stats || {});
-    this.options = Object.assign({ textSpeed: 1, battleScene: true, battleStyle: 'shift', sound: 'stereo', autosave: true, musicVolume: 10, sfxVolume: 10 }, d.options || {});
+    this.options = Object.assign({ textSpeed: 1, battleScene: true, battleStyle: 'shift', sound: 'stereo', autosave: true, questGuide: true, musicVolume: 10, sfxVolume: 10 }, d.options || {});
     this.position = d.position || null; // {map, x, y, dir}
     this.inMenu = false;
     this.messageShowing = false;

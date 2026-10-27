@@ -26,6 +26,8 @@ G.TrainerCardScene = class TrainerCardScene extends G.Scene {
     if (img) ctx.drawImage(img, 158, 30);
     ctx.fillStyle = '#d0c090'; ctx.fillRect(14, 110, 212, 36);
     G.Font.draw(ctx, 'BADGES', 18, 112, 'dark', { font: 'small' });
+    const cap = G.LevelCap.capped() ? `LV. CAP ${G.LevelCap.current()}` : 'LV. CAP NONE';
+    G.Font.draw(ctx, cap, 222, 112, 'red', { font: 'small', align: 'right' });
     const colors = ['#a0a0a0', '#40a0f0', '#f0c030', '#40c060', '#c060c0', '#f0d040', '#f05030', '#40b040'];
     for (let i = 0; i < 8; i++) {
       const x = 22 + i * 26, y = 126;

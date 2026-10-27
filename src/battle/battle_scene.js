@@ -2,6 +2,9 @@
 // overworld uses: G.Battle.startWild / startTrainer.
 'use strict';
 
+// Battle data box colours (FireRed)
+const BOX_COLORS_FR = { border: '#405048', fill: '#f8f8d8', fillShade: '#e0e0b8', base: '#506860' };
+
 // The message box / command menus along the bottom (FireRed's is 48px; it's
 // 40px here so it never overlaps the foe).
 const BOX_H = 40, BOX_Y = 160 - BOX_H;
@@ -247,42 +250,79 @@ G.BattleScene = class BattleScene extends G.Scene {
     this.overlayColor = null;
   }
   *transform(u) { yield* G.U.wait(0.2); this.sprites[u.side].transformInto = u.opponent.p.species; }
-  *throwBall(shakes, caught, blocked) {
-    G.Audio.sfx('ballThrow');
+  // FireRed-style capture: the ball arcs in spinning, opens and sucks the
+  // Pokémon in (red flash), drops and bounces, wobbles up to 3 times, then
+  // clicks shut with stars - or bursts open and the Pokémon comes back out.
+  *throwBall(shakes, caught, blocked, ballId = 'POKEBALL') {
     const fp = this.spritePos(1);
-    const t0 = G.time;
-    this.ball = { x: 40, y: 100 };
-    while (G.time - t0 < 0.5) {
-      const t = (G.time - t0) / 0.5;
-      this.ball.x = G.U.lerp(40, fp.x, t);
-      this.ball.y = G.U.lerp(100, fp.y - 40, t) - Math.sin(t * Math.PI) * 40;
-      yield;
-    }
-    if (blocked) { this.ball = null; return; }
-    G.Audio.sfx('ballHit');
     const s = this.sprites[1];
-    s.scale = 1;
-    const t1 = G.time;
-    while (G.time - t1 < 0.25) { s.scale = 1 - (G.time - t1) / 0.25; yield; }
-    s.visible = false;
-    // drop
-    const t2 = G.time;
-    while (G.time - t2 < 0.3) { this.ball.y = G.U.lerp(fp.y - 40, fp.y - 12, (G.time - t2) / 0.3); yield; }
+    const img = G.Assets.get(G.Assets.pokemon(this.core.foe.p.species, false, this.core.foe.p.shiny));
+    const fh = img ? img.height : 64;
+    // the ball lands on the foe's base (centred at y 72), not under the sprite's feet
+    const hitX = fp.x, hitY = fp.y - fh * 0.55, groundY = 70;
+    const sheet = `sprites/battle/balls/ball_${ballId}.png`;
+    G.Assets.load(sheet); G.Assets.load(`sprites/battle/balls/ball_${ballId}_open.png`);
+    this.ball = { id: ballId, x: 24, y: 104, rot: 0, frame: 0, open: false, dark: 0, stars: null };
+    const b = this.ball;
+    const anim = function* (len, step) { const t0 = G.time; while (G.time - t0 < len) { step((G.time - t0) / len); yield; } step(1); };
+    // 1. throw: an arc from the player's side, spinning
+    G.Audio.sfx('ballThrow');
+    yield* anim(0.55, (t) => {
+      b.x = G.U.lerp(24, hitX, t);
+      b.y = G.U.lerp(104, hitY, t) - Math.sin(t * Math.PI) * 44;
+      b.frame = Math.floor(t * 16) % 8;
+    });
+    b.frame = 0;
+    if (blocked) {
+      // knocked away by the trainer / dodged
+      G.Audio.sfx('ballHit');
+      yield* anim(0.4, (t) => { b.x = hitX - t * 50; b.y = hitY - Math.sin(t * Math.PI) * 20 + t * 40; b.rot = -t * 6; });
+      this.ball = null;
+      return;
+    }
+    // 2. hit: the ball opens and the Pokémon turns red and shrinks into it
+    G.Audio.sfx('ballHit');
+    b.open = true;
+    this.overlayColor = { side: 1, color: '#ff6868', until: G.time + 1 };
+    yield* anim(0.4, (t) => { s.scale = 1 - t; s.alpha = 1 - t * 0.5; });
+    s.visible = false; s.scale = 1; s.alpha = 1;
+    this.overlayColor = null;
+    yield* G.U.wait(0.1);
+    b.open = false;
+    G.Audio.sfx('sendOut');
+    yield* G.U.wait(0.15);
+    // 3. drop to the ground with two smaller bounces
+    yield* anim(0.32, (t) => { b.y = G.U.lerp(hitY, groundY, t * t); });
     G.Audio.sfx('ballDrop');
+    for (const [height, len] of [[10, 0.24], [4, 0.14]]) {
+      yield* anim(len, (t) => { b.y = groundY - Math.sin(t * Math.PI) * height; });
+      G.Audio.sfx('ballDrop');
+    }
+    // 4. wobble once per shake check that passed
     for (let i = 0; i < shakes; i++) {
-      yield* G.U.wait(0.35);
+      yield* G.U.wait(0.45);
       G.Audio.sfx('ballShake');
-      const t3 = G.time;
-      while (G.time - t3 < 0.3) { this.ball.rot = Math.sin((G.time - t3) / 0.3 * Math.PI * 2) * 0.5; yield; }
-      this.ball.rot = 0;
+      yield* anim(0.4, (t) => { b.rot = Math.sin(t * Math.PI * 2) * 0.45; b.x = hitX + Math.sin(t * Math.PI * 2) * 2; });
+      b.rot = 0; b.x = hitX;
     }
     yield* G.U.wait(0.4);
-    if (caught) { G.Audio.sfx('ballClick'); this.ball.caught = true; yield* G.U.wait(0.4); return; }
-    this.ball = null;
-    s.visible = true;
-    const t4 = G.time;
-    while (G.time - t4 < 0.25) { s.scale = (G.time - t4) / 0.25; yield; }
+    if (caught) {
+      // 5. click, stars, and the ball dims
+      G.Audio.sfx('ballClick');
+      b.stars = G.time;
+      yield* anim(0.5, (t) => { b.dark = t * 0.45; });
+      yield* G.U.wait(0.3);
+      return;
+    }
+    // 6. broke free: the ball bursts open and the Pokémon reappears
+    G.Audio.sfx('recall');
+    b.open = true;
+    s.visible = true; s.scale = 0;
+    this.overlayColor = { side: 1, color: '#ffffff', until: G.time + 0.35 };
+    yield* anim(0.3, (t) => { s.scale = t; });
     s.scale = 1;
+    this.ball = null;
+    yield* G.U.wait(0.1);
   }
   *levelUpStats(pk, old) {
     this.statsPanel = { pk, old, phase: 0 };
@@ -382,7 +422,9 @@ G.BattleScene = class BattleScene extends G.Scene {
     const base0 = A.get(`sprites/battlebacks/${this.base}_base0.png`);
     const base1 = A.get(`sprites/battlebacks/${this.base}_base1.png`);
     if (base1) ctx.drawImage(base1, 184 - base1.width / 2 - slide, 72 - base1.height / 2);
-    if (base0) ctx.drawImage(base0, 56 - base0.width / 2 + slide, 136 - base0.height / 2);
+    // the player's platform: its flat bottom edge sits just behind the top of
+    // the message box, so the mound shows above it like in FireRed
+    if (base0) ctx.drawImage(base0, 56 - base0.width / 2 + slide, BOX_Y + 3 - base0.height);
     // Foe trainer / Pokémon
     if (this.foeTrainer.visible && this.trainer) {
       const img = A.get(this.trainer.spritePath);
@@ -405,9 +447,9 @@ G.BattleScene = class BattleScene extends G.Scene {
       ctx.fillStyle = `rgba(${r},${g},${b},${(a || 255) / 255})`;
       ctx.fillRect(0, 0, 240, BOX_Y);
     }
-    if (this.ball) this.drawBall(ctx);
     this.drawBox(ctx, 1);
     this.drawBox(ctx, 0);
+    if (this.ball) this.drawBall(ctx); // above the data boxes, so it never hides behind them
     this.drawMessageArea(ctx);
     if (this.statsPanel) this.drawStatsPanel(ctx);
     if (this.choiceWin) this.choiceWin.draw(ctx);
@@ -450,16 +492,32 @@ G.BattleScene = class BattleScene extends G.Scene {
   }
   drawBall(ctx) {
     const b = this.ball;
+    const closed = G.Assets.get(`sprites/battle/balls/ball_${b.id}.png`) || G.Assets.get('sprites/battle/balls/ball_POKEBALL.png');
+    const open = G.Assets.get(`sprites/battle/balls/ball_${b.id}_open.png`);
     ctx.save();
     ctx.translate(Math.round(b.x), Math.round(b.y));
     if (b.rot) ctx.rotate(b.rot);
-    ctx.fillStyle = '#202020'; ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = b.caught ? '#a0a0a0' : '#e83018'; ctx.beginPath(); ctx.arc(0, 0, 5, Math.PI, 0); ctx.fill();
-    ctx.fillStyle = '#f8f8f8'; ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI); ctx.fill();
-    ctx.fillStyle = '#202020'; ctx.fillRect(-5, -1, 10, 2);
-    ctx.fillStyle = '#f8f8f8'; ctx.fillRect(-1, -1, 2, 2);
+    // 16x32 frames (halved from the kit's 32x64), the ball sits in the middle
+    if (b.open && open) ctx.drawImage(open, 0, 0, 16, 32, -8, -18, 16, 32);
+    else if (closed) ctx.drawImage(closed, b.frame * 16, 0, 16, 32, -8, -16, 16, 32);
+    else { ctx.fillStyle = '#e83018'; ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI * 2); ctx.fill(); }
+    if (b.dark) { ctx.globalAlpha = b.dark; ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI * 2); ctx.fill(); }
     ctx.restore();
+    // stars flying up and out after a successful catch
+    if (b.stars) {
+      const t = (G.time - b.stars) / 0.7;
+      if (t < 1) {
+        ctx.fillStyle = '#f8f0a0';
+        for (let i = 0; i < 3; i++) {
+          const sx = Math.round(b.x + (i - 1) * 14 * t), sy = Math.round(b.y - 6 - 16 * Math.sin(t * Math.PI) - 4 * (i === 1));
+          ctx.globalAlpha = 1 - t;
+          ctx.fillRect(sx - 2, sy, 5, 1); ctx.fillRect(sx, sy - 2, 1, 5); ctx.fillRect(sx - 1, sy - 1, 3, 3);
+        }
+        ctx.globalAlpha = 1;
+      }
+    }
   }
+
   // FRLG-style data boxes (foe: top-left, player: right above the text box)
   drawBox(ctx, side) {
     const box = this.boxes[side];
@@ -467,20 +525,34 @@ G.BattleScene = class BattleScene extends G.Scene {
     if (!box.visible || !b.p) return;
     const p = b.p;
     const slide = Math.round(this.slideIn * 240);
-    const bx = side === 0 ? 126 + slide : 12 - slide, by = side === 0 ? BOX_Y - 42 : 14;
-    const w = side === 0 ? 108 : 102, h = side === 0 ? 40 : 28;
-    // panel: dark 2px border around a cream fill with a shaded bottom strip
-    ctx.fillStyle = '#404850';
-    ctx.fillRect(bx, by, w, h);
-    ctx.fillStyle = '#f8f8e8';
-    ctx.fillRect(bx + 2, by + 2, w - 4, h - 4);
-    ctx.fillStyle = '#e0e0c8';
-    ctx.fillRect(bx + 2, by + h - 6, w - 4, 4);
-    G.Font.draw(ctx, p.name, bx + 6, by + 1, 'black');
-    if (p.gender) G.Font.draw(ctx, p.gender === 'M' ? '♂' : '♀', bx + 8 + G.Font.width(p.name), by + 1, p.gender === 'M' ? 'blue' : 'red');
+    // FireRed layout: a cream panel with a thick dark rounded border, sitting
+    // on a darker slanted base (the foe's trails off to the right; the
+    // player's runs underneath, sloping down to the left, and carries EXP).
+    // the player's box sits low, its EXP base resting on the message box (FireRed)
+    const bx = side === 0 ? 132 + slide : 10 - slide, by = side === 0 ? BOX_Y - 39 : 14;
+    const w = 102, h = side === 0 ? 32 : 26;
+    const C = BOX_COLORS_FR;
+    if (side === 1) {
+      // shadow strip under the bottom edge, its right end slanting down-right
+      for (let r = 0; r < 10; r++) G.UI.hline(ctx, bx + 12, by + h - 6 + r, w - 10 + r, C.base);
+    } else {
+      // base under the box: slants down-left on the left, juts out a little on the right
+      for (let r = 0; r < 14; r++) {
+        const y = by + h - 7 + r, left = bx + 8 - r;
+        G.UI.hline(ctx, left, y, bx + w + 4 - left, C.base);
+      }
+      for (let r = 0; r < h - 10; r++) G.UI.hline(ctx, bx + w - 2, by + 8 + r, 6, C.base);
+    }
+    G.UI.roundRect(ctx, bx, by, w, h, 3, C.border);
+    G.UI.roundRect(ctx, bx + 2, by + 2, w - 4, h - 4, 2, C.fill);
+    G.UI.hline(ctx, bx + 4, by + h - 3, w - 8, C.fillShade);
+    // long names (Charmander, Butterfree...) use the narrow font so they never touch "Lv"
+    const nameFont = G.Font.width(p.name) > 56 ? 'narrow' : 'normal';
+    G.Font.draw(ctx, p.name, bx + 6, by + 1, 'black', { font: nameFont });
+    if (p.gender) G.Font.draw(ctx, p.gender === 'M' ? '♂' : '♀', bx + 7 + G.Font.width(p.name, nameFont), by + 1, p.gender === 'M' ? 'blue' : 'red');
     G.Font.draw(ctx, 'Lv' + p.level, bx + w - 6, by + 1, 'black', { align: 'right' });
     const frac = G.U.clamp(box.hp / p.totalHP, 0, 1);
-    G.UI.hpBar(ctx, bx + w - 70, by + 16, 48, frac);
+    G.UI.hpCapsule(ctx, bx + w - 70, by + 14, 48, frac);
     if (p.status) {
       const st = G.Assets.get('sprites/ui/battle/icon_statuses.png');
       const idx = { SLEEP: 0, POISON: 1, BURN: 2, PARALYSIS: 3, FROZEN: 4 }[p.status];
@@ -490,9 +562,12 @@ G.BattleScene = class BattleScene extends G.Scene {
       ctx.fillStyle = '#f8f8f8'; ctx.fillRect(bx + 7, by + 19, 7, 3);
     }
     if (side === 0) {
-      // small digits in the gap between the HP bar and the EXP bar
-      G.UI.digits(ctx, `${Math.ceil(box.hp)}/${p.totalHP}`, bx + w - 7, by + 23, '#404040', { align: 'right' });
-      G.UI.expBar(ctx, bx + 24, by + 34, 78, box.exp, { label: true });
+      // HP numbers under the bar, EXP on the dark base below the box
+      G.UI.digits(ctx, `${Math.ceil(box.hp)}/${p.totalHP}`, bx + w - 7, by + 22, '#404040', { align: 'right' });
+      const ey = by + h + 1;
+      G.UI.micro(ctx, 'EXP', bx + 4, ey, '#f8b000');
+      ctx.fillStyle = '#283830'; ctx.fillRect(bx + 18, ey + 1, w - 20, 3);
+      ctx.fillStyle = '#40a8f8'; ctx.fillRect(bx + 18, ey + 1, Math.floor((w - 20) * G.U.clamp(box.exp, 0, 1)), 3);
     }
   }
   drawMessageArea(ctx) {

@@ -55,6 +55,24 @@ The controls are also shown on the title screen and under *CONTROLS* in the main
 * Saves live in your browser's `localStorage`. Use **Export saves** / **Import saves** under the
   game screen to back them up as a JSON file (import asks before overwriting existing slots).
 
+## Quests and level caps
+
+These two are GEGK Adventure additions, not part of FireRed:
+
+* **QUESTS** in the Start menu lists what to do next in the story (and a few side quests), with a
+  description and where to go. Press A to pin a quest: an arrow in the top-right corner of the map
+  then points to the next door, ladder or route on the way, and a bouncing marker shows the exact
+  spot when it's on screen. A short goal ("Beat Brock") shows under the arrow for a few seconds
+  on each new map. Finishing a pinned story quest pins
+  the next one. Turn the arrow off with **OPTION → QUEST GUIDE**. The quest list is in
+  `src/story/quests.js`.
+* **Level caps**: your Pokémon can't level past the current cap. It starts at 14 and goes up with each
+  badge (21, 24, 29, 40, 43, 47, 50, then 60 for the Pokémon League); once you're Champion there's no
+  cap. At the cap, Pokémon gain no EXP and Rare Candies don't work. Gym Leaders, the Elite Four and
+  the Champion use the current cap for their whole team, and other trainers' teams are scaled so
+  their average level matches your party's. The cap is shown on the trainer card; the numbers are in
+  `src/story/levelcap.js`.
+
 ## Sounds
 
 All sound choices are in **`src/config/sounds.js`** — engine sound effects, jingles, battle music,

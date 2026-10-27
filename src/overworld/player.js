@@ -172,9 +172,11 @@ G.Player = class Player extends G.Character {
   updateCommandNew() {
     const dir = G.Input.dir4();
     // No walking while a queued scene runs (e.g. the wild battle transition),
-    // or while an event the player just triggered is about to start.
+    // or while someone the player talked to (or a trainer who spotted them)
+    // is about to start. Not other starting events: e.g. the doormat arrow
+    // under every entrance restarts each frame while you stand on it.
     const busy = G.Interpreter.mapRunning() || G.Game.inMenu || G.Game.messageShowing || (G.MapScene && G.MapScene.current) ||
-      Object.values(this.map.events).some((e) => e.starting);
+      Object.values(this.map.events).some((e) => e.starting && (e.trigger === 0 || e.sight || e.counterRange));
     if (busy) { this.holdUntilRelease = true; return; }
     // After talking to someone (or any scene), a direction still held from
     // before doesn't move or turn the player until it's let go.

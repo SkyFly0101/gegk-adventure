@@ -1019,13 +1019,13 @@ G.BattleCore = class BattleCore {
     const ball = G.Data.items[ballId];
     yield* this.ui.message(`${G.Config.PLAYER_NAME} used ${ball.name}!`, { wait: false });
     if (!this.wild) {
-      yield* this.ui.throwBall(0, false, true);
+      yield* this.ui.throwBall(0, false, true, ballId);
       yield* this.ui.message('The TRAINER blocked the BALL!');
       yield* this.ui.message("Don't be a thief!");
       return;
     }
     if (this.rules.disablepokeballs) {
-      yield* this.ui.throwBall(0, false, true);
+      yield* this.ui.throwBall(0, false, true, ballId);
       yield* this.ui.message('It dodged the thrown BALL!\nThis POKéMON can\'t be caught!');
       return;
     }
@@ -1050,7 +1050,7 @@ G.BattleCore = class BattleCore {
         caught = shakes === 4;
       }
     }
-    yield* this.ui.throwBall(caught ? 3 : Math.min(shakes, 3), caught, false);
+    yield* this.ui.throwBall(caught ? 3 : Math.min(shakes, 3), caught, false, ballId);
     if (!caught) {
       yield* this.ui.message(['Oh, no! The POKéMON broke free!', 'Aww! It appeared to be caught!', 'Aargh! Almost had it!', 'Shoot! It was so close, too!'][Math.min(shakes, 3)]);
       return;
@@ -1130,6 +1130,11 @@ G.BattleCore = class BattleCore {
         const add = Math.min(v * (pk.item === 'MACHOBRACE' ? 2 : 1), 255 - pk.ev[stat], 510 - total);
         if (add > 0) pk.ev[stat] += add;
       }
+      if (G.LevelCap && G.LevelCap.capped() && G.LevelCap.atCap(pk)) {
+        // EVs still count, but no EXP above the level cap
+        if (this.player.partyIndex === i && !this.player.fainted) yield* this.ui.message(`${pk.name} is at the level cap (Lv. ${G.LevelCap.current()})!\nEarn another BADGE to raise it.`);
+        continue;
+      }
       yield* this.ui.message(`${pk.name} gained${traded || pk.item === 'LUCKYEGG' ? ' a boosted' : ''} ${e} EXP. Points!`, { wait: false });
       yield* this.addExp(i, e);
     }
@@ -1139,7 +1144,8 @@ G.BattleCore = class BattleCore {
     const pk = this.party[partyIndex];
     const active = this.player.partyIndex === partyIndex && !this.player.fainted ? this.player : null;
     let remaining = amount;
-    while (remaining > 0 && pk.level < G.Config.MAX_LEVEL) {
+    const cap = G.LevelCap ? G.LevelCap.current() : G.Config.MAX_LEVEL; // EXP stops at the level cap
+    while (remaining > 0 && pk.level < Math.min(cap, G.Config.MAX_LEVEL)) {
       const toNext = pk.expToNext();
       const step = Math.min(remaining, toNext);
       const fromFrac = pk.expFraction();

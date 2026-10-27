@@ -30,7 +30,7 @@ G.Items = {
     if (/ELIXIR/.test(id)) return p.moves.some((m) => m.pp < G.Pokemon.maxPP(m));
     if (/ETHER/.test(id)) return p.moves.some((m) => m.pp < G.Pokemon.maxPP(m));
     if (id === 'PPUP' || id === 'PPMAX') return p.moves.some((m) => m.ppUps < 3);
-    if (id === 'RARECANDY') return p.level < G.Config.MAX_LEVEL;
+    if (id === 'RARECANDY') return p.level < G.Config.MAX_LEVEL && !(G.LevelCap && G.LevelCap.atCap(p));
     if (this.STONES.includes(id)) return !!p.checkEvolution('item', id);
     return false;
   },

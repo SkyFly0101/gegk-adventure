@@ -74,6 +74,40 @@ G.UI = (() => {
         }));
       }
     },
+    // Quest arrow: a small yellow triangle with a dark outline, centred on
+    // (cx, cy), pointing in numpad direction dir (2 down, 4 left, 9 up-right...).
+    questArrow(ctx, cx, cy, dir) {
+      const ang = { 6: 0, 3: 45, 2: 90, 1: 135, 4: 180, 7: 225, 8: 270, 9: 315 }[dir] * Math.PI / 180;
+      const pts = [[6, 0], [-4, -3], [-1, 0], [-4, 3]].map(([x, y]) => [cx + x * Math.cos(ang) - y * Math.sin(ang), cy + x * Math.sin(ang) + y * Math.cos(ang)]);
+      const path = () => { ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); };
+      ctx.save();
+      path(); ctx.lineWidth = 2; ctx.strokeStyle = '#202028'; ctx.stroke();
+      path(); ctx.fillStyle = '#f8d030'; ctx.fill();
+      ctx.restore();
+    },
+    // 1px-high horizontal run
+    hline(ctx, x, y, w, color) { if (w > 0) { ctx.fillStyle = color; ctx.fillRect(x, y, w, 1); } },
+    // pixel-crisp rounded rectangle (corner radius r)
+    roundRect(ctx, x, y, w, h, r, color) {
+      ctx.fillStyle = color;
+      for (let i = 0; i < h; i++) {
+        const k = i < r ? r - i : i >= h - r ? i - (h - r) + 1 : 0;
+        const inset = k ? Math.round(r - Math.sqrt(r * r - (r - k) * (r - k))) : 0;
+        ctx.fillRect(x + inset, y + i, w - inset * 2, 1);
+      }
+    },
+    // FireRed's HP gauge: a dark rounded capsule with an orange "HP" tag
+    // and a two-tone bar (w = bar length)
+    hpCapsule(ctx, x, y, w, frac) {
+      frac = G.U.clamp(frac, 0, 1);
+      UI.roundRect(ctx, x, y, w + 17, 7, 2, '#384840');
+      UI.micro(ctx, 'HP', x + 3, y + 1, '#f8b000');
+      ctx.fillStyle = '#f8f8f8'; ctx.fillRect(x + 14, y + 2, w, 3);
+      const fill = Math.ceil(w * frac);
+      const [hi, lo] = frac > 0.5 ? ['#70f8a8', '#58d080'] : frac > 0.2 ? ['#f8e038', '#c8a808'] : ['#f85838', '#a84048'];
+      ctx.fillStyle = lo; ctx.fillRect(x + 14, y + 2, fill, 3);
+      ctx.fillStyle = hi; ctx.fillRect(x + 14, y + 2, fill, 1);
+    },
     hpBar(ctx, x, y, w, frac, { label = true } = {}) {
       frac = G.U.clamp(frac, 0, 1);
       if (label) {

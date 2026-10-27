@@ -13,6 +13,7 @@ G.StartMenuScene = class StartMenuScene extends G.Scene {
     if (g.player.hasPokedex) out.push({ id: 'dex', label: 'POKéDEX', help: 'A device that records POKéMON secrets upon meeting or catching them.' });
     if (g.party.length) out.push({ id: 'party', label: 'POKéMON', help: 'Check and organize POKéMON that are traveling with you in your party.' });
     out.push({ id: 'bag', label: 'BAG', help: 'Equipped with pockets for storing items you bought, received, or found.' });
+    if (g.party.length) out.push({ id: 'quests', label: 'QUESTS', help: 'See what to do next, and pin a quest to follow its arrow.' });
     out.push({ id: 'card', label: G.Config.PLAYER_NAME.toUpperCase(), help: "Check your money and other game data." });
     out.push({ id: 'save', label: 'SAVE', help: 'Save your game with a complete record of your progress to take a break.' });
     out.push({ id: 'option', label: 'OPTION', help: 'Adjust various game settings such as text speed, game rules, etc.' });
@@ -36,6 +37,7 @@ G.StartMenuScene = class StartMenuScene extends G.Scene {
         else if (id === 'party') { const res = yield* this.open(new G.PartyScene({ mode: 'menu' })); if (res && res.close) return; }
         else if (id === 'bag') { const res = yield* this.open(new G.BagScene({ mode: 'field' })); if (res && res.close) return; }
         else if (id === 'card') yield* this.open(new G.TrainerCardScene());
+        else if (id === 'quests') yield* this.open(new G.QuestScene());
         else if (id === 'option') yield* this.open(new G.OptionsScene());
         else if (id === 'save') { const saved = yield* G.SaveFlow.run(); if (saved) return; }
       }
