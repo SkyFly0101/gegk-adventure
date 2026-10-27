@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GEGK Adventure</title>
+<link rel="icon" href="assets/sprites/pokemon/icons/PIKACHU.png">
+<style>
+  html, body { margin: 0; height: 100%; background: #101018; color: #ddd; font-family: system-ui, sans-serif; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #screen { image-rendering: pixelated; image-rendering: crisp-edges; background: #000; outline: none; }
+  #bar { display: flex; gap: 8px; margin-top: 8px; font-size: 12px; align-items: center; opacity: .75; }
+  #bar button, #bar select { font-size: 12px; background: #222; color: #ddd; border: 1px solid #444; border-radius: 4px; padding: 2px 8px; cursor: pointer; }
+  #bar button:hover { background: #333; }
+  #loading { position: absolute; font: 14px monospace; color: #aaa; }
+</style>
+</head>
+<body>
+<div id="loading">Loading GEGK Adventure…</div>
+<canvas id="screen" width="240" height="160" tabindex="0"></canvas>
+<div id="bar">
+  <span>Scale</span>
+  <select id="scaleSel"><option value="2">2×</option><option value="3" selected>3×</option><option value="4">4×</option></select>
+  <button id="btnExport" title="Download all save slots as a JSON backup">Export saves</button>
+  <button id="btnImport" title="Load save slots from a JSON backup">Import saves</button>
+  <button id="btnMute" title="Toggle sound (M)">Sound: on</button>
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
+</div>
+<script>
+  // Data is fetched as JSON when served over http(s). Opening index.html
+  // directly (file://) can't fetch, so the pre-built bundle is used instead.
+  if (location.protocol === 'file:') document.write('<script src="data/bundle.js"><\/script>');
+</script>
+<!-- engine -->
+<script src="src/core/config.js"></script>
+<script src="src/config/sounds.js"></script>
+<script src="src/core/util.js"></script>
+<script src="src/core/input.js"></script>
+<script src="src/core/assets.js"></script>
+<script src="src/core/audio.js"></script>
+<script src="src/core/font.js"></script>
+<script src="src/core/data.js"></script>
+<script src="src/core/ui.js"></script>
+<script src="src/core/message.js"></script>
+<script src="src/core/scene.js"></script>
+<script src="src/core/state.js"></script>
+<script src="src/core/items.js"></script>
+<!-- pokémon & battle -->
+<script src="src/battle/pokemon.js"></script>
+<script src="src/battle/trainer.js"></script>
+<script src="src/battle/battle_core.js"></script>
+<script src="src/battle/move_effects.js"></script>
+<script src="src/battle/battle_ai.js"></script>
+<script src="src/battle/battle_anim.js"></script>
+<script src="src/battle/battle_scene.js"></script>
+<script src="src/battle/evolution.js"></script>
+<!-- overworld -->
+<script src="src/overworld/tilemap.js"></script>
+<script src="src/overworld/gamemap.js"></script>
+<script src="src/overworld/character.js"></script>
+<script src="src/overworld/event.js"></script>
+<script src="src/overworld/player.js"></script>
+<script src="src/overworld/screen.js"></script>
+<script src="src/overworld/ruby.js"></script>
+<script src="src/overworld/bridge.js"></script>
+<script src="src/overworld/interpreter.js"></script>
+<script src="src/overworld/field.js"></script>
+<script src="src/overworld/scene_map.js"></script>
+<!-- menus -->
+<script src="src/menus/common.js"></script>
+<script src="src/menus/title.js"></script>
+<script src="src/menus/start_menu.js"></script>
+<script src="src/menus/party.js"></script>
+<script src="src/menus/summary.js"></script>
+<script src="src/menus/bag.js"></script>
+<script src="src/menus/pokedex.js"></script>
+<script src="src/menus/trainer_card.js"></script>
+<script src="src/menus/options.js"></script>
+<script src="src/menus/pc.js"></script>
+<script src="src/menus/mart.js"></script>
+<script src="src/menus/town_map.js"></script>
+<!-- story & saves -->
+<script src="src/story/gegk.js"></script>
+<script src="src/save/save.js"></script>
+<script src="src/main.js"></script>
+<script>if (/[?&]debug\b/.test(location.search)) document.write('<script src="src/debug.js"><\/script>');</script>
+</body>
+</html>

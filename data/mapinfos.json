@@ -1,0 +1,1107 @@
+{
+ "1": {
+  "name": "Intro",
+  "parent": 0,
+  "order": 1
+ },
+ "2": {
+  "name": "Debug",
+  "parent": 1,
+  "order": 2
+ },
+ "3": {
+  "name": "Battle Test",
+  "parent": 1,
+  "order": 3
+ },
+ "4": {
+  "name": "Kanto",
+  "parent": 0,
+  "order": 4
+ },
+ "5": {
+  "name": "Gegk's Neighborhood",
+  "parent": 4,
+  "order": 5
+ },
+ "6": {
+  "name": "Oak's Lab",
+  "parent": 5,
+  "order": 6
+ },
+ "7": {
+  "name": "Player's House",
+  "parent": 5,
+  "order": 7
+ },
+ "8": {
+  "name": "Rival's House",
+  "parent": 5,
+  "order": 8
+ },
+ "9": {
+  "name": "Route 1",
+  "parent": 4,
+  "order": 9
+ },
+ "10": {
+  "name": "Viridian City",
+  "parent": 4,
+  "order": 10
+ },
+ "11": {
+  "name": "Viridian Pokémon Center",
+  "parent": 10,
+  "order": 11
+ },
+ "12": {
+  "name": "Viridian Poké Mart",
+  "parent": 10,
+  "order": 12
+ },
+ "13": {
+  "name": "Viridian Gym",
+  "parent": 10,
+  "order": 13
+ },
+ "14": {
+  "name": "Viridian House",
+  "parent": 10,
+  "order": 14
+ },
+ "15": {
+  "name": "Viridian House",
+  "parent": 10,
+  "order": 15
+ },
+ "16": {
+  "name": "Route 22",
+  "parent": 4,
+  "order": 16
+ },
+ "17": {
+  "name": "Indigo Plateau Gate",
+  "parent": 16,
+  "order": 17
+ },
+ "18": {
+  "name": "Route 2",
+  "parent": 4,
+  "order": 18
+ },
+ "19": {
+  "name": "Gatehouse South",
+  "parent": 18,
+  "order": 19
+ },
+ "20": {
+  "name": "Gatehouse North",
+  "parent": 18,
+  "order": 20
+ },
+ "21": {
+  "name": "Secret Gatehouse",
+  "parent": 18,
+  "order": 21
+ },
+ "22": {
+  "name": "Hidden House",
+  "parent": 18,
+  "order": 22
+ },
+ "23": {
+  "name": "Diglett's Cave - Entrance",
+  "parent": 18,
+  "order": 23
+ },
+ "24": {
+  "name": "Viridian Forest",
+  "parent": 4,
+  "order": 24
+ },
+ "25": {
+  "name": "Pewter City",
+  "parent": 4,
+  "order": 25
+ },
+ "26": {
+  "name": "Pewter Pokémon Center",
+  "parent": 25,
+  "order": 26
+ },
+ "27": {
+  "name": "Pewter Poké Mart",
+  "parent": 25,
+  "order": 27
+ },
+ "28": {
+  "name": "Pewter Gym",
+  "parent": 25,
+  "order": 28
+ },
+ "29": {
+  "name": "Pewter Museum",
+  "parent": 25,
+  "order": 29
+ },
+ "30": {
+  "name": "Pewter House",
+  "parent": 25,
+  "order": 30
+ },
+ "31": {
+  "name": "Pewter House",
+  "parent": 25,
+  "order": 31
+ },
+ "32": {
+  "name": "Route 3",
+  "parent": 4,
+  "order": 32
+ },
+ "33": {
+  "name": "Route 4",
+  "parent": 4,
+  "order": 33
+ },
+ "34": {
+  "name": "Mt. Moon Pokémon Center",
+  "parent": 33,
+  "order": 34
+ },
+ "35": {
+  "name": "Mt. Moon",
+  "parent": 33,
+  "order": 35
+ },
+ "36": {
+  "name": "Mt. Moon - 1F",
+  "parent": 35,
+  "order": 36
+ },
+ "37": {
+  "name": "Mt. Moon - B1F",
+  "parent": 35,
+  "order": 37
+ },
+ "38": {
+  "name": "Mt. Moon - B2F",
+  "parent": 35,
+  "order": 38
+ },
+ "39": {
+  "name": "Cerulean City",
+  "parent": 4,
+  "order": 39
+ },
+ "40": {
+  "name": "Cerulean Pokémon Center",
+  "parent": 39,
+  "order": 40
+ },
+ "41": {
+  "name": "Cerulean Poké Mart",
+  "parent": 39,
+  "order": 41
+ },
+ "42": {
+  "name": "Cerulean Gym",
+  "parent": 39,
+  "order": 42
+ },
+ "43": {
+  "name": "Bike Shop",
+  "parent": 39,
+  "order": 43
+ },
+ "44": {
+  "name": "Cerulean House",
+  "parent": 39,
+  "order": 44
+ },
+ "45": {
+  "name": "Cerulean House",
+  "parent": 39,
+  "order": 45
+ },
+ "46": {
+  "name": "Cerulean House",
+  "parent": 39,
+  "order": 46
+ },
+ "47": {
+  "name": "Cerulean House",
+  "parent": 39,
+  "order": 47
+ },
+ "48": {
+  "name": "Ransacked House",
+  "parent": 39,
+  "order": 48
+ },
+ "49": {
+  "name": "Cerulean Cave",
+  "parent": 39,
+  "order": 49
+ },
+ "50": {
+  "name": "Cerulean Cave - 1F",
+  "parent": 49,
+  "order": 50
+ },
+ "51": {
+  "name": "Cerulean Cave - 2F",
+  "parent": 49,
+  "order": 51
+ },
+ "52": {
+  "name": "Cerulean Cave - B1F",
+  "parent": 49,
+  "order": 52
+ },
+ "53": {
+  "name": "Route 24",
+  "parent": 4,
+  "order": 53
+ },
+ "54": {
+  "name": "Route 25",
+  "parent": 4,
+  "order": 54
+ },
+ "55": {
+  "name": "Bill's Cottage",
+  "parent": 54,
+  "order": 55
+ },
+ "56": {
+  "name": "Route 5",
+  "parent": 4,
+  "order": 56
+ },
+ "57": {
+  "name": "Saffron Gate North",
+  "parent": 56,
+  "order": 57
+ },
+ "58": {
+  "name": "Pokémon Day Care",
+  "parent": 56,
+  "order": 58
+ },
+ "59": {
+  "name": "Underground Path - Entrance",
+  "parent": 56,
+  "order": 59
+ },
+ "60": {
+  "name": "Underground Path - Tunnel",
+  "parent": 59,
+  "order": 60
+ },
+ "61": {
+  "name": "Route 6",
+  "parent": 4,
+  "order": 61
+ },
+ "62": {
+  "name": "Saffron Gate South",
+  "parent": 61,
+  "order": 62
+ },
+ "63": {
+  "name": "Underground Path - Entrance",
+  "parent": 61,
+  "order": 63
+ },
+ "64": {
+  "name": "Vermilion City",
+  "parent": 4,
+  "order": 64
+ },
+ "65": {
+  "name": "Vermilion Pokémon Center",
+  "parent": 64,
+  "order": 65
+ },
+ "66": {
+  "name": "Vermilion Poké Mart",
+  "parent": 64,
+  "order": 66
+ },
+ "67": {
+  "name": "Vermilion Gym",
+  "parent": 64,
+  "order": 67
+ },
+ "68": {
+  "name": "Pokémon Fan Club",
+  "parent": 64,
+  "order": 68
+ },
+ "69": {
+  "name": "Vermilion House",
+  "parent": 64,
+  "order": 69
+ },
+ "70": {
+  "name": "Vermilion House",
+  "parent": 64,
+  "order": 70
+ },
+ "71": {
+  "name": "Fisherman's House",
+  "parent": 64,
+  "order": 71
+ },
+ "72": {
+  "name": "Vermilion Harbor",
+  "parent": 4,
+  "order": 72
+ },
+ "73": {
+  "name": "S.S. Anne",
+  "parent": 72,
+  "order": 73
+ },
+ "74": {
+  "name": "S.S. Anne - 1F",
+  "parent": 73,
+  "order": 74
+ },
+ "75": {
+  "name": "S.S. Anne - 2F",
+  "parent": 73,
+  "order": 75
+ },
+ "76": {
+  "name": "S.S. Anne - Captain's Cabin",
+  "parent": 73,
+  "order": 76
+ },
+ "77": {
+  "name": "S.S. Anne - B1F",
+  "parent": 73,
+  "order": 77
+ },
+ "78": {
+  "name": "S.S. Anne - Deck",
+  "parent": 73,
+  "order": 78
+ },
+ "79": {
+  "name": "Route 11",
+  "parent": 4,
+  "order": 79
+ },
+ "80": {
+  "name": "Gatehouse",
+  "parent": 79,
+  "order": 80
+ },
+ "81": {
+  "name": "Diglett's Cave - Entrance",
+  "parent": 79,
+  "order": 81
+ },
+ "82": {
+  "name": "Diglett's Cave - Tunnel",
+  "parent": 81,
+  "order": 82
+ },
+ "83": {
+  "name": "Route 12",
+  "parent": 4,
+  "order": 83
+ },
+ "84": {
+  "name": "Gatehouse",
+  "parent": 83,
+  "order": 84
+ },
+ "85": {
+  "name": "Fishing Guru's House",
+  "parent": 83,
+  "order": 85
+ },
+ "86": {
+  "name": "Route 9",
+  "parent": 4,
+  "order": 86
+ },
+ "87": {
+  "name": "Route 10",
+  "parent": 4,
+  "order": 87
+ },
+ "88": {
+  "name": "Rock Tunnel Pokémon Center",
+  "parent": 87,
+  "order": 88
+ },
+ "89": {
+  "name": "Rock Tunnel",
+  "parent": 87,
+  "order": 89
+ },
+ "90": {
+  "name": "Rock Tunnel - 1F",
+  "parent": 89,
+  "order": 90
+ },
+ "91": {
+  "name": "Rock Tunnel - B1F",
+  "parent": 89,
+  "order": 91
+ },
+ "92": {
+  "name": "Power Plant",
+  "parent": 87,
+  "order": 92
+ },
+ "93": {
+  "name": "Lavender Town",
+  "parent": 4,
+  "order": 93
+ },
+ "94": {
+  "name": "Lavender Pokémon Center",
+  "parent": 93,
+  "order": 94
+ },
+ "95": {
+  "name": "Lavender Poké Mart",
+  "parent": 93,
+  "order": 95
+ },
+ "96": {
+  "name": "Lavender House",
+  "parent": 93,
+  "order": 96
+ },
+ "97": {
+  "name": "Name Rater's House",
+  "parent": 93,
+  "order": 97
+ },
+ "98": {
+  "name": "Mr. Fuji's House",
+  "parent": 93,
+  "order": 98
+ },
+ "99": {
+  "name": "Pokémon Tower",
+  "parent": 93,
+  "order": 99
+ },
+ "100": {
+  "name": "Pokémon Tower - 1F",
+  "parent": 99,
+  "order": 100
+ },
+ "101": {
+  "name": "Pokémon Tower - 2F",
+  "parent": 99,
+  "order": 101
+ },
+ "102": {
+  "name": "Pokémon Tower - 3F",
+  "parent": 99,
+  "order": 102
+ },
+ "103": {
+  "name": "Pokémon Tower - 4F",
+  "parent": 99,
+  "order": 103
+ },
+ "104": {
+  "name": "Pokémon Tower - 5F",
+  "parent": 99,
+  "order": 104
+ },
+ "105": {
+  "name": "Pokémon Tower - 6F",
+  "parent": 99,
+  "order": 105
+ },
+ "106": {
+  "name": "Pokémon Tower - 7F",
+  "parent": 99,
+  "order": 106
+ },
+ "107": {
+  "name": "Route 8",
+  "parent": 4,
+  "order": 107
+ },
+ "108": {
+  "name": "Saffron Gate East",
+  "parent": 107,
+  "order": 108
+ },
+ "109": {
+  "name": "Underground Path - Entrance",
+  "parent": 107,
+  "order": 109
+ },
+ "110": {
+  "name": "Underground Path - Tunnel",
+  "parent": 109,
+  "order": 110
+ },
+ "111": {
+  "name": "Route 7",
+  "parent": 4,
+  "order": 111
+ },
+ "112": {
+  "name": "Saffron Gate West",
+  "parent": 111,
+  "order": 112
+ },
+ "113": {
+  "name": "Underground Path - Entrance",
+  "parent": 111,
+  "order": 113
+ },
+ "114": {
+  "name": "Celadon City",
+  "parent": 4,
+  "order": 114
+ },
+ "115": {
+  "name": "Celadon Pokémon Center",
+  "parent": 114,
+  "order": 115
+ },
+ "116": {
+  "name": "Celadon Dept. Store",
+  "parent": 114,
+  "order": 116
+ },
+ "117": {
+  "name": "Celadon Dept. Store - 1F",
+  "parent": 116,
+  "order": 117
+ },
+ "118": {
+  "name": "Celadon Dept. Store - 2F",
+  "parent": 116,
+  "order": 118
+ },
+ "119": {
+  "name": "Celadon Dept. Store - 3F",
+  "parent": 116,
+  "order": 119
+ },
+ "120": {
+  "name": "Celadon Dept. Store - 4F",
+  "parent": 116,
+  "order": 120
+ },
+ "121": {
+  "name": "Celadon Dept. Store - 5F",
+  "parent": 116,
+  "order": 121
+ },
+ "122": {
+  "name": "Celadon Dept. Store - Rooftop",
+  "parent": 116,
+  "order": 122
+ },
+ "123": {
+  "name": "Celadon Dept. Store - Elevator",
+  "parent": 116,
+  "order": 123
+ },
+ "124": {
+  "name": "Celadon Gym",
+  "parent": 114,
+  "order": 124
+ },
+ "125": {
+  "name": "Celadon Diner",
+  "parent": 114,
+  "order": 125
+ },
+ "126": {
+  "name": "Celadon Hotel",
+  "parent": 114,
+  "order": 126
+ },
+ "127": {
+  "name": "Celadon House",
+  "parent": 114,
+  "order": 127
+ },
+ "128": {
+  "name": "Celadon Mansion",
+  "parent": 114,
+  "order": 128
+ },
+ "129": {
+  "name": "Game Corner",
+  "parent": 114,
+  "order": 129
+ },
+ "130": {
+  "name": "Rocket Hideout",
+  "parent": 129,
+  "order": 130
+ },
+ "131": {
+  "name": "Rocket Hideout - B1F",
+  "parent": 130,
+  "order": 131
+ },
+ "132": {
+  "name": "Rocket Hideout - B2F",
+  "parent": 130,
+  "order": 132
+ },
+ "133": {
+  "name": "Rocket Hideout - B3F",
+  "parent": 130,
+  "order": 133
+ },
+ "134": {
+  "name": "Rocket Hideout - B4F",
+  "parent": 130,
+  "order": 134
+ },
+ "135": {
+  "name": "Rocket Hideout - Elevator",
+  "parent": 130,
+  "order": 135
+ },
+ "136": {
+  "name": "Route 16",
+  "parent": 4,
+  "order": 136
+ },
+ "137": {
+  "name": "Cycling Road Gate",
+  "parent": 136,
+  "order": 137
+ },
+ "138": {
+  "name": "Secret House",
+  "parent": 136,
+  "order": 138
+ },
+ "139": {
+  "name": "Route 16",
+  "parent": 136,
+  "order": 139
+ },
+ "140": {
+  "name": "Route 17",
+  "parent": 4,
+  "order": 140
+ },
+ "141": {
+  "name": "Route 18",
+  "parent": 4,
+  "order": 141
+ },
+ "142": {
+  "name": "Cycling Road Gate",
+  "parent": 141,
+  "order": 142
+ },
+ "143": {
+  "name": "Route 18",
+  "parent": 141,
+  "order": 143
+ },
+ "144": {
+  "name": "Fuchsia City",
+  "parent": 4,
+  "order": 144
+ },
+ "145": {
+  "name": "Fuchsia Pokémon Center",
+  "parent": 144,
+  "order": 145
+ },
+ "146": {
+  "name": "Fuchsia Poké Mart",
+  "parent": 144,
+  "order": 146
+ },
+ "147": {
+  "name": "Fuchsia Gym",
+  "parent": 144,
+  "order": 147
+ },
+ "148": {
+  "name": "Fuchsia House",
+  "parent": 144,
+  "order": 148
+ },
+ "149": {
+  "name": "Fuchsia House",
+  "parent": 144,
+  "order": 149
+ },
+ "150": {
+  "name": "Fuchsia House",
+  "parent": 144,
+  "order": 150
+ },
+ "151": {
+  "name": "Fisherman's House",
+  "parent": 144,
+  "order": 151
+ },
+ "152": {
+  "name": "Warden's House",
+  "parent": 144,
+  "order": 152
+ },
+ "153": {
+  "name": "Safari Zone Gate",
+  "parent": 144,
+  "order": 153
+ },
+ "154": {
+  "name": "Safari Zone",
+  "parent": 153,
+  "order": 154
+ },
+ "155": {
+  "name": "Safari Zone - South",
+  "parent": 154,
+  "order": 155
+ },
+ "156": {
+  "name": "Safari Rest House",
+  "parent": 155,
+  "order": 156
+ },
+ "157": {
+  "name": "Safari Zone - East",
+  "parent": 154,
+  "order": 157
+ },
+ "158": {
+  "name": "Safari Rest House",
+  "parent": 157,
+  "order": 158
+ },
+ "159": {
+  "name": "Safari Zone - North",
+  "parent": 154,
+  "order": 159
+ },
+ "160": {
+  "name": "Safari Rest House",
+  "parent": 159,
+  "order": 160
+ },
+ "161": {
+  "name": "Safari Zone - West",
+  "parent": 154,
+  "order": 161
+ },
+ "162": {
+  "name": "Safari Rest House",
+  "parent": 161,
+  "order": 162
+ },
+ "163": {
+  "name": "Secret Safari House",
+  "parent": 161,
+  "order": 163
+ },
+ "164": {
+  "name": "Route 15",
+  "parent": 4,
+  "order": 164
+ },
+ "165": {
+  "name": "Gatehouse",
+  "parent": 164,
+  "order": 165
+ },
+ "166": {
+  "name": "Route 14",
+  "parent": 4,
+  "order": 166
+ },
+ "167": {
+  "name": "Route 13",
+  "parent": 4,
+  "order": 167
+ },
+ "168": {
+  "name": "Saffron City",
+  "parent": 4,
+  "order": 168
+ },
+ "169": {
+  "name": "Saffron Pokémon Center",
+  "parent": 168,
+  "order": 169
+ },
+ "170": {
+  "name": "Saffron Poké Mart",
+  "parent": 168,
+  "order": 170
+ },
+ "171": {
+  "name": "Saffron Gym",
+  "parent": 168,
+  "order": 171
+ },
+ "172": {
+  "name": "Fighting Dojo",
+  "parent": 168,
+  "order": 172
+ },
+ "173": {
+  "name": "Pokémon Trainer Fan Club",
+  "parent": 168,
+  "order": 173
+ },
+ "174": {
+  "name": "Saffron House",
+  "parent": 168,
+  "order": 174
+ },
+ "175": {
+  "name": "Saffron House",
+  "parent": 168,
+  "order": 175
+ },
+ "176": {
+  "name": "Saffron House",
+  "parent": 168,
+  "order": 176
+ },
+ "177": {
+  "name": "Silph Co.",
+  "parent": 168,
+  "order": 177
+ },
+ "178": {
+  "name": "Silph Co. - 1F",
+  "parent": 177,
+  "order": 178
+ },
+ "179": {
+  "name": "Silph Co. - 2F",
+  "parent": 177,
+  "order": 179
+ },
+ "180": {
+  "name": "Silph Co. - 3F",
+  "parent": 177,
+  "order": 180
+ },
+ "181": {
+  "name": "Silph Co. - 4F",
+  "parent": 177,
+  "order": 181
+ },
+ "182": {
+  "name": "Silph Co. - 5F",
+  "parent": 177,
+  "order": 182
+ },
+ "183": {
+  "name": "Silph Co. - 6F",
+  "parent": 177,
+  "order": 183
+ },
+ "184": {
+  "name": "Silph Co. - 7F",
+  "parent": 177,
+  "order": 184
+ },
+ "185": {
+  "name": "Silph Co. - 8F",
+  "parent": 177,
+  "order": 185
+ },
+ "186": {
+  "name": "Silph Co. - 9F",
+  "parent": 177,
+  "order": 186
+ },
+ "187": {
+  "name": "Silph Co. - 10F",
+  "parent": 177,
+  "order": 187
+ },
+ "188": {
+  "name": "Silph Co. - 11F",
+  "parent": 177,
+  "order": 188
+ },
+ "189": {
+  "name": "Silph Co. - Elevator",
+  "parent": 177,
+  "order": 189
+ },
+ "190": {
+  "name": "Route 19",
+  "parent": 4,
+  "order": 190
+ },
+ "191": {
+  "name": "Route 20",
+  "parent": 4,
+  "order": 191
+ },
+ "192": {
+  "name": "Seafoam Island Cave",
+  "parent": 191,
+  "order": 192
+ },
+ "193": {
+  "name": "Seafoam Island Cave - 1F",
+  "parent": 192,
+  "order": 193
+ },
+ "194": {
+  "name": "Seafoam Island Cave - B1F",
+  "parent": 192,
+  "order": 194
+ },
+ "195": {
+  "name": "Seafoam Island Cave - B2F",
+  "parent": 192,
+  "order": 195
+ },
+ "196": {
+  "name": "Seafoam Island Cave - B3F",
+  "parent": 192,
+  "order": 196
+ },
+ "197": {
+  "name": "Seafoam Island Cave - B4F",
+  "parent": 192,
+  "order": 197
+ },
+ "198": {
+  "name": "Route 21",
+  "parent": 4,
+  "order": 198
+ },
+ "199": {
+  "name": "Cinnabar Island",
+  "parent": 4,
+  "order": 199
+ },
+ "200": {
+  "name": "Cinnabar Pokémon Center",
+  "parent": 199,
+  "order": 200
+ },
+ "201": {
+  "name": "Cinnabar Poké Mart",
+  "parent": 199,
+  "order": 201
+ },
+ "202": {
+  "name": "Cinnabar Gym",
+  "parent": 199,
+  "order": 202
+ },
+ "203": {
+  "name": "Cinnabar Lab",
+  "parent": 199,
+  "order": 203
+ },
+ "204": {
+  "name": "Pokémon Mansion",
+  "parent": 199,
+  "order": 204
+ },
+ "205": {
+  "name": "Pokémon Mansion - 1F",
+  "parent": 204,
+  "order": 205
+ },
+ "206": {
+  "name": "Pokémon Mansion - 2F",
+  "parent": 204,
+  "order": 206
+ },
+ "207": {
+  "name": "Pokémon Mansion - 3F",
+  "parent": 204,
+  "order": 207
+ },
+ "208": {
+  "name": "Pokémon Mansion - B1F",
+  "parent": 204,
+  "order": 208
+ },
+ "209": {
+  "name": "Route 23",
+  "parent": 4,
+  "order": 209
+ },
+ "210": {
+  "name": "Victory Road",
+  "parent": 209,
+  "order": 210
+ },
+ "211": {
+  "name": "Victory Road - 1F",
+  "parent": 210,
+  "order": 211
+ },
+ "212": {
+  "name": "Victory Road - 2F",
+  "parent": 210,
+  "order": 212
+ },
+ "213": {
+  "name": "Victory Road - 3F",
+  "parent": 210,
+  "order": 213
+ },
+ "214": {
+  "name": "Indigo Plateau",
+  "parent": 4,
+  "order": 214
+ },
+ "215": {
+  "name": "Indigo Plateau Lobby",
+  "parent": 214,
+  "order": 215
+ },
+ "216": {
+  "name": "Lorelei's Chamber",
+  "parent": 214,
+  "order": 216
+ },
+ "217": {
+  "name": "Bruno's Chamber",
+  "parent": 214,
+  "order": 217
+ },
+ "218": {
+  "name": "Agatha's Chamber",
+  "parent": 214,
+  "order": 218
+ },
+ "219": {
+  "name": "Lance's Chamber",
+  "parent": 214,
+  "order": 219
+ },
+ "220": {
+  "name": "Champion's Hall",
+  "parent": 214,
+  "order": 220
+ },
+ "221": {
+  "name": "Hall of Fame",
+  "parent": 214,
+  "order": 221
+ }
+}

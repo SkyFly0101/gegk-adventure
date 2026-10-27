@@ -1,0 +1,2114 @@
+{
+ "1": {
+  "Name": "Intro"
+ },
+ "2": {
+  "Name": "Debug"
+ },
+ "3": {
+  "Name": "Battle Test",
+  "BattleBack": "field",
+  "Outdoor": true,
+  "Bicycle": true
+ },
+ "4": {
+  "Name": "Kanto"
+ },
+ "5": {
+  "Name": "Gegk's Neighborhood",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   13
+  ],
+  "HealingSpot": [
+   2,
+   28,
+   14
+  ],
+  "Outdoor": true,
+  "Bicycle": true
+ },
+ "6": {
+  "Name": "Oak's Lab",
+  "MapPosition": [
+   0,
+   5,
+   13
+  ],
+  "BattleBack": "interior"
+ },
+ "7": {
+  "Name": "\\PN's House",
+  "MapPosition": [
+   0,
+   5,
+   13
+  ],
+  "HealingSpot": [
+   2,
+   8,
+   8
+  ]
+ },
+ "8": {
+  "Name": "\\v[12]'s House",
+  "MapPosition": [
+   0,
+   5,
+   13
+  ],
+  "HealingSpot": [
+   2,
+   8,
+   8
+  ]
+ },
+ "9": {
+  "Name": "Route 1",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   11
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "10": {
+  "Name": "Viridian City",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   10
+  ],
+  "HealingSpot": [
+   2,
+   8,
+   8
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "11": {
+  "Name": "Viridian Pokémon Center",
+  "MapPosition": [
+   0,
+   5,
+   10
+  ],
+  "BattleBack": "pokecenter"
+ },
+ "12": {
+  "Name": "Viridian Poké Mart",
+  "MapPosition": [
+   0,
+   5,
+   10
+  ]
+ },
+ "13": {
+  "Name": "Viridian Gym",
+  "MapPosition": [
+   0,
+   5,
+   10
+  ]
+ },
+ "14": {
+  "Name": "Viridian House",
+  "MapPosition": [
+   0,
+   5,
+   10
+  ]
+ },
+ "15": {
+  "Name": "Viridian House",
+  "MapPosition": [
+   0,
+   5,
+   10
+  ]
+ },
+ "16": {
+  "Name": "Route 22",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   3,
+   10
+  ],
+  "MapSize": [
+   2,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "17": {
+  "Name": "Indigo Plateau Gate",
+  "MapPosition": [
+   0,
+   3,
+   10
+  ]
+ },
+ "18": {
+  "Name": "Route 2",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   7
+  ],
+  "MapSize": [
+   1,
+   111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "19": {
+  "Name": "Gatehouse South",
+  "MapPosition": [
+   0,
+   5,
+   9
+  ]
+ },
+ "20": {
+  "Name": "Gatehouse North",
+  "MapPosition": [
+   0,
+   5,
+   7
+  ]
+ },
+ "21": {
+  "Name": "Secret Gatehouse",
+  "MapPosition": [
+   0,
+   5,
+   8
+  ]
+ },
+ "22": {
+  "Name": "Hidden House",
+  "MapPosition": [
+   0,
+   5,
+   7
+  ]
+ },
+ "23": {
+  "Name": "Diglett's Cave - Entrance",
+  "MapPosition": [
+   0,
+   5,
+   7
+  ],
+  "Bicycle": true
+ },
+ "24": {
+  "Name": "Viridian Forest",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   8
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "25": {
+  "Name": "Pewter City",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   6
+  ],
+  "Outdoor": true,
+  "Bicycle": true
+ },
+ "26": {
+  "Name": "Pewter Pokémon Center",
+  "MapPosition": [
+   0,
+   5,
+   6
+  ]
+ },
+ "27": {
+  "Name": "Pewter Poké Mart",
+  "MapPosition": [
+   0,
+   5,
+   6
+  ]
+ },
+ "28": {
+  "Name": "Pewter Gym",
+  "MapPosition": [
+   0,
+   5,
+   6
+  ],
+  "BattleBack": "interior"
+ },
+ "29": {
+  "Name": "Pewter Museum",
+  "MapPosition": [
+   0,
+   5,
+   6
+  ]
+ },
+ "30": {
+  "Name": "Pewter House",
+  "MapPosition": [
+   0,
+   5,
+   6
+  ]
+ },
+ "31": {
+  "Name": "Pewter House",
+  "MapPosition": [
+   0,
+   5,
+   6
+  ]
+ },
+ "32": {
+  "Name": "Route 3",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   6,
+   6
+  ],
+  "MapSize": [
+   4,
+   1111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "33": {
+  "Name": "Route 4",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   9,
+   5
+  ],
+  "MapSize": [
+   6,
+   111111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "34": {
+  "Name": "Mt. Moon Pokémon Center",
+  "MapPosition": [
+   0,
+   9,
+   5
+  ]
+ },
+ "35": {
+  "Name": "Mt. Moon"
+ },
+ "36": {
+  "Name": "Mt. Moon - 1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   10,
+   5
+  ],
+  "BattleBack": "cave",
+  "Environment": "Cave"
+ },
+ "37": {
+  "Name": "Mt. Moon - B1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   10,
+   5
+  ],
+  "BattleBack": "cave",
+  "Environment": "Cave"
+ },
+ "38": {
+  "Name": "Mt. Moon - B2F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   10,
+   5
+  ],
+  "BattleBack": "cave",
+  "Environment": "Cave"
+ },
+ "39": {
+  "Name": "Cerulean City",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   5
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "40": {
+  "Name": "Cerulean Pokémon Center",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ]
+ },
+ "41": {
+  "Name": "Cerulean Poké Mart",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ]
+ },
+ "42": {
+  "Name": "Cerulean Gym",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ],
+  "BattleBack": "interior"
+ },
+ "43": {
+  "Name": "Bike Shop",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ]
+ },
+ "44": {
+  "Name": "Cerulean House",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ]
+ },
+ "45": {
+  "Name": "Cerulean House",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ]
+ },
+ "46": {
+  "Name": "Cerulean House",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ]
+ },
+ "47": {
+  "Name": "Cerulean House",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ]
+ },
+ "48": {
+  "Name": "Ransacked House",
+  "MapPosition": [
+   0,
+   15,
+   5
+  ]
+ },
+ "49": {
+  "Name": "Cerulean Cave"
+ },
+ "50": {
+  "Name": "Cerulean Cave - 1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   5
+  ],
+  "BattleBack": "cave"
+ },
+ "51": {
+  "Name": "Cerulean Cave - 2F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   5
+  ],
+  "BattleBack": "cave"
+ },
+ "52": {
+  "Name": "Cerulean Cave - B1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   5
+  ],
+  "BattleBack": "cave"
+ },
+ "53": {
+  "Name": "Route 24",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   3
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "54": {
+  "Name": "Route 25",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   16,
+   3
+  ],
+  "MapSize": [
+   2,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "55": {
+  "Name": "Bill's House",
+  "MapPosition": [
+   0,
+   17,
+   3
+  ]
+ },
+ "56": {
+  "Name": "Route 5",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   6
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "57": {
+  "Name": "Pokémon Day Care",
+  "MapPosition": [
+   0,
+   15,
+   7
+  ]
+ },
+ "58": {
+  "Name": "Saffron Gate North",
+  "MapPosition": [
+   0,
+   15,
+   7
+  ]
+ },
+ "59": {
+  "Name": "Underground Path - Entrance",
+  "MapPosition": [
+   0,
+   15,
+   7
+  ]
+ },
+ "60": {
+  "Name": "Underground Path - Tunnel",
+  "MapPosition": [
+   0,
+   15,
+   7
+  ],
+  "MapSize": [
+   1,
+   111
+  ]
+ },
+ "61": {
+  "Name": "Route 6",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   9
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "62": {
+  "Name": "Saffron Gate South",
+  "MapPosition": [
+   0,
+   15,
+   9
+  ]
+ },
+ "63": {
+  "Name": "Underground Path - Entrance",
+  "MapPosition": [
+   0,
+   15,
+   9
+  ]
+ },
+ "64": {
+  "Name": "Vermilion City",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "city"
+ },
+ "65": {
+  "Name": "Vermilion Pokémon Center",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ]
+ },
+ "66": {
+  "Name": "Vermilion Poké Mart",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ]
+ },
+ "67": {
+  "Name": "Vermilion Gym",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ],
+  "BattleBack": "interior"
+ },
+ "68": {
+  "Name": "Pokémon Fan Club",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ]
+ },
+ "69": {
+  "Name": "Cerulean House",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ]
+ },
+ "70": {
+  "Name": "Cerulean House",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ]
+ },
+ "71": {
+  "Name": "Fisherman's House",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ]
+ },
+ "72": {
+  "Name": "Vermilion Harbor",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "city"
+ },
+ "73": {
+  "Name": "S.S. Anne"
+ },
+ "74": {
+  "Name": "S.S. Anne - 1F",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ],
+  "BattleBack": "interior"
+ },
+ "75": {
+  "Name": "S.S. Anne - 2F",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ],
+  "BattleBack": "interior"
+ },
+ "76": {
+  "Name": "S.S. Anne - Captain's Cabin",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ]
+ },
+ "77": {
+  "Name": "S.S. Anne - Basement",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ],
+  "BattleBack": "interior"
+ },
+ "78": {
+  "Name": "S.S. Anne - Deck",
+  "MapPosition": [
+   0,
+   15,
+   11
+  ],
+  "BattleBack": "interior"
+ },
+ "79": {
+  "Name": "Route 11",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   16,
+   11
+  ],
+  "MapSize": [
+   3,
+   111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "80": {
+  "Name": "Gatehouse",
+  "MapPosition": [
+   0,
+   18,
+   11
+  ]
+ },
+ "81": {
+  "Name": "Diglett's Cave - Entrance",
+  "MapPosition": [
+   0,
+   16,
+   11
+  ],
+  "Bicycle": true
+ },
+ "82": {
+  "Name": "Diglett's Cave - Tunnel",
+  "Bicycle": true,
+  "BattleBack": "cave"
+ },
+ "83": {
+  "Name": "Route 12",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   9
+  ],
+  "MapSize": [
+   1,
+   1111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "84": {
+  "Name": "Gatehouse",
+  "MapPosition": [
+   0,
+   19,
+   9
+  ]
+ },
+ "85": {
+  "Name": "Fishing Guru's House",
+  "MapPosition": [
+   0,
+   19,
+   11
+  ]
+ },
+ "86": {
+  "Name": "Route 9",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   16,
+   5
+  ],
+  "MapSize": [
+   3,
+   111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "87": {
+  "Name": "Route 10",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   5
+  ],
+  "MapSize": [
+   1,
+   111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "88": {
+  "Name": "Rock Tunnel Pokémon Center",
+  "MapPosition": [
+   0,
+   19,
+   5
+  ]
+ },
+ "89": {
+  "Name": "Rock Tunnel"
+ },
+ "90": {
+  "Name": "Rock Tunnel - 1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   5
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "BattleBack": "cave",
+  "DarkMap": true
+ },
+ "91": {
+  "Name": "Rock Tunnel - B1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   5
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "BattleBack": "cave",
+  "DarkMap": true
+ },
+ "92": {
+  "Name": "Power Plant",
+  "MapPosition": [
+   0,
+   19,
+   6
+  ],
+  "BattleBack": "interior"
+ },
+ "93": {
+  "Name": "Lavender Town",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   8
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "city"
+ },
+ "94": {
+  "Name": "Lavender Pokémon Center",
+  "MapPosition": [
+   0,
+   19,
+   8
+  ]
+ },
+ "95": {
+  "Name": "Lavender Poké Mart",
+  "MapPosition": [
+   0,
+   19,
+   8
+  ]
+ },
+ "96": {
+  "Name": "Cerulean House",
+  "MapPosition": [
+   0,
+   19,
+   8
+  ]
+ },
+ "97": {
+  "Name": "Name Rater's House",
+  "MapPosition": [
+   0,
+   19,
+   8
+  ]
+ },
+ "98": {
+  "Name": "Mr. Fuji's House",
+  "MapPosition": [
+   0,
+   19,
+   8
+  ]
+ },
+ "99": {
+  "Name": "Pokémon Tower",
+  "ShowArea": true
+ },
+ "100": {
+  "Name": "Pokémon Tower - 1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   8
+  ]
+ },
+ "101": {
+  "Name": "Pokémon Tower - 2F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "102": {
+  "Name": "Pokémon Tower - 3F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   8
+  ],
+  "BattleBack": "interior",
+  "Weather": "Fog,100"
+ },
+ "103": {
+  "Name": "Pokémon Tower - 4F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   8
+  ],
+  "BattleBack": "interior",
+  "Weather": "Fog,100"
+ },
+ "104": {
+  "Name": "Pokémon Tower - 5F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   8
+  ],
+  "BattleBack": "interior",
+  "Weather": "Fog,100"
+ },
+ "105": {
+  "Name": "Pokémon Tower - 6F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   8
+  ],
+  "BattleBack": "interior",
+  "Weather": "Fog,100"
+ },
+ "106": {
+  "Name": "Pokémon Tower - 7F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   19,
+   8
+  ],
+  "BattleBack": "interior",
+  "Weather": "Fog,100"
+ },
+ "107": {
+  "Name": "Route 8",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   16,
+   8
+  ],
+  "MapSize": [
+   3,
+   111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "108": {
+  "Name": "Saffron Gate East",
+  "MapPosition": [
+   0,
+   16,
+   8
+  ]
+ },
+ "109": {
+  "Name": "Underground Path - Entrance",
+  "MapPosition": [
+   0,
+   16,
+   8
+  ]
+ },
+ "110": {
+  "Name": "Underground Path - Tunnel",
+  "MapPosition": [
+   0,
+   13,
+   8
+  ],
+  "MapSize": [
+   4,
+   1111
+  ]
+ },
+ "111": {
+  "Name": "Route 7",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   13,
+   8
+  ],
+  "MapSize": [
+   2,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "112": {
+  "Name": "Saffron Gate West",
+  "MapPosition": [
+   0,
+   14,
+   8
+  ]
+ },
+ "113": {
+  "Name": "Underground Path - Entrance",
+  "MapPosition": [
+   0,
+   13,
+   8
+  ]
+ },
+ "114": {
+  "Name": "Celadon City",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   12,
+   8
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "city"
+ },
+ "115": {
+  "Name": "Celadon Pokémon Center",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "116": {
+  "Name": "Celadon Dept. Store"
+ },
+ "117": {
+  "Name": "Celadon Dept. Store - 1F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "118": {
+  "Name": "Celadon Dept. Store - 2F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "119": {
+  "Name": "Celadon Dept. Store - 3F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "120": {
+  "Name": "Celadon Dept. Store - 4F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "121": {
+  "Name": "Celadon Dept. Store - 5F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "122": {
+  "Name": "Celadon Dept. Store - Roof",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "123": {
+  "Name": "Celadon Dept. Store - Elevator",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "124": {
+  "Name": "Celadon Gym",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "125": {
+  "Name": "Celadon Diner",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "126": {
+  "Name": "Celadon Hotel",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "127": {
+  "Name": "Celadon House",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "128": {
+  "Name": "Celadon Mansion",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "129": {
+  "Name": "Game Corner",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "130": {
+  "Name": "Rocket Hideout"
+ },
+ "131": {
+  "Name": "Rocket Hideout - B1F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "132": {
+  "Name": "Rocket Hideout - B2F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "133": {
+  "Name": "Rocket Hideout - B3F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "134": {
+  "Name": "Rocket Hideout - B4F",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "135": {
+  "Name": "Rocket Hideout - Elevator",
+  "MapPosition": [
+   0,
+   12,
+   8
+  ]
+ },
+ "136": {
+  "Name": "Route 16",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   8,
+   8
+  ],
+  "MapSize": [
+   4,
+   1111
+  ],
+  "Outdoor": true
+ },
+ "137": {
+  "Name": "Cycling Road Gate",
+  "MapPosition": [
+   0,
+   10,
+   8
+  ]
+ },
+ "138": {
+  "Name": "Secret House",
+  "MapPosition": [
+   0,
+   8,
+   8
+  ]
+ },
+ "139": {
+  "Name": "Route 16",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   8,
+   8
+  ],
+  "MapSize": [
+   4,
+   1111
+  ],
+  "Outdoor": true,
+  "BicycleAlways": true
+ },
+ "140": {
+  "Name": "Route 17",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   8,
+   9
+  ],
+  "MapSize": [
+   1,
+   11111
+  ],
+  "Outdoor": true,
+  "BicycleAlways": true
+ },
+ "141": {
+  "Name": "Route 18",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   8,
+   14
+  ],
+  "MapSize": [
+   5,
+   11111
+  ],
+  "Outdoor": true
+ },
+ "142": {
+  "Name": "Cycling Road Gate",
+  "MapPosition": [
+   0,
+   12,
+   14
+  ]
+ },
+ "143": {
+  "Name": "Route 18",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   8,
+   14
+  ],
+  "MapSize": [
+   5,
+   11111
+  ],
+  "Outdoor": true,
+  "BicycleAlways": true
+ },
+ "144": {
+  "Name": "Fuchsia City",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "city"
+ },
+ "145": {
+  "Name": "Fuchsia Pokémon Center",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ]
+ },
+ "146": {
+  "Name": "Fuchsia Poké Mart",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ]
+ },
+ "147": {
+  "Name": "Fuchsia Gym",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "BattleBack": "interior"
+ },
+ "148": {
+  "Name": "Fuchsia House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ]
+ },
+ "149": {
+  "Name": "Fuchsia House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ]
+ },
+ "150": {
+  "Name": "Fuchsia House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ]
+ },
+ "151": {
+  "Name": "Fuchsia House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ]
+ },
+ "152": {
+  "Name": "Warden's House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ]
+ },
+ "153": {
+  "Name": "Safari Zone Gate",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "154": {
+  "Name": "Safari Zone"
+ },
+ "155": {
+  "Name": "Safari Zone",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "156": {
+  "Name": "Safari Rest House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "157": {
+  "Name": "Safari Zone",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "158": {
+  "Name": "Safari Rest House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "159": {
+  "Name": "Safari Zone",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "160": {
+  "Name": "Safari Rest House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "161": {
+  "Name": "Safari Zone",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "162": {
+  "Name": "Safari Rest House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "163": {
+  "Name": "Secret Safari House",
+  "MapPosition": [
+   0,
+   13,
+   14
+  ],
+  "SafariMap": true
+ },
+ "164": {
+  "Name": "Route 15",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   14,
+   14
+  ],
+  "MapSize": [
+   2,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "165": {
+  "Name": "Gatehouse",
+  "MapPosition": [
+   0,
+   14,
+   14
+  ]
+ },
+ "166": {
+  "Name": "Route 14",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   16,
+   13
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "167": {
+  "Name": "Route 13",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   17,
+   13
+  ],
+  "MapSize": [
+   3,
+   111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "168": {
+  "Name": "Saffron City",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "city"
+ },
+ "169": {
+  "Name": "Saffron Pokémon Center",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ]
+ },
+ "170": {
+  "Name": "Saffron Poké Mart",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ]
+ },
+ "171": {
+  "Name": "Saffron Gym",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "172": {
+  "Name": "Fighting Dojo",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "173": {
+  "Name": "Saffron House",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ]
+ },
+ "174": {
+  "Name": "Saffron House",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ]
+ },
+ "175": {
+  "Name": "Saffron House",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ]
+ },
+ "176": {
+  "Name": "Saffron House",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ]
+ },
+ "177": {
+  "Name": "Silph Co."
+ },
+ "178": {
+  "Name": "Silph Co. - 1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ]
+ },
+ "179": {
+  "Name": "Silph Co. - 2F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "180": {
+  "Name": "Silph Co. - 3F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "181": {
+  "Name": "Silph Co. - 4F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "182": {
+  "Name": "Silph Co. - 5F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "183": {
+  "Name": "Silph Co. - 6F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "184": {
+  "Name": "Silph Co. - 7F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "185": {
+  "Name": "Silph Co. - 8F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "186": {
+  "Name": "Silph Co. - 9F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "187": {
+  "Name": "Silph Co. - 10F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "188": {
+  "Name": "Silph Co. - 11F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   15,
+   8
+  ],
+  "BattleBack": "interior"
+ },
+ "189": {
+  "Name": "Silph Co. - Elevator",
+  "MapPosition": [
+   0,
+   15,
+   8
+  ]
+ },
+ "190": {
+  "Name": "Route 19",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   13,
+   15
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "water"
+ },
+ "191": {
+  "Name": "Route 20",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   6,
+   16
+  ],
+  "MapSize": [
+   7,
+   1111111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "water"
+ },
+ "192": {
+  "Name": "Seafoam Island Cave"
+ },
+ "193": {
+  "Name": "Seafoam Island Cave - 1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   9,
+   16
+  ],
+  "Environment": "Cave",
+  "BattleBack": "icecave"
+ },
+ "194": {
+  "Name": "Seafoam Island Cave - B1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   9,
+   16
+  ],
+  "Environment": "Cave",
+  "BattleBack": "icecave"
+ },
+ "195": {
+  "Name": "Seafoam Island Cave - B2F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   9,
+   16
+  ],
+  "Environment": "Cave",
+  "BattleBack": "icecave"
+ },
+ "196": {
+  "Name": "Seafoam Island Cave - B3F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   9,
+   16
+  ],
+  "Environment": "Cave",
+  "BattleBack": "icecave"
+ },
+ "197": {
+  "Name": "Seafoam Island Cave - B4F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   9,
+   16
+  ],
+  "Environment": "Cave",
+  "BattleBack": "icecave"
+ },
+ "198": {
+  "Name": "Route 21",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   14
+  ],
+  "MapSize": [
+   1,
+   11
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "water"
+ },
+ "199": {
+  "Name": "Cinnabar Island",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   16
+  ],
+  "Outdoor": true,
+  "Bicycle": true
+ },
+ "200": {
+  "Name": "Fuchsia Pokémon Center",
+  "MapPosition": [
+   0,
+   5,
+   16
+  ]
+ },
+ "201": {
+  "Name": "Fuchsia Poké Mart",
+  "MapPosition": [
+   0,
+   5,
+   16
+  ]
+ },
+ "202": {
+  "Name": "Cinnabar Gym",
+  "MapPosition": [
+   0,
+   5,
+   16
+  ],
+  "BattleBack": "interior"
+ },
+ "203": {
+  "Name": "Cinnabar Lab",
+  "MapPosition": [
+   0,
+   5,
+   16
+  ]
+ },
+ "204": {
+  "Name": "Pokémon Mansion"
+ },
+ "205": {
+  "Name": "Pokémon Mansion - 1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   16
+  ],
+  "BattleBack": "interior"
+ },
+ "206": {
+  "Name": "Pokémon Mansion - 2F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   16
+  ],
+  "BattleBack": "interior"
+ },
+ "207": {
+  "Name": "Pokémon Mansion - 3F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   16
+  ],
+  "BattleBack": "interior"
+ },
+ "208": {
+  "Name": "Pokémon Mansion - B1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   5,
+   16
+  ],
+  "BattleBack": "interior"
+ },
+ "209": {
+  "Name": "Route 23",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   3,
+   6
+  ],
+  "MapSize": [
+   1,
+   1111
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "210": {
+  "Name": "Victory Road"
+ },
+ "211": {
+  "Name": "Victory Road - 1F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   3,
+   6
+  ],
+  "BattleBack": "cave",
+  "Environment": "Cave"
+ },
+ "212": {
+  "Name": "Victory Road - 2F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   3,
+   6
+  ],
+  "BattleBack": "cave",
+  "Environment": "Cave"
+ },
+ "213": {
+  "Name": "Victory Road - 3F",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   3,
+   6
+  ],
+  "BattleBack": "cave",
+  "Environment": "Cave"
+ },
+ "214": {
+  "Name": "Indigo Plateau",
+  "ShowArea": true,
+  "MapPosition": [
+   0,
+   3,
+   5
+  ],
+  "Outdoor": true,
+  "Bicycle": true,
+  "BattleBack": "field"
+ },
+ "215": {
+  "Name": "Indigo Plateau Lobby",
+  "MapPosition": [
+   0,
+   3,
+   5
+  ],
+  "BattleBack": "elite1"
+ },
+ "216": {
+  "Name": "Lorelei's Chambers",
+  "MapPosition": [
+   0,
+   3,
+   5
+  ],
+  "BattleBack": "elite1"
+ },
+ "217": {
+  "Name": "Bruno's Chambers",
+  "MapPosition": [
+   0,
+   3,
+   5
+  ],
+  "BattleBack": "elite2"
+ },
+ "218": {
+  "Name": "Agatha's Chambers",
+  "MapPosition": [
+   0,
+   3,
+   5
+  ],
+  "BattleBack": "elite3"
+ },
+ "219": {
+  "Name": "Lance's Chambers",
+  "MapPosition": [
+   0,
+   3,
+   5
+  ],
+  "BattleBack": "elite4"
+ },
+ "220": {
+  "Name": "Champion's Hall",
+  "MapPosition": [
+   0,
+   3,
+   5
+  ],
+  "BattleBack": "champion"
+ },
+ "221": {
+  "Name": "Hall of Fame",
+  "MapPosition": [
+   0,
+   3,
+   5
+  ]
+ }
+}

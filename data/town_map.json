@@ -1,0 +1,705 @@
+[
+ {
+  "id": 0,
+  "points": [
+   {
+    "x": 5,
+    "y": 13,
+    "name": "Gegk's Neighborhood",
+    "poi": "",
+    "fly": [
+     5,
+     18,
+     8
+    ]
+   },
+   {
+    "x": 5,
+    "y": 12,
+    "name": "Route 1",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 5,
+    "y": 11,
+    "name": "Route 1",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 5,
+    "y": 10,
+    "name": "Viridian City",
+    "poi": "",
+    "fly": [
+     10,
+     26,
+     27
+    ]
+   },
+   {
+    "x": 4,
+    "y": 10,
+    "name": "Route 22",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 3,
+    "y": 10,
+    "name": "Route 22",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 5,
+    "y": 9,
+    "name": "Route 2",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 5,
+    "y": 8,
+    "name": "Route 2",
+    "poi": "Viridian Forest",
+    "fly": null
+   },
+   {
+    "x": 5,
+    "y": 7,
+    "name": "Route 2",
+    "poi": "Diglett's Cave",
+    "fly": null
+   },
+   {
+    "x": 5,
+    "y": 6,
+    "name": "Pewter City",
+    "poi": "",
+    "fly": [
+     25,
+     21,
+     30
+    ]
+   },
+   {
+    "x": 6,
+    "y": 6,
+    "name": "Route 3",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 7,
+    "y": 6,
+    "name": "Route 3",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 6,
+    "name": "Route 3",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 9,
+    "y": 6,
+    "name": "Route 3",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 9,
+    "y": 5,
+    "name": "Route 4",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 10,
+    "y": 5,
+    "name": "Route 4",
+    "poi": "",
+    "fly": [
+     33,
+     72,
+     21
+    ]
+   },
+   {
+    "x": 11,
+    "y": 5,
+    "name": "Route 4",
+    "poi": "Mt. Moon",
+    "fly": null
+   },
+   {
+    "x": 12,
+    "y": 5,
+    "name": "Route 4",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 13,
+    "y": 5,
+    "name": "Route 4",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 14,
+    "y": 5,
+    "name": "Route 4",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 5,
+    "name": "Cerulean City",
+    "poi": "Cerulean Cave",
+    "fly": [
+     39,
+     22,
+     20
+    ]
+   },
+   {
+    "x": 15,
+    "y": 4,
+    "name": "Route 24",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 3,
+    "name": "Route 24",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 16,
+    "y": 3,
+    "name": "Route 25",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 17,
+    "y": 3,
+    "name": "Route 25",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 6,
+    "name": "Route 5",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 7,
+    "name": "Route 5",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 9,
+    "name": "Route 6",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 10,
+    "name": "Route 6",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 11,
+    "name": "Vermilion City",
+    "poi": "",
+    "fly": [
+     64,
+     19,
+     7
+    ]
+   },
+   {
+    "x": 16,
+    "y": 11,
+    "name": "Route 11",
+    "poi": "Diglett's Cave",
+    "fly": null
+   },
+   {
+    "x": 17,
+    "y": 11,
+    "name": "Route 11",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 18,
+    "y": 11,
+    "name": "Route 11",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 16,
+    "y": 5,
+    "name": "Route 9",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 17,
+    "y": 5,
+    "name": "Route 9",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 18,
+    "y": 5,
+    "name": "Route 9",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 19,
+    "y": 5,
+    "name": "Route 10",
+    "poi": "Rock Tunnel",
+    "fly": [
+     87,
+     13,
+     31
+    ]
+   },
+   {
+    "x": 19,
+    "y": 6,
+    "name": "Route 10",
+    "poi": "Power Plant",
+    "fly": null
+   },
+   {
+    "x": 19,
+    "y": 7,
+    "name": "Route 10",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 19,
+    "y": 8,
+    "name": "Lavender Town",
+    "poi": "Pokémon Tower",
+    "fly": [
+     93,
+     6,
+     6
+    ]
+   },
+   {
+    "x": 19,
+    "y": 9,
+    "name": "Route 12",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 19,
+    "y": 10,
+    "name": "Route 12",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 19,
+    "y": 11,
+    "name": "Route 12",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 19,
+    "y": 12,
+    "name": "Route 12",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 18,
+    "y": 8,
+    "name": "Route 8",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 17,
+    "y": 8,
+    "name": "Route 8",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 16,
+    "y": 8,
+    "name": "Route 8",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 14,
+    "y": 8,
+    "name": "Route 7",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 13,
+    "y": 8,
+    "name": "Route 7",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 12,
+    "y": 8,
+    "name": "Celadon City",
+    "poi": "",
+    "fly": [
+     114,
+     48,
+     17
+    ]
+   },
+   {
+    "x": 11,
+    "y": 8,
+    "name": "Route 16",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 10,
+    "y": 8,
+    "name": "Route 16",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 9,
+    "y": 8,
+    "name": "Route 16",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 8,
+    "name": "Route 16",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 9,
+    "name": "Route 17",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 10,
+    "name": "Route 17",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 11,
+    "name": "Route 17",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 12,
+    "name": "Route 17",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 13,
+    "name": "Route 17",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 14,
+    "name": "Route 18",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 9,
+    "y": 14,
+    "name": "Route 18",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 10,
+    "y": 14,
+    "name": "Route 18",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 11,
+    "y": 14,
+    "name": "Route 18",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 12,
+    "y": 14,
+    "name": "Route 18",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 13,
+    "y": 14,
+    "name": "Fuchsia City",
+    "poi": "Safari Zone",
+    "fly": [
+     144,
+     25,
+     36
+    ]
+   },
+   {
+    "x": 14,
+    "y": 14,
+    "name": "Route 15",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 14,
+    "name": "Route 15",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 16,
+    "y": 14,
+    "name": "Route 14",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 16,
+    "y": 13,
+    "name": "Route 14",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 17,
+    "y": 13,
+    "name": "Route 13",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 18,
+    "y": 13,
+    "name": "Route 13",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 19,
+    "y": 13,
+    "name": "Route 13",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 15,
+    "y": 8,
+    "name": "Saffron City",
+    "poi": "",
+    "fly": [
+     168,
+     18,
+     37
+    ]
+   },
+   {
+    "x": 13,
+    "y": 15,
+    "name": "Route 19",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 13,
+    "y": 16,
+    "name": "Route 19",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 12,
+    "y": 16,
+    "name": "Route 20",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 11,
+    "y": 16,
+    "name": "Route 20",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 10,
+    "y": 16,
+    "name": "Route 20",
+    "poi": "Seafoam Island",
+    "fly": null
+   },
+   {
+    "x": 9,
+    "y": 16,
+    "name": "Route 20",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 8,
+    "y": 16,
+    "name": "Route 20",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 7,
+    "y": 16,
+    "name": "Route 20",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 6,
+    "y": 16,
+    "name": "Route 20",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 5,
+    "y": 16,
+    "name": "Cinnabar Island",
+    "poi": "Pokémon Mansion",
+    "fly": [
+     199,
+     26,
+     12
+    ]
+   },
+   {
+    "x": 5,
+    "y": 15,
+    "name": "Route 21",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 5,
+    "y": 14,
+    "name": "Route 21",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 3,
+    "y": 9,
+    "name": "Route 23",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 3,
+    "y": 8,
+    "name": "Route 23",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 3,
+    "y": 7,
+    "name": "Route 23",
+    "poi": "",
+    "fly": null
+   },
+   {
+    "x": 3,
+    "y": 6,
+    "name": "Route 23",
+    "poi": "Victory Road",
+    "fly": null
+   },
+   {
+    "x": 3,
+    "y": 5,
+    "name": "Indigo Plateau",
+    "poi": "Pokémon League HQ",
+    "fly": [
+     214,
+     17,
+     7
+    ]
+   }
+  ],
+  "name": "Kanto",
+  "filename": "Kanto.png"
+ },
+ {
+  "id": 1,
+  "points": [
+   {
+    "x": 13,
+    "y": 16,
+    "name": "Here",
+    "poi": "",
+    "fly": null
+   }
+  ],
+  "name": "Sevii Islands",
+  "filename": "mapRegion1.png"
+ }
+]

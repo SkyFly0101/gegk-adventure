@@ -1,0 +1,7 @@
+# Unpacked archives (recreated by tools/build.sh)
+_raw/
+# The original source archives (kept locally, too large for git)
+Map.zip
+pkmSprites.zip
+spritesRed.gz
+.DS_Store
