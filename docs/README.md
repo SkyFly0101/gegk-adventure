@@ -1,6 +1,6 @@
 # GEGK Adventure
 
-A browser Pokémon fan game modelled on Pokémon FireRed. You play as **Gegk** (boy or girl),
+A browser Pokémon game modelled on Pokémon FireRed. You play as **Gegk** (boy or girl),
 your rival is **Snitch**, and your journey starts in **Gegk's Neighborhood**.
 
 Vanilla JavaScript + HTML5 Canvas, no backend, 240×160 internal resolution scaled 2–4×.
@@ -184,6 +184,5 @@ which is how the Phase 3 playthrough was tested. Reload the page to go back to n
 
 ## Credits
 
-Pokémon is © Nintendo, Game Freak and Creatures. This is a non-commercial fan project.
 Maps, story events, graphics and audio come from the Pokémon Essentials FRLG kit and the
 PKMN.NET Sprite Resource that you supplied.

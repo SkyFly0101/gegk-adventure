@@ -183,8 +183,8 @@ G.CreditsScene = class CreditsScene extends G.Scene {
   *main() {
     G.Audio.playMusicKey('credits', true);
     yield* G.Fade.in(0.5);
-    this.lines = ['GEGK ADVENTURE', '', 'A fan game based on', 'Pokémon FireRed', '', 'Starring', G.Config.PLAYER_NAME, '', 'Rival', G.Config.RIVAL_NAME, '',
-      'Story, maps & graphics:', 'Pokémon Essentials FRLG kit', '', 'Pokémon © Nintendo,', 'Game Freak, Creatures', '', 'Thanks for playing!'];
+    this.lines = ['GEGK ADVENTURE', '', 'Starring', G.Config.PLAYER_NAME, '', 'Rival', G.Config.RIVAL_NAME, '',
+      'Story, maps & graphics:', 'Pokémon Essentials FRLG kit', '', 'Thanks for playing!'];
     this.y = 170;
     while (this.y > -this.lines.length * 16 - 10) { this.y -= G.dt * 18; if (G.Input.press('A')) this.y -= G.dt * 60; yield; }
     yield* G.Fade.out(0.6);

@@ -52,7 +52,6 @@ G.TitleScene = class TitleScene extends G.Scene {
     if (cz) { ctx.globalAlpha = 0.9; ctx.drawImage(cz, 150, 52 + Math.round(Math.sin(t * 2) * 2)); ctx.globalAlpha = 1; }
     G.Font.drawBig(ctx, 'GEGK', 92, 10, ['#f8d030', null], 4, '#203080');
     G.Font.drawBig(ctx, 'ADVENTURE', 92, 66, ['#f8f8f8', null], 2, '#a02020');
-    G.Font.draw(ctx, 'A FireRed fan game', 92, 100, ['#f8c8a0', '#401010'], { align: 'center', font: 'small' });
     if (Math.floor(t * 2) % 2 === 0) G.Font.draw(ctx, 'PRESS START', 120, 112, 'title', { align: 'center' });
     // controls
     ctx.fillStyle = 'rgba(0,0,0,0.55)';
