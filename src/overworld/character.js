@@ -476,7 +476,10 @@ G.Character = class Character {
     if (!m || !G.MapScene || this.transparent || (!this.characterName && !this.isPlayer)) return;
     if (!m.valid(this.x, this.y)) return;
     if (landed) G.MapScene.playMapAnimation(2, m, this.x, this.y);
-    else if (G.Terrain.showsGrassRustle(m.terrainTag(this.x, this.y, true))) G.MapScene.playMapAnimation(1, m, this.x, this.y);
+    else if (G.Terrain.showsGrassRustle(m.terrainTag(this.x, this.y, true))) {
+      G.MapScene.playMapAnimation(1, m, this.x, this.y, { only: [3], fps: 12 }); // green leaves only
+      G.MapScene.shakeGrass(m, this.x, this.y);
+    }
   }
   updateStop(dt) {
     if (this.stepAnime) this.animeCount += dt;

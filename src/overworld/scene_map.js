@@ -206,20 +206,52 @@ G.MapSceneClass = class MapScene extends G.Scene {
   }
   // Overworld animations from the kit (data/map_animations.json): played on
   // a tile at 20 frames per second, like RMXP.
-  playMapAnimation(id, map, x, y) {
+  // `only` keeps just the frames using those cell patterns; `fps` overrides
+  // the speed.
+  playMapAnimation(id, map, x, y, { only = null, fps = 20 } = {}) {
     const a = G.Data.map_animations && G.Data.map_animations[id];
     if (!a) return;
-    (this.mapAnims = this.mapAnims || []).push({ a, map, x, y, t0: G.time });
+    const frames = only ? a.frames.filter((f) => f.length && f.every((c) => only.includes(c[0]))) : a.frames;
+    (this.mapAnims = this.mapAnims || []).push({ a, frames, fps, map, x, y, t0: G.time });
     G.Assets.get(`sprites/animations/${a.graphic}.png`); // start loading
+  }
+  // Grass you walk into sways for a moment: the top of the tile (the blades)
+  // is redrawn shifted left/right, wrapping the tile's own pixels.
+  shakeGrass(map, x, y) {
+    (this.grassShakes = this.grassShakes || []).push({ map, x, y, t0: G.time });
+  }
+  drawGrassShakes(ctx, cam) {
+    if (!this.grassShakes || !this.grassShakes.length) return;
+    const SWAY = [1, -1, 1, -1, 0]; // offset per step, 0.07 s each
+    this.grassShakes = this.grassShakes.filter((s) => G.time - s.t0 < SWAY.length * 0.07 && G.World.maps.includes(s.map));
+    const c = this.grassCanvas || (this.grassCanvas = Object.assign(document.createElement('canvas'), { width: 16, height: 16 }));
+    const g = c.getContext('2d');
+    for (const s of this.grassShakes) {
+      const dx = SWAY[Math.floor((G.time - s.t0) / 0.07)] || 0;
+      if (!dx) continue;
+      const m = s.map;
+      g.clearRect(0, 0, 16, 16);
+      for (let z = 0; z < 3; z++) {
+        const id = m.tileId(s.x, s.y, z);
+        if (id && m.priority(id) === 0) G.Tilemap.drawTile(g, m.tileset, id, 0, 0);
+      }
+      const sx = (s.x + m.ox) * 16 - cam.x, sy = (s.y + m.oy) * 16 - cam.y;
+      // the tips move most: rows 0-5 by 2*dx, rows 6-10 by dx; the base stays
+      for (const [y0, y1, off] of [[0, 6, 2 * dx], [6, 11, dx]]) {
+        const h = y1 - y0, o = ((off % 16) + 16) % 16;
+        ctx.drawImage(c, 0, y0, 16 - o, h, sx + o, sy + y0, 16 - o, h);
+        if (o) ctx.drawImage(c, 16 - o, y0, o, h, sx, sy + y0, o, h);
+      }
+    }
   }
   drawMapAnimations(ctx, cam) {
     if (!this.mapAnims || !this.mapAnims.length) return;
-    this.mapAnims = this.mapAnims.filter((s) => (G.time - s.t0) * 20 < s.a.frames.length && G.World.maps.includes(s.map));
+    this.mapAnims = this.mapAnims.filter((s) => (G.time - s.t0) * s.fps < s.frames.length && G.World.maps.includes(s.map));
     for (const s of this.mapAnims) {
       const img = G.Assets.get(`sprites/animations/${s.a.graphic}.png`);
       if (!img) continue;
       const CELL = 96, cols = Math.max(1, Math.floor(img.width / CELL));
-      const frame = s.a.frames[Math.floor((G.time - s.t0) * 20)] || [];
+      const frame = s.frames[Math.floor((G.time - s.t0) * s.fps)] || [];
       // position 2 = the bottom of the tile, as for characters
       const cx = (s.x + s.map.ox) * 16 + 8 - cam.x, cy = (s.y + s.map.oy) * 16 + 16 - cam.y;
       for (const [pat, x, y, zoom, , mirror, opacity] of frame) {
@@ -285,6 +317,7 @@ G.MapSceneClass = class MapScene extends G.Scene {
         sprites.push({ z: ev.zIndex(cam), ch: ev, order: 10 });
       }
     }
+    this.drawGrassShakes(ctx, cam);
     const pc = G.Game.playerChar;
     // The intro map (Oak's speech) never shows the player character.
     if (G.World.map.id !== 1) sprites.push({ z: pc.zIndex(cam), ch: pc, order: 11 });
