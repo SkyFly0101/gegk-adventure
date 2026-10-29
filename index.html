@@ -60,6 +60,22 @@
 </style>
 </head>
 <body>
+<script>
+  // Phones keep the page for up to 10 minutes after a new version goes live.
+  // Check the live page's version and, if it's newer, load it (a ?v= address
+  // isn't in the browser's cache). The publish step fills in the version.
+  window.GEGK_BUILD = '0cfd96f';
+  (function () {
+    if (location.protocol === 'file:' || /^__/.test(window.GEGK_BUILD)) return;
+    fetch(location.pathname + '?check=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
+      var m = t.match(/GEGK_BUILD = '([^']+)'/);
+      if (!m || m[1] === window.GEGK_BUILD) return;
+      try { if (sessionStorage.getItem('gegk-updated-' + m[1])) return; sessionStorage.setItem('gegk-updated-' + m[1], '1'); } catch (e) { return; }
+      var q = location.search.replace(/[?&]v=[^&]*/, '').replace(/^&/, '?');
+      location.replace(location.pathname + (q ? q + '&' : '?') + 'v=' + m[1] + location.hash);
+    }).catch(function () {});
+  })();
+</script>
 <div id="loading">Loading GEGK Adventure…</div>
 <canvas id="screen" width="240" height="160" tabindex="0"></canvas>
 <div id="bar">
@@ -76,67 +92,67 @@
 <script>
   // Data is fetched as JSON when served over http(s). Opening index.html
   // directly (file://) can't fetch, so the pre-built bundle is used instead.
-  if (location.protocol === 'file:') document.write('<script src="data/bundle.js?v=7d810c2"><\/script>');
+  if (location.protocol === 'file:') document.write('<script src="data/bundle.js?v=0cfd96f"><\/script>');
 </script>
 <!-- engine -->
-<script src="src/core/config.js?v=7d810c2"></script>
-<script src="src/config/sounds.js?v=7d810c2"></script>
-<script src="src/config/firebase.js?v=7d810c2"></script>
-<script src="src/core/util.js?v=7d810c2"></script>
-<script src="src/core/input.js?v=7d810c2"></script>
-<script src="src/core/touch.js?v=7d810c2"></script>
-<script src="src/core/assets.js?v=7d810c2"></script>
-<script src="src/core/audio.js?v=7d810c2"></script>
-<script src="src/core/font.js?v=7d810c2"></script>
-<script src="src/core/data.js?v=7d810c2"></script>
-<script src="src/core/ui.js?v=7d810c2"></script>
-<script src="src/core/message.js?v=7d810c2"></script>
-<script src="src/core/scene.js?v=7d810c2"></script>
-<script src="src/core/state.js?v=7d810c2"></script>
-<script src="src/core/items.js?v=7d810c2"></script>
+<script src="src/core/config.js?v=0cfd96f"></script>
+<script src="src/config/sounds.js?v=0cfd96f"></script>
+<script src="src/config/firebase.js?v=0cfd96f"></script>
+<script src="src/core/util.js?v=0cfd96f"></script>
+<script src="src/core/input.js?v=0cfd96f"></script>
+<script src="src/core/touch.js?v=0cfd96f"></script>
+<script src="src/core/assets.js?v=0cfd96f"></script>
+<script src="src/core/audio.js?v=0cfd96f"></script>
+<script src="src/core/font.js?v=0cfd96f"></script>
+<script src="src/core/data.js?v=0cfd96f"></script>
+<script src="src/core/ui.js?v=0cfd96f"></script>
+<script src="src/core/message.js?v=0cfd96f"></script>
+<script src="src/core/scene.js?v=0cfd96f"></script>
+<script src="src/core/state.js?v=0cfd96f"></script>
+<script src="src/core/items.js?v=0cfd96f"></script>
 <!-- pokémon & battle -->
-<script src="src/battle/pokemon.js?v=7d810c2"></script>
-<script src="src/battle/trainer.js?v=7d810c2"></script>
-<script src="src/battle/battle_core.js?v=7d810c2"></script>
-<script src="src/battle/move_effects.js?v=7d810c2"></script>
-<script src="src/battle/battle_ai.js?v=7d810c2"></script>
-<script src="src/battle/battle_anim.js?v=7d810c2"></script>
-<script src="src/battle/battle_scene.js?v=7d810c2"></script>
-<script src="src/battle/evolution.js?v=7d810c2"></script>
+<script src="src/battle/pokemon.js?v=0cfd96f"></script>
+<script src="src/battle/trainer.js?v=0cfd96f"></script>
+<script src="src/battle/battle_core.js?v=0cfd96f"></script>
+<script src="src/battle/move_effects.js?v=0cfd96f"></script>
+<script src="src/battle/battle_ai.js?v=0cfd96f"></script>
+<script src="src/battle/battle_anim.js?v=0cfd96f"></script>
+<script src="src/battle/battle_scene.js?v=0cfd96f"></script>
+<script src="src/battle/evolution.js?v=0cfd96f"></script>
 <!-- overworld -->
-<script src="src/overworld/tilemap.js?v=7d810c2"></script>
-<script src="src/overworld/gamemap.js?v=7d810c2"></script>
-<script src="src/overworld/character.js?v=7d810c2"></script>
-<script src="src/overworld/event.js?v=7d810c2"></script>
-<script src="src/overworld/player.js?v=7d810c2"></script>
-<script src="src/overworld/screen.js?v=7d810c2"></script>
-<script src="src/overworld/ruby.js?v=7d810c2"></script>
-<script src="src/overworld/bridge.js?v=7d810c2"></script>
-<script src="src/overworld/interpreter.js?v=7d810c2"></script>
-<script src="src/overworld/field.js?v=7d810c2"></script>
-<script src="src/overworld/scene_map.js?v=7d810c2"></script>
+<script src="src/overworld/tilemap.js?v=0cfd96f"></script>
+<script src="src/overworld/gamemap.js?v=0cfd96f"></script>
+<script src="src/overworld/character.js?v=0cfd96f"></script>
+<script src="src/overworld/event.js?v=0cfd96f"></script>
+<script src="src/overworld/player.js?v=0cfd96f"></script>
+<script src="src/overworld/screen.js?v=0cfd96f"></script>
+<script src="src/overworld/ruby.js?v=0cfd96f"></script>
+<script src="src/overworld/bridge.js?v=0cfd96f"></script>
+<script src="src/overworld/interpreter.js?v=0cfd96f"></script>
+<script src="src/overworld/field.js?v=0cfd96f"></script>
+<script src="src/overworld/scene_map.js?v=0cfd96f"></script>
 <!-- menus -->
-<script src="src/menus/common.js?v=7d810c2"></script>
-<script src="src/menus/title.js?v=7d810c2"></script>
-<script src="src/menus/start_menu.js?v=7d810c2"></script>
-<script src="src/menus/party.js?v=7d810c2"></script>
-<script src="src/menus/summary.js?v=7d810c2"></script>
-<script src="src/menus/bag.js?v=7d810c2"></script>
-<script src="src/menus/pokedex.js?v=7d810c2"></script>
-<script src="src/menus/trainer_card.js?v=7d810c2"></script>
-<script src="src/menus/options.js?v=7d810c2"></script>
-<script src="src/menus/pc.js?v=7d810c2"></script>
-<script src="src/menus/mart.js?v=7d810c2"></script>
-<script src="src/menus/town_map.js?v=7d810c2"></script>
-<script src="src/menus/quests.js?v=7d810c2"></script>
+<script src="src/menus/common.js?v=0cfd96f"></script>
+<script src="src/menus/title.js?v=0cfd96f"></script>
+<script src="src/menus/start_menu.js?v=0cfd96f"></script>
+<script src="src/menus/party.js?v=0cfd96f"></script>
+<script src="src/menus/summary.js?v=0cfd96f"></script>
+<script src="src/menus/bag.js?v=0cfd96f"></script>
+<script src="src/menus/pokedex.js?v=0cfd96f"></script>
+<script src="src/menus/trainer_card.js?v=0cfd96f"></script>
+<script src="src/menus/options.js?v=0cfd96f"></script>
+<script src="src/menus/pc.js?v=0cfd96f"></script>
+<script src="src/menus/mart.js?v=0cfd96f"></script>
+<script src="src/menus/town_map.js?v=0cfd96f"></script>
+<script src="src/menus/quests.js?v=0cfd96f"></script>
 <!-- story & saves -->
-<script src="src/story/gegk.js?v=7d810c2"></script>
-<script src="src/story/levelcap.js?v=7d810c2"></script>
-<script src="src/story/quests.js?v=7d810c2"></script>
-<script src="src/save/save.js?v=7d810c2"></script>
-<script src="src/save/cloud.js?v=7d810c2"></script>
-<script src="src/online/online.js?v=7d810c2"></script>
-<script src="src/main.js?v=7d810c2"></script>
-<script>if (/[?&]debug\b/.test(location.search)) document.write('<script src="src/debug.js?v=7d810c2"><\/script>');</script>
+<script src="src/story/gegk.js?v=0cfd96f"></script>
+<script src="src/story/levelcap.js?v=0cfd96f"></script>
+<script src="src/story/quests.js?v=0cfd96f"></script>
+<script src="src/save/save.js?v=0cfd96f"></script>
+<script src="src/save/cloud.js?v=0cfd96f"></script>
+<script src="src/online/online.js?v=0cfd96f"></script>
+<script src="src/main.js?v=0cfd96f"></script>
+<script>if (/[?&]debug\b/.test(location.search)) document.write('<script src="src/debug.js?v=0cfd96f"><\/script>');</script>
 </body>
 </html>
