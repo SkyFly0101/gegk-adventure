@@ -21,6 +21,17 @@ G.Online = (() => {
   const bubbles = new Map();           // uid -> {text, until}
   let mine = null, lastSent = '', lastSendTime = 0;
   let chatRoom = 'map', chatKey = null, chatRef = null, log = [];
+  let problem = '', lastCount = -1;
+
+  // Something the database refused or failed: say what and why, under the chat.
+  const denied = (e) => /permission/i.test(String(e && (e.code || e.message)));
+  function report(e, what) {
+    console.warn('Online:', what, e);
+    problem = denied(e)
+      ? `Can't ${what}: the database refused it. Make sure the Realtime Database rules (docs/realtime-database.rules.json) are published in Firebase.`
+      : `Can't ${what}: ${(e && e.message) || e}`;
+    setNote(problem);
+  }
 
   // ------------------------------------------------------------- players
   class Remote {
@@ -79,7 +90,7 @@ G.Online = (() => {
         if (!others.has(k)) others.set(k, new Remote(snap.key, id));
         others.get(k).set(snap.val());
       };
-      ref.on('child_added', put);
+      ref.on('child_added', put, (e) => report(e, 'see other players'));
       ref.on('child_changed', put);
       ref.on('child_removed', (snap) => others.delete(id + '/' + snap.key));
       subs.set(id, ref);
@@ -111,10 +122,14 @@ G.Online = (() => {
         mine.onDisconnect().remove(); // closing the game removes us
         if (chatRoom === 'map') subscribeChat();
       }
-      mine.set({ x: p.x, y: p.y, d: p.direction, n: nick, c, t: firebase.database.ServerValue.TIMESTAMP });
+      mine.set({ x: p.x, y: p.y, d: p.direction, n: nick, c, t: firebase.database.ServerValue.TIMESTAMP })
+        .catch((e) => report(e, 'share your position'));
       lastSent = state; lastSendTime = performance.now();
     }
     for (const r of others.values()) r.update(G.dt || 1 / 60);
+    // how many others are around (shown under the chat while nothing is wrong)
+    const count = visible().length;
+    if (count !== lastCount && !problem) { lastCount = count; setNote(count ? `${count} other player${count > 1 ? 's' : ''} nearby` : 'Nobody else nearby right now'); }
   }
 
   // Name tags and chat bubbles over the other players.
@@ -160,22 +175,27 @@ G.Online = (() => {
       // a fresh message also pops up over its sender's head
       if (Date.now() - (v.t || 0) < 15000) bubbles.set(v.u, { text: clean(v.m), until: performance.now() + 6000 });
       renderLog();
-    });
+    }, (e) => report(e, 'read the chat'));
   }
   let lastChat = 0;
   async function send(text) {
     text = text.replace(/\s+/g, ' ').trim().slice(0, 120);
     if (!text || !user || !nick) return;
-    if (Date.now() - lastChat < 2000) { setNote('Slow down a little!'); return; }
+    if (Date.now() - lastChat < 2000) { setNote('Slow down a little! (one message every 2 seconds)'); return; }
     const key = roomKey();
     if (!key) return;
+    const prev = lastChat;
     lastChat = Date.now();
     const id = db.ref('chat/' + key).push().key;
     const TS = firebase.database.ServerValue.TIMESTAMP;
     try {
       await db.ref().update({ [`chat/${key}/${id}`]: { u: user.uid, n: nick, m: text, t: TS }, [`chatTimes/${user.uid}`]: TS });
-      setNote('');
-    } catch (e) { setNote(/permission/i.test(e.message) ? 'Slow down a little!' : 'Message not sent.'); }
+      problem = ''; lastCount = -1;
+    } catch (e) {
+      // the database's own 2-second limit, or something else refusing the message
+      if (denied(e) && Date.now() - prev < 2500) setNote('Slow down a little! (one message every 2 seconds)');
+      else report(e, 'send messages');
+    }
   }
 
   // --------------------------------------------------------- nicknames
