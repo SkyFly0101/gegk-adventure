@@ -468,6 +468,15 @@ G.Debug = {
           nx += G.U.dx(d); ny += G.U.dy(d);
           if (!m.valid(nx, ny) || !p.jumpPassable(nx, ny)) continue;
         }
+        // arrow tiles slide the player on to a stop tile or a wall
+        for (let s = p.spinTileAt(nx, ny), n = 0; s && s !== 'stop' && n < 60; s = p.spinTileAt(nx, ny), n++) {
+          const ox = p.x, oy = p.y;
+          p.x = nx; p.y = ny;
+          const can = p.passable(nx, ny, s);
+          p.x = ox; p.y = oy;
+          if (!can) break;
+          nx += G.U.dx(s); ny += G.U.dy(s);
+        }
         const k = key(nx, ny);
         if (prev.has(k)) continue;
         prev.set(k, [x, y, d]); q.push([nx, ny]);

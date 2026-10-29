@@ -184,7 +184,7 @@ G.Player = class Player extends G.Character {
       if (dir) return;
       this.holdUntilRelease = false;
     }
-    if (G.Game.global.iceSliding) { this.moveForward(); return; }
+    if (this.slideDir) { this.continueSlide(); return; }
     if (this.movedLastFrame || (dir > 0 && dir === this.lastDir && G.time - this.lastDirTime >= 0.075)) {
       if (dir) this.moveGeneric(dir);
     } else if (dir !== this.lastDir && dir) {
@@ -237,6 +237,30 @@ G.Player = class Player extends G.Character {
       for (const ev of trainers) { ev.start(); result = true; }
       result = this.checkEventTriggerHere([1, 2]) || result;
       G.Field.onStepTaken(result);
+      this.checkSpinTile();
     }
   }
+  // FireRed's arrow floor tiles (Viridian Gym): stepping on one sends the
+  // player spinning in its direction until a stop tile or a wall.
+  spinTileAt(x, y) {
+    const tiles = G.Player.SPIN_TILES[this.map.data.tileset];
+    if (!tiles || !this.map.valid(x, y)) return null;
+    for (let z = 2; z >= 0; z--) { const d = tiles[this.map.tileId(x, y, z)]; if (d !== undefined) return d; }
+    return null;
+  }
+  checkSpinTile() {
+    const d = this.spinTileAt(this.x, this.y);
+    if (d === 'stop') this.slideDir = null;
+    else if (d) this.slideDir = d;
+  }
+  continueSlide() {
+    if (G.Interpreter.mapRunning() || G.Game.messageShowing || (G.MapScene && G.MapScene.current)) return;
+    const d = this.slideDir;
+    if (!this.canMove(d)) { this.slideDir = null; return; }
+    this.moveGeneric(d);
+    // spin while sliding (down, left, up, right...)
+    this.direction = [2, 4, 8, 6][Math.floor(G.time * 16) % 4];
+  }
 };
+// Arrow / stop tiles by tileset (tileset 14: the gyms, used by Viridian Gym)
+G.Player.SPIN_TILES = { 14: { 919: 4, 927: 6, 935: 8, 943: 2, 951: 'stop' } };
