@@ -28,9 +28,12 @@ G.Story = {
         for (const d of Object.values(t)) if (d.plainName && / /.test(d.plainName) && !/^(TM|HM)\d/.test(d.plainName)) species.push(d.plainName);
       }
       species.sort((a, b) => b.length - a.length);
-      this._capsRe = new RegExp(`(${places.map(esc).join('|')}|Route \\d+)|(?<![A-Za-z])(${species.map(esc).join('|')})(?![A-Za-z])`, 'g');
+      // no look-behind: older iPhones (before iOS 16.4) can't run it, so the
+      // character before a name is matched too and kept as it is
+      this._capsRe = new RegExp(`(${places.map(esc).join('|')}|Route \\d+)|(^|[^A-Za-z])(${species.map(esc).join('|')})(?![A-Za-z])`, 'g');
     }
-    return s.replace(this._capsRe, (m) => m.toUpperCase().replace(/É/g, 'é'));
+    const up = (t) => t.toUpperCase().replace(/É/g, 'é');
+    return s.replace(this._capsRe, (m, place, before, name) => (place ? up(place) : before + up(name)));
   },
   // Trainer data and story scripts use the rival's name as a key.
   trainerName(type, name) {

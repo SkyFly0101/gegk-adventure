@@ -5,12 +5,24 @@
 'use strict';
 
 G.Touch = (() => {
-  const enabled = /[?&]touch\b/.test(location.search) ||
-    (window.matchMedia && window.matchMedia('(pointer: coarse)').matches && navigator.maxTouchPoints > 0);
+  // On if this looks like a phone or tablet (any of: no hover, a coarse
+  // pointer, touch events); ?touch or the "On-screen buttons" switch force it.
+  const KEY = 'gegk-adventure.touch';
+  let saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) { /* storage blocked */ }
+  const mq = (q) => !!(window.matchMedia && window.matchMedia(q).matches);
+  const detected = mq('(hover: none)') || mq('(pointer: coarse)') || ('ontouchstart' in window && navigator.maxTouchPoints > 0);
+  const enabled = /[?&]touch\b/.test(location.search) || (saved ? saved === '1' : detected);
+  function toggle() {
+    try { localStorage.setItem(KEY, enabled ? '0' : '1'); } catch (e) { /* storage blocked */ }
+    location.reload();
+  }
   let root = null;
 
   function build() {
     document.body.classList.add('touch');
+    // iPhones only let sound start from a finger being lifted (not touched down)
+    for (const ev of ['touchend', 'click']) document.addEventListener(ev, () => G.Audio && G.Audio.unlock(), { passive: true });
     root = document.createElement('div');
     root.id = 'touch';
     root.innerHTML = `
@@ -63,5 +75,14 @@ G.Touch = (() => {
   if (enabled) {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
   }
+  // the switch in the bar under the game
+  function setupButton() {
+    const btn = document.getElementById('btnTouch');
+    if (!btn) return;
+    btn.textContent = 'On-screen buttons: ' + (enabled ? 'on' : 'off');
+    btn.addEventListener('click', toggle);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupButton); else setupButton();
+
   return { enabled, space };
 })();
