@@ -36,6 +36,9 @@ G.BattleAnim = (() => {
   // Coroutine: play `anim` on the scene. The scene draws `scene.anim` each frame.
   function* play(scene, found, userSide, targetSide) {
     const { anim } = found;
+    // OppMove animations are drawn from the player's side, so Essentials plays
+    // them with user and target swapped (Battle::Scene#pbAnimation)
+    if (found.opp) [userSide, targetSide] = [targetSide, userSide];
     const sheetPath = `sprites/animations/${anim.graphic}.png`;
     let loaded = !anim.graphic;
     if (anim.graphic) G.Assets.load(sheetPath).then(() => { loaded = true; });

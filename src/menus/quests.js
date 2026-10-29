@@ -55,7 +55,7 @@ G.QuestScene = class QuestScene extends G.Scene {
       if (q === pinned) G.UI.questArrow(ctx, 16, y + 7, 6);
       else if (done) { ctx.fillStyle = '#909098'; [[12, 7], [13, 8], [14, 9], [15, 8], [16, 7], [17, 6], [18, 5]].forEach(([x, dy]) => ctx.fillRect(x, y + dy, 1, 2)); }
       else { ctx.fillStyle = '#404850'; ctx.fillRect(14, y + 6, 3, 3); }
-      G.Font.draw(ctx, q.title, 26, y, done ? 'gray' : 'dark', { font: 'narrow' });
+      G.Font.draw(ctx, G.Story.text(q.title), 26, y, done ? 'gray' : 'dark', { font: 'narrow' });
       G.Font.draw(ctx, done ? 'DONE' : q.kind === 'main' ? 'STORY' : 'SIDE', 228, y + 1, done ? 'gray' : q.kind === 'main' ? 'blue' : 'green', { font: 'small', align: 'right' });
     }
     if (list.length > QuestScene.ROWS) {

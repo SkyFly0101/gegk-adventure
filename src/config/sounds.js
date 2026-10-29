@@ -58,9 +58,9 @@ G.SoundConfig = {
     sendOut:       'sfx/Battle jump to ball.ogg',
     recall:        'sfx/Battle recall.ogg',
     flee:          'sfx/Battle flee.ogg',
-    statUp:        null,                      // placeholder chiptune
-    statDown:      null,                      // placeholder chiptune
-    lowHp:         null,                      // placeholder chiptune
+    statUp:        'sfx/anim/increase.ogg',
+    statDown:      'sfx/anim/decrease.ogg',
+    lowHp:         null,                      // synthesized FireRed-style alarm (audio.js)
     encounter:     'sfx/Vs flash.ogg',
   },
 
@@ -111,6 +111,7 @@ G.SoundConfig = {
     'Eyes Meet (Tuber)':        "music/Trainers' Eyes Meet (Girl).ogg",
     'Ball Throw':               'sfx/Battle throw.ogg',
     'Ball Shake':               'sfx/Battle ball shake.ogg',
+    'Item get':                 'music/me/Obtained an Item.ogg',   // Safari Zone gate
     // Missing from the kit -> chiptune placeholders until you add files:
     'Poké Flute':               null,
     'Pewter Museum':            null,

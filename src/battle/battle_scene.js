@@ -30,7 +30,9 @@ G.BattleScene = class BattleScene extends G.Scene {
       0: { visible: false, x: 0, y: 0, alpha: 1, flash: 0, scale: 1 },
       1: { visible: false, x: 0, y: 0, alpha: 1, flash: 0, scale: 1 },
     };
-    this.boxes = { 0: { visible: false, hp: 0, exp: 0 }, 1: { visible: false, hp: 0 } };
+    this.boxes = { 0: { visible: false, hp: 0, exp: 0, slide: 0 }, 1: { visible: false, hp: 0, slide: 0 } };
+    this.lineup = null;         // trainer battles: both parties' Poké Ball rows
+    this.alarmAt = 0;           // next low-HP alarm beep
     this.playerTrainer = { visible: true, x: 40, frame: 0 };
     this.foeTrainer = { visible: !!trainer, x: 184 };
     this.slideIn = 1;           // start off-screen so the intro is one smooth slide
@@ -49,6 +51,9 @@ G.BattleScene = class BattleScene extends G.Scene {
     ];
     for (const p of G.Game.party) paths.push(G.Assets.pokemon(p.species, true, p.shiny));
     for (const p of this.core.foeParty) paths.push(G.Assets.pokemon(p.species, false, p.shiny));
+    for (const id of new Set(['POKEBALL', ...G.Game.party.map((p) => p.ball || 'POKEBALL')])) {
+      paths.push(`sprites/battle/balls/ball_${id}.png`, `sprites/battle/balls/ball_${id}_open.png`);
+    }
     if (this.trainer) paths.push(this.trainer.spritePath);
     let done = false;
     G.Assets.loadAll(paths).then(() => { done = true; });
@@ -121,17 +126,68 @@ G.BattleScene = class BattleScene extends G.Scene {
     const s = this.sprites[1];
     if (fromBall) {
       if (this.foeTrainer.visible) yield* this.trainerSlideOut();
-      G.Audio.sfx('sendOut');
-      s.visible = true; s.scale = 0;
-      const t1 = G.time;
-      while (G.time - t1 < 0.3) { s.scale = (G.time - t1) / 0.3; yield; }
-      s.scale = 1;
-      G.Audio.cry(b.p.species);
+      // the foe's ball flies in from the right and the Pokémon pops out
+      yield* this.ballSendOut(1, b, 250, 20);
     } else { s.visible = true; s.scale = 1; }
     s.alpha = 1; s.yOff = 0;
-    this.boxes[1].visible = true;
+    if (b.p.shiny) yield* this.commonAnimation('Shiny', b);
     this.boxes[1].hp = b.hp;
-    yield* G.U.wait(0.2);
+    yield* this.slideBox(1);
+    yield* G.U.wait(0.1);
+  }
+  // A data box slides in from its side of the screen (FireRed).
+  *slideBox(side) {
+    const box = this.boxes[side];
+    box.visible = true; box.slide = 1;
+    const t0 = G.time;
+    while (G.time - t0 < 0.25) { box.slide = 1 - (G.time - t0) / 0.25; yield; }
+    box.slide = 0;
+  }
+  // Ball arcs from (x0, y0) to the battler's spot, opens, and the Pokémon
+  // grows out of it as a white silhouette that fades to its real colours.
+  *ballSendOut(side, b, x0, y0) {
+    const s = this.sprites[side];
+    const pos = this.spritePos(side);
+    const img = this.battlerImage(side);
+    // the sprite grows up from its feet, so the ball opens low on the body
+    const hx = pos.x, hy = pos.y - (img ? img.height * 0.2 : 12);
+    const id = b.p.ball && G.Assets.get(`sprites/battle/balls/ball_${b.p.ball}.png`) ? b.p.ball : 'POKEBALL';
+    this.ball = { id, x: x0, y: y0, rot: 0, frame: 0, open: false, dark: 0, stars: null };
+    const ball = this.ball;
+    G.Audio.sfx('ballThrow');
+    let t0 = G.time;
+    while (G.time - t0 < 0.4) {
+      const t = (G.time - t0) / 0.4;
+      ball.x = G.U.lerp(x0, hx, t);
+      ball.y = G.U.lerp(y0, hy, t) - Math.sin(t * Math.PI) * 24;
+      ball.frame = Math.floor(t * 12) % 8;
+      yield;
+    }
+    ball.x = hx; ball.y = hy; ball.frame = 0; ball.open = true;
+    G.Audio.sfx('sendOut');
+    s.visible = true; s.scale = 0; s.alpha = 1; s.yOff = 0;
+    const glow = this.overlayColor = { side, color: '#ffffff', until: G.time + 2, alpha: 1 };
+    t0 = G.time;
+    while (G.time - t0 < 0.3) { s.scale = (G.time - t0) / 0.3; yield; }
+    s.scale = 1;
+    this.ball = null;
+    G.Audio.cry(b.p.species);
+    t0 = G.time;
+    while (G.time - t0 < 0.25) { glow.alpha = 1 - (G.time - t0) / 0.25; yield; }
+    if (this.overlayColor === glow) this.overlayColor = null;
+  }
+  // Trainer battles: each side's party as a row of Poké Balls (FireRed).
+  *showLineups() {
+    this.lineup = { slide: 1 };
+    const t0 = G.time;
+    while (G.time - t0 < 0.3) { this.lineup.slide = 1 - (G.time - t0) / 0.3; yield; }
+    this.lineup.slide = 0;
+  }
+  *hideLineups() {
+    if (!this.lineup) return;
+    const t0 = G.time;
+    while (G.time - t0 < 0.25) { this.lineup.slide = (G.time - t0) / 0.25; yield; }
+    this.lineup = null;
   }
   // The foe trainer steps off to the right before sending out a Pokémon.
   *trainerSlideOut() {
@@ -152,32 +208,39 @@ G.BattleScene = class BattleScene extends G.Scene {
       }
       this.playerTrainer.visible = false;
     }
-    G.Audio.sfx('sendOut');
-    s.visible = true; s.scale = 0; s.alpha = 1; s.yOff = 0;
-    const t1 = G.time;
-    while (G.time - t1 < 0.3) { s.scale = (G.time - t1) / 0.3; yield; }
-    s.scale = 1;
-    G.Audio.cry(b.p.species);
-    this.boxes[0].visible = true;
+    void s;
+    yield* this.ballSendOut(0, b, 20, 96);
+    if (b.p.shiny) yield* this.commonAnimation('Shiny', b);
     this.boxes[0].hp = b.hp;
     this.boxes[0].exp = b.p.expFraction();
-    yield* G.U.wait(0.25);
+    yield* this.slideBox(0);
+    yield* G.U.wait(0.1);
   }
+  // Recalled Pokémon turn white and shrink back into their ball.
   *recall(b) {
     G.Audio.sfx('recall');
     const s = this.sprites[b.side];
-    const t0 = G.time;
+    const glow = this.overlayColor = { side: b.side, color: '#ffffff', until: G.time + 2, alpha: 0 };
+    let t0 = G.time;
+    while (G.time - t0 < 0.15) { glow.alpha = (G.time - t0) / 0.15; yield; }
+    t0 = G.time;
     while (G.time - t0 < 0.3) { s.scale = 1 - (G.time - t0) / 0.3; yield; }
     s.visible = false; s.scale = 1;
+    if (this.overlayColor === glow) this.overlayColor = null;
     this.boxes[b.side].visible = false;
   }
+  // FireRed: the fainting Pokémon cries, then drops out of sight below its
+  // platform while its data box disappears.
   *faint(b) {
-    G.Audio.sfx('faint');
     const s = this.sprites[b.side];
-    const t0 = G.time;
-    while (G.time - t0 < 0.4) { s.yOff = (G.time - t0) / 0.4 * 60; s.alpha = 1 - (G.time - t0) / 0.4; yield; }
-    s.visible = false; s.yOff = 0; s.alpha = 1;
+    yield* G.U.wait(0.5); // the core has just played its cry
+    G.Audio.sfx('faint');
     this.boxes[b.side].visible = false;
+    const img = this.battlerImage(b.side);
+    const drop = img ? img.height : 64;
+    const t0 = G.time;
+    while (G.time - t0 < 0.35) { s.yOff = (G.time - t0) / 0.35 * drop; yield; }
+    s.visible = false; s.yOff = 0; s.alpha = 1;
   }
   battlerImage(side) {
     const b = this.core.battlers[side];
@@ -222,7 +285,6 @@ G.BattleScene = class BattleScene extends G.Scene {
     const len = Math.min(1, 0.25 + Math.abs(from - to) / b.totalHP);
     while (G.time - t0 < len) { box.hp = G.U.lerp(from, to, (G.time - t0) / len); yield; }
     box.hp = to;
-    if (b.side === 0 && to > 0 && to <= b.totalHP / 4) G.Audio.sfx('lowHp');
   }
   // The EXP-gain sound plays only while the bar is filling, so it never runs
   // into the level-up sound that follows.
@@ -280,10 +342,11 @@ G.BattleScene = class BattleScene extends G.Scene {
       this.ball = null;
       return;
     }
-    // 2. hit: the ball opens and the Pokémon turns red and shrinks into it
+    // 2. hit: the ball opens, the Pokémon turns white and shrinks into it
     G.Audio.sfx('ballHit');
     b.open = true;
-    this.overlayColor = { side: 1, color: '#ff6868', until: G.time + 1 };
+    const white = this.overlayColor = { side: 1, color: '#ffffff', until: G.time + 2, alpha: 0 };
+    yield* anim(0.15, (t) => { white.alpha = t; });
     yield* anim(0.4, (t) => { s.scale = 1 - t; s.alpha = 1 - t * 0.5; });
     s.visible = false; s.scale = 1; s.alpha = 1;
     this.overlayColor = null;
@@ -318,9 +381,11 @@ G.BattleScene = class BattleScene extends G.Scene {
     G.Audio.sfx('recall');
     b.open = true;
     s.visible = true; s.scale = 0;
-    this.overlayColor = { side: 1, color: '#ffffff', until: G.time + 0.35 };
+    const glow = this.overlayColor = { side: 1, color: '#ffffff', until: G.time + 1, alpha: 1 };
     yield* anim(0.3, (t) => { s.scale = t; });
     s.scale = 1;
+    yield* anim(0.2, (t) => { glow.alpha = 1 - t; });
+    this.overlayColor = null;
     this.ball = null;
     yield* G.U.wait(0.1);
   }
@@ -449,6 +514,8 @@ G.BattleScene = class BattleScene extends G.Scene {
     }
     this.drawBox(ctx, 1);
     this.drawBox(ctx, 0);
+    if (this.lineup) { this.drawLineup(ctx, 1); this.drawLineup(ctx, 0); }
+    this.lowHpAlarm();
     if (this.ball) this.drawBall(ctx); // above the data boxes, so it never hides behind them
     this.drawMessageArea(ctx);
     if (this.statsPanel) this.drawStatsPanel(ctx);
@@ -482,7 +549,7 @@ G.BattleScene = class BattleScene extends G.Scene {
       cx.clearRect(0, 0, c.width, c.height);
       cx.drawImage(img, 0, 0);
       cx.globalCompositeOperation = 'source-in';
-      cx.globalAlpha = 0.6;
+      cx.globalAlpha = o.alpha !== undefined ? o.alpha : 0.6;
       cx.fillStyle = o.color;
       cx.fillRect(0, 0, img.width, img.height);
       cx.globalCompositeOperation = 'source-over';
@@ -518,13 +585,40 @@ G.BattleScene = class BattleScene extends G.Scene {
     }
   }
 
+  // FireRed keeps beeping while your Pokémon's HP is in the red.
+  lowHpAlarm() {
+    const box = this.boxes[0], b = this.core.battlers[0];
+    const low = box.visible && b.p && !this.core.result && box.hp > 0 && box.hp <= b.totalHP / 4;
+    if (!low) { this.alarmAt = 0; return; }
+    if (G.time >= this.alarmAt) { G.Audio.sfx('lowHp'); this.alarmAt = G.time + 0.5; }
+  }
+  // A row of 6 small balls on a dark bar: foe's top-left, yours above the
+  // text box on the right. Fainted = grey, status = yellow, empty = outline.
+  drawLineup(ctx, side) {
+    const party = side === 0 ? G.Game.party.filter((p) => !p.egg) : this.core.foeParty;
+    const off = Math.round(this.lineup.slide * 140) * (side === 0 ? 1 : -1);
+    const y = side === 0 ? BOX_Y - 22 : 34;
+    const x0 = side === 0 ? 128 + off : 8 + off;
+    const C = BOX_COLORS_FR;
+    // bar: flat along the top, slanting away at the outer end
+    for (let r = 0; r < 3; r++) {
+      if (side === 0) G.UI.hline(ctx, x0 - r, y + 8 + r, 116 + r, C.border);
+      else G.UI.hline(ctx, x0 - 8, y + 8 + r, 108 + r, C.border);
+    }
+    for (let i = 0; i < 6; i++) {
+      const p = party[side === 0 ? i : 5 - i];
+      const state = !p ? 'empty' : p.hp <= 0 ? 'faint' : p.status ? 'status' : 'ok';
+      G.UI.pixelBall(ctx, x0 + 10 + i * 16, y, state);
+    }
+  }
+
   // FRLG-style data boxes (foe: top-left, player: right above the text box)
   drawBox(ctx, side) {
     const box = this.boxes[side];
     const b = this.core.battlers[side];
     if (!box.visible || !b.p) return;
     const p = b.p;
-    const slide = Math.round(this.slideIn * 240);
+    const slide = Math.round(this.slideIn * 240) + Math.round(box.slide * 130);
     // FireRed layout: a cream panel with a thick dark rounded border, sitting
     // on a darker slanted base (the foe's trails off to the right; the
     // player's runs underneath, sloping down to the left, and carries EXP).
@@ -634,14 +728,38 @@ G.BattleScene = class BattleScene extends G.Scene {
 // Entry points from the overworld
 // ---------------------------------------------------------------------------
 G.Battle = {
+  // FireRed: the screen flashes twice, then wild battles close in with
+  // horizontal blinds sliding from alternate sides and trainer battles with
+  // a Poké Ball-style spin wipe.
   *transition(trainerBattle) {
     G.Audio.sfx('encounter');
-    for (let i = 0; i < 3; i++) {
-      yield* G.Fade.to(0.8, 0.08, '#fff');
-      yield* G.Fade.to(0, 0.08);
+    for (let i = 0; i < 2; i++) {
+      yield* G.Fade.to(0.75, 0.1, '#fff');
+      yield* G.Fade.to(0, 0.1);
     }
-    yield* G.Fade.out(0.3, '#000');
-    void trainerBattle;
+    const W = G.Config.WIDTH, H = G.Config.HEIGHT;
+    if (trainerBattle) {
+      // two black wedges sweep round the centre like a spinning ball
+      yield* G.Fade.wipe((ctx, t) => {
+        const a = t * Math.PI, cx = W / 2, cy = H / 2, r = W;
+        ctx.fillStyle = '#000';
+        for (const off of [0, Math.PI]) {
+          ctx.beginPath(); ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, r, -Math.PI / 2 + off, -Math.PI / 2 + off + a);
+          ctx.closePath(); ctx.fill();
+        }
+      }, 0.6);
+    } else {
+      // 8px rows, even ones sliding in from the left and odd ones from the right
+      yield* G.Fade.wipe((ctx, t) => {
+        ctx.fillStyle = '#000';
+        const e = t * t * (3 - 2 * t);
+        for (let row = 0; row * 8 < H; row++) {
+          const w = Math.ceil(e * W);
+          ctx.fillRect(row % 2 ? W - w : 0, row * 8, w, 8);
+        }
+      }, 0.55);
+    }
   },
   musicFor(trainer) {
     if (!trainer) return 'wildBattle';

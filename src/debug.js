@@ -70,6 +70,8 @@ G.Debug = {
     return 'load timed out';
   },
   // Run a long async test in the background; poll G.Debug.jobs[name].
+  // Cancel running goMap jobs (they check this before each hop).
+  async stop() { this.abortAll = true; await new Promise((r) => setTimeout(r, 3000)); this.abortAll = false; },
   job(name, fn) {
     const j = (this.jobs = this.jobs || {})[name] = { state: 'running' };
     fn().then((r) => { j.state = 'done'; j.result = r; }, (e) => { j.state = 'error'; j.result = String(e.stack || e); });
@@ -382,6 +384,7 @@ G.Debug = {
   async goMap(target, { avoid = [], badArrivals = new Set() } = {}) {
     const blocked = new Set(); // links that failed from a given arrival point (this call only)
     for (let hop = 0; hop < 80; hop++) {
+      if (this.abortAll) return 'aborted'; // set by stop() to cancel a running job
       const cur = G.World.map.id;
       if (cur === target && !badArrivals.has(this.arrival)) return 'arrived';
       const start = 'start';
@@ -445,6 +448,99 @@ G.Debug = {
       blocked.add(this.arrival + '|' + link.key);
     }
     return 'too many hops';
+  },
+  // First step (numpad dir) of the shortest walk to (tx, ty) on this map,
+  // using the player's real passability (events like Cut trees included).
+  bfsDir(tx, ty) {
+    const m = G.World.map, p = G.Game.playerChar, key = (x, y) => x + ',' + y;
+    const prev = new Map([[key(p.x, p.y), null]]), q = [[p.x, p.y]];
+    while (q.length) {
+      const [x, y] = q.shift();
+      if (x === tx && y === ty) break;
+      for (const d of [2, 4, 6, 8]) {
+        let nx = x + G.U.dx(d), ny = y + G.U.dy(d);
+        if (!m.valid(nx, ny) || !p.passable(x, y, d)) continue;
+        if (m.terrainTag(nx, ny) === G.Terrain.Ledge) {
+          // walking into a ledge (in its own direction) jumps to the tile beyond
+          nx += G.U.dx(d); ny += G.U.dy(d);
+          if (!m.valid(nx, ny) || !p.jumpPassable(nx, ny)) continue;
+        }
+        const k = key(nx, ny);
+        if (prev.has(k)) continue;
+        prev.set(k, [x, y, d]); q.push([nx, ny]);
+      }
+    }
+    let k = key(tx, ty), d = null;
+    if (!prev.has(k)) return null;
+    while (prev.get(k)) { const [x, y, dd] = prev.get(k); d = dd; k = key(x, y); }
+    return d;
+  },
+  // Walk step by step to (x, y), playing through any event or battle on the way.
+  async stepTo(x, y, max = 300) {
+    const p = G.Game.playerChar, codes = { 2: 'ArrowDown', 4: 'ArrowLeft', 6: 'ArrowRight', 8: 'ArrowUp' };
+    const m0 = G.World.map.id;
+    let fails = 0;
+    for (let k = 0; k < max; k++) {
+      if (this.abortAll) return 'aborted';
+      if (G.World.map.id !== m0) return 'map changed';
+      if (p.x === x && p.y === y) return 'arrived';
+      if (G.Scenes.top() !== G.MapScene || G.MapScene.messageBox.active || G.Interpreter.mapRunning() || G.MapScene.current) { await this.play({ max: 300 }); continue; }
+      const d = this.bfsDir(x, y);
+      if (!d) return 'nopath';
+      const b = p.x + ',' + p.y;
+      await this.walk(codes[d], 1);
+      if (p.x + ',' + p.y === b) { if (++fails > 6) return 'stuck at ' + b; } else fails = 0;
+    }
+    return 'max';
+  },
+  // Go through the door or map edge on this map that leads to map `to`.
+  async goLink(to) {
+    const p = G.Game.playerChar, m = G.World.map, codes = { 2: 'ArrowDown', 4: 'ArrowLeft', 6: 'ArrowRight', 8: 'ArrowUp' };
+    const links = (G.Data.map_links[m.id] || []).filter((l) => l.to === to);
+    if (!links.length) return 'no link';
+    const here = (x, y) => p.x === x && p.y === y;
+    for (const l of links) {
+      if (l.dir) {
+        const tiles = this.exits(l.dir).filter(([x, y]) => { const n = G.World.mapAt(x + G.U.dx(l.dir), y + G.U.dy(l.dir)); return n && n.id === to; });
+        for (const [x, y] of tiles) {
+          if (!here(x, y) && !this.bfsDir(x, y)) continue;
+          if ((await this.stepTo(x, y)) !== 'arrived') continue;
+          await this.walk(codes[l.dir], 2); await this.sleep(600);
+          if (G.World.map.id === to) { await this.settle(); return 'ok'; }
+        }
+      } else {
+        for (const d of [2, 8, 4, 6]) {
+          const sx = l.x - G.U.dx(d), sy = l.y - G.U.dy(d);
+          if (!m.valid(sx, sy) || (!here(sx, sy) && !this.bfsDir(sx, sy))) continue;
+          if ((await this.stepTo(sx, sy)) !== 'arrived') continue;
+          await this.walk(codes[d], 1);
+          for (let w = 0; w < 30 && G.World.map.id === m.id; w++) await this.sleep(100);
+          await this.sleep(500);
+          if (G.World.map.id === to) { await this.settle(); return 'ok'; }
+        }
+      }
+    }
+    return 'failed';
+  },
+  // Let an entrance scene finish (tone fades, location previews, transfers).
+  async settle() {
+    for (let i = 0; i < 80; i++) {
+      const ms = G.MapScene;
+      if (!ms.interpreter.running() && !ms.transferring && !ms.current && G.Fade.alpha === 0) return;
+      if (ms.messageBox.active) { await this.play({ max: 200 }); continue; }
+      await this.sleep(100);
+    }
+  },
+  // Follow a list of map ids with goLink; stops at the first failure.
+  async route(ids) {
+    const out = [];
+    for (const to of ids) {
+      if (G.World.map.id === to) continue;
+      const r = await this.goLink(to);
+      out.push(to + ':' + r);
+      if (r !== 'ok') break;
+    }
+    return out;
   },
   // Go to a tile on a map, trying different entrances of split maps.
   async goTile(map, x, y) {

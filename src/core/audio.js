@@ -56,6 +56,20 @@ G.Audio = (() => {
     o.connect(g).connect(c.destination);
     o.start(t); o.stop(t + len + 0.02);
   }
+  // Hand-made synth sounds for effects the kit has no file for.
+  function beep(c, f, t, len, vol) {
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = 'square';
+    o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(vol, t);
+    g.gain.setValueAtTime(0.0001, t + len);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + len + 0.01);
+  }
+  const SYNTH = {
+    // FireRed's low-HP alarm: a high two-note "bee-boo"
+    lowHp(c, t, vol) { beep(c, 1568, t, 0.08, vol); beep(c, 1175, t + 0.12, 0.08, vol); },
+  };
   // A looping procedural tune, deterministic per name.
   class ChipTune {
     constructor(name, loop) {
@@ -224,7 +238,11 @@ G.Audio = (() => {
       if (muted) return;
       const path = cfg.sfx[key];
       if (path === undefined) { console.warn('Unknown sfx key', key); return; }
-      if (!path) { missing.add('sfx: ' + key); blip(key); return; }
+      if (!path) {
+        const c = SYNTH[key] && ac();
+        if (c) { SYNTH[key](c, c.currentTime, 0.08 * opts.sfx * cfg.sfxVolume); return; }
+        missing.add('sfx: ' + key); blip(key); return;
+      }
       return api.playFile(path, 100, 100, key);
     },
     // Stops a sound returned by sfx() / playFile() (e.g. the EXP-gain loop).

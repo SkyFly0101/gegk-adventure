@@ -47,7 +47,7 @@ G.PokedexScene = class PokedexScene extends G.Scene {
       const seen = g.player.seen[sp.id], own = g.player.owned[sp.id];
       if (top + r === this.index) { ctx.fillStyle = '#f8c8a0'; ctx.fillRect(8, y - 1, 120, 15); }
       G.Font.draw(ctx, `No${String(sp.dex).padStart(3, '0')}`, 12, y, 'dark', { font: 'narrow' });
-      if (own) { ctx.fillStyle = '#e04030'; ctx.beginPath(); ctx.arc(52, y + 7, 3, 0, Math.PI * 2); ctx.fill(); }
+      if (own) G.UI.pixelBall(ctx, 48, y + 4);
       G.Font.draw(ctx, seen ? sp.name.toUpperCase() : '----------', 58, y, 'dark', { font: 'narrow' });
     }
     const sp = this.list[this.index];

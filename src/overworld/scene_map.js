@@ -32,7 +32,6 @@ G.MapSceneClass = class MapScene extends G.Scene {
   // --------------------------------------------------------------- update
   update() {
     const g = G.Game;
-    g.player.playTime += G.dt;
     G.Screen.update();
     if (this.transferring) {
       // A transfer is in progress inside an event or a queued coroutine:
@@ -341,7 +340,8 @@ G.MapSceneClass = class MapScene extends G.Scene {
   // Pinned quest: a bobbing marker over the next door / person when it's on
   // screen, and a small arrow + place name in the top-right corner.
   drawQuestGuide(ctx, cam) {
-    if (!G.Quests || G.World.map.id === 1 || this.messageBox.active) return;
+    // hidden while a menu, shop or PC is open over the map
+    if (!G.Quests || G.World.map.id === 1 || this.messageBox.active || G.Scenes.top() !== this) return;
     const g = G.Quests.guide();
     if (!g) return;
     const p = G.Game.playerChar;
@@ -359,9 +359,9 @@ G.MapSceneClass = class MapScene extends G.Scene {
     if (this.questShown !== g.quest.id) { this.questShown = g.quest.id; this.questGoalUntil = G.time + 5; }
     const MAX_W = 116;
     const fit = (t, w) => { if (G.Font.width(t, 'small') <= w) return t; while (t.length > 1 && G.Font.width(t + '..', 'small') > w) t = t.slice(0, -1); return t + '..'; };
-    const label = fit(g.label, MAX_W - (dir ? 22 : 10));
+    const label = fit(G.Story.text(g.label), MAX_W - (dir ? 22 : 10));
     const showGoal = G.time < (this.questGoalUntil || 0);
-    const goal = showGoal ? fit(G.Quests.goal(g.quest), MAX_W - 10) : '';
+    const goal = showGoal ? fit(G.Story.text(G.Quests.goal(g.quest)), MAX_W - 10) : '';
     const w = Math.max(G.Font.width(label, 'small') + (dir ? 22 : 10), goal ? G.Font.width(goal, 'small') + 10 : 0);
     const h = goal ? 25 : 14;
     const x = G.Config.WIDTH - w - 1, y = 1;

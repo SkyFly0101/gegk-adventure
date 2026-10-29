@@ -543,7 +543,7 @@
   "BattleBack": "field"
  },
  "57": {
-  "Name": "Pokémon Day Care",
+  "Name": "Saffron Gate North",
   "MapPosition": [
    0,
    15,
@@ -551,7 +551,7 @@
   ]
  },
  "58": {
-  "Name": "Saffron Gate North",
+  "Name": "Pokémon Day Care",
   "MapPosition": [
    0,
    15,
@@ -656,7 +656,7 @@
   ]
  },
  "69": {
-  "Name": "Cerulean House",
+  "Name": "Vermilion House",
   "MapPosition": [
    0,
    15,
@@ -664,7 +664,7 @@
   ]
  },
  "70": {
-  "Name": "Cerulean House",
+  "Name": "Vermilion House",
   "MapPosition": [
    0,
    15,
@@ -919,7 +919,7 @@
   ]
  },
  "96": {
-  "Name": "Cerulean House",
+  "Name": "Lavender House",
   "MapPosition": [
    0,
    19,
@@ -1430,7 +1430,7 @@
   ]
  },
  "151": {
-  "Name": "Fuchsia House",
+  "Name": "Fishing Guru's House",
   "MapPosition": [
    0,
    13,
@@ -1910,7 +1910,7 @@
   "Bicycle": true
  },
  "200": {
-  "Name": "Fuchsia Pokémon Center",
+  "Name": "Cinnabar Pokémon Center",
   "MapPosition": [
    0,
    5,
@@ -1918,7 +1918,7 @@
   ]
  },
  "201": {
-  "Name": "Fuchsia Poké Mart",
+  "Name": "Cinnabar Poké Mart",
   "MapPosition": [
    0,
    5,

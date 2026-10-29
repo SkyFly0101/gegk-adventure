@@ -74,6 +74,21 @@ G.UI = (() => {
         }));
       }
     },
+    // FireRed's 7x7 Poké Ball icon. state: ok | status | faint | empty
+    pixelBall(ctx, x, y, state = 'ok') {
+      const col = {
+        ok: { '#': '#303030', r: '#e83820', w: '#f8f8f8' },
+        status: { '#': '#303030', r: '#e8b820', w: '#f8f8f8' },
+        faint: { '#': '#303030', r: '#909090', w: '#c0c0c0' },
+        empty: { '#': '#909090' },
+      }[state];
+      ['..###..', '.#rrr#.', '#rrrrr#', '###w###', '#wwwww#', '.#www#.', '..###..'].forEach((row, ry) => {
+        for (let rx = 0; rx < 7; rx++) {
+          const c = col[row[rx]];
+          if (c) { ctx.fillStyle = c; ctx.fillRect(x + rx, y + ry, 1, 1); }
+        }
+      });
+    },
     // Quest arrow: a small yellow triangle with a dark outline, centred on
     // (cx, cy), pointing in numpad direction dir (2 down, 4 left, 9 up-right...).
     questArrow(ctx, cx, cy, dir) {

@@ -15,6 +15,11 @@ G.Quests = (() => {
   // Main story, in FireRed order. Each quest is available once the one
   // before it is done. Switch numbers are the kit's story switches.
   const MAIN = [
+    // FireRed's opening: heading for Route 1 makes Prof. Oak stop you and
+    // take you to his lab to choose a partner.
+    { id: 'starter', title: 'Your first Pokémon', goal: 'Head north to Route 1',
+      desc: "Leave the neighborhood by the path north toward Route 1. It's dangerous to go into the tall grass without a Pokémon...",
+      done: () => g().party.length > 0, target: () => at(9, /^$/, 'Route 1') },
     { id: 'parcel', title: "Oak's Parcel", goal: () => (has('OAKSPARCEL') ? 'Bring it to Prof. Oak' : "Get Oak's Parcel"),
       desc: "Professor Oak needs a parcel from the Poké Mart in Viridian City. Pick it up and bring it back to his lab.",
       done: () => sw(81),
@@ -40,9 +45,10 @@ G.Quests = (() => {
     { id: 'rocket', title: 'Rocket Hideout', goal: 'Get the Silph Scope',
       desc: "Team Rocket hides under the Celadon Game Corner. Find the switch behind the poster and take the Silph Scope from their boss.",
       done: () => has('SILPHSCOPE'), target: () => at(134, /Giovanni/, 'Rocket Boss') },
-    { id: 'fuji', title: 'Pokémon Tower', goal: 'Rescue Mr. Fuji',
-      desc: 'With the Silph Scope you can see the ghosts in Lavender\'s Pokémon Tower. Climb to the top and rescue Mr. Fuji.',
-      done: () => sw(99), target: () => (sw(99) ? at(98, /Fuji/, 'Mr. Fuji') : at(106, /Fuji/, 'Mr. Fuji')) },
+    { id: 'fuji', title: 'Pokémon Tower', goal: () => (sw(99) ? 'Get the Poké Flute' : 'Rescue Mr. Fuji'),
+      desc: 'With the Silph Scope you can see the ghosts in Lavender\'s Pokémon Tower. Climb to the top, rescue Mr. Fuji, then visit him at home.',
+      // rescuing him isn't enough: the Poké Flute is handed over in his house
+      done: () => has('POKEFLUTE'), target: () => (sw(99) ? at(98, /Fuji/, 'Mr. Fuji') : at(106, /Fuji/, 'Mr. Fuji')) },
     { id: 'koga', title: 'Soul Badge', goal: 'Beat Koga',
       desc: 'Wake the sleeping Snorlax with the Poké Flute and travel to Fuchsia City. Beat Koga at the Gym.',
       done: () => badge(4), target: () => at(147, /Koga/, 'Koga') },
@@ -144,7 +150,8 @@ G.Quests = (() => {
       const gl = g().global;
       if (gl.pinnedQuest === undefined) gl.pinnedQuest = 'auto';
       let q = gl.pinnedQuest && gl.pinnedQuest !== 'auto' ? byId(gl.pinnedQuest) : null;
-      if (gl.pinnedQuest === 'auto' || (q && q.kind === 'main' && q.done())) {
+      // a finished story quest (or one not reached yet) moves on to the current one
+      if (gl.pinnedQuest === 'auto' || (q && q.kind === 'main' && (q.done() || !available(q)))) {
         q = MAIN.find((x) => available(x) && !x.done()) || null;
         gl.pinnedQuest = q ? q.id : null;
       }

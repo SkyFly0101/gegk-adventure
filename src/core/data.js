@@ -22,6 +22,14 @@ G.Data = {
     const results = await Promise.all(files.map(get));
     files.forEach((f, i) => { this[f] = results[i]; });
     this._get = get;
+    // FireRed writes Pokémon, move and item names in capitals (POKé BALL keeps its é)
+    const caps = (s) => s.toUpperCase().replace(/É/g, 'é');
+    for (const t of [this.pokemon, this.moves, this.items]) {
+      for (const d of Object.values(t)) {
+        if (d.name) { d.plainName = d.name; d.name = caps(d.name); }
+        if (d.plural) d.plural = caps(d.plural);
+      }
+    }
     // Index helpers
     this.speciesByDex = {};
     for (const sp of Object.values(this.pokemon)) this.speciesByDex[sp.dex] = sp;
@@ -38,7 +46,9 @@ G.Data = {
     const mm = this.map_metadata[id];
     let n = (mm && mm.Name) || (this.mapinfos[id] && this.mapinfos[id].name) || '';
     n = n.replace(/\\PN/g, G.Config.PLAYER_NAME).replace(/\\v\[(\d+)\]/g, (_, v) => (+v === G.Config.RIVAL_VAR ? G.Config.RIVAL_NAME : ''));
-    return G.Story ? G.Story.text(n) : n;
+    // FireRed shows place names in capitals (VIRIDIAN CITY)
+    n = G.Story ? G.Story.text(n) : n;
+    return n.toUpperCase().replace(/É/g, 'é');
   },
   species(id) { return this.pokemon[id]; },
   move(id) { return this.moves[id]; },

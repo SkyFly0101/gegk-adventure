@@ -63,7 +63,17 @@ G.Fade = {
   },
   *out(sec = 0.25, color = '#000') { yield* this.to(1, sec, color); },
   *in(sec = 0.25) { yield* this.to(0, sec); },
+  // A custom wipe (battle transitions): wipe(ctx, t) draws over the screen
+  // while t runs from 0 to 1.
+  wipeFn: null, wipeT: 0,
+  *wipe(fn, sec) {
+    this.wipeFn = fn;
+    const start = G.time;
+    while (G.time - start < sec) { this.wipeT = (G.time - start) / sec; yield; }
+    this.wipeFn = null; this.alpha = 1; this.color = '#000';
+  },
   draw(ctx) {
+    if (this.wipeFn) this.wipeFn(ctx, this.wipeT);
     if (this.alpha <= 0) return;
     ctx.globalAlpha = this.alpha;
     ctx.fillStyle = this.color;

@@ -136,7 +136,12 @@ const COMMAND_FIXES = [
 ];
 
 // Map names: the Safari Zone areas are labelled "Safari Zone Gate" in the kit.
-const MAP_NAME_FIXES = { 155: 'Safari Zone', 157: 'Safari Zone', 159: 'Safari Zone', 161: 'Safari Zone' };
+// Kit map names that are swapped or copied from the wrong town.
+const MAP_NAME_FIXES = {
+  155: 'Safari Zone', 157: 'Safari Zone', 159: 'Safari Zone', 161: 'Safari Zone',
+  57: 'Saffron Gate North', 58: 'Pokémon Day Care', 69: 'Vermilion House', 70: 'Vermilion House',
+  96: 'Lavender House', 151: "Fishing Guru's House", 200: 'Cinnabar Pokémon Center', 201: 'Cinnabar Poké Mart',
+};
 // Commands inserted at the start of an event page: [mapId, eventId, page, commands].
 const COMMAND_INSERTS = [
   // Cinnabar Lab: the fossil reviver finishes when you leave his room, but

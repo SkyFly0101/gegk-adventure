@@ -7,9 +7,30 @@ G.Story = {
   // Applied to every message before it's shown.
   text(s) {
     if (typeof s !== 'string') return s;
-    return s
-      .replace(/Pallet Town/g, G.Config.HOME_NAME)
-      .replace(/PALLET TOWN/g, G.Config.HOME_NAME.toUpperCase());
+    s = s.replace(/Pallet Town|PALLET TOWN/g, G.Config.HOME_NAME);
+    return this.fireRedCaps(s);
+  },
+  // FireRed writes POKéMON, place names and Pokémon species in capitals;
+  // the kit's text uses modern casing, so convert it as it's shown.
+  fireRedCaps(s) {
+    if (!this._capsRe) {
+      const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const places = [G.Config.HOME_NAME, 'Viridian City', 'Viridian Forest', 'Pewter City', 'Cerulean City', 'Cerulean Cave',
+        'Vermilion City', 'Lavender Town', 'Celadon City', 'Fuchsia City', 'Saffron City', 'Cinnabar Island', 'Indigo Plateau',
+        'Mt. Moon', 'Rock Tunnel', 'Safari Zone', 'Silph Co.', 'Seafoam Islands', 'Power Plant', 'Victory Road', 'S.S. Anne',
+        "Diglett's Cave", 'Pokémon Tower', 'Pokémon Mansion', 'Pokémon Center', 'Pokémon League', 'Pokémon Fan Club',
+        'Poké Mart', 'Poké Ball', 'Pokédex', 'Poké Flute', 'Pokémon', 'Team Rocket', 'Prof. Oak', 'Elite Four'];
+      // species as the kit spells them (Bulbasaur, Mr. Mime, Nidoran♀)
+      const species = Object.values(G.Data.pokemon).map((d) => d.plainName || d.name).filter((n) => n.length > 2);
+      // multi-word move and item names too (ROCK TOMB, TOWN MAP); one-word
+      // ones (Cut, Return) could be ordinary words, so they stay as written
+      for (const t of [G.Data.moves, G.Data.items]) {
+        for (const d of Object.values(t)) if (d.plainName && / /.test(d.plainName) && !/^(TM|HM)\d/.test(d.plainName)) species.push(d.plainName);
+      }
+      species.sort((a, b) => b.length - a.length);
+      this._capsRe = new RegExp(`(${places.map(esc).join('|')}|Route \\d+)|(?<![A-Za-z])(${species.map(esc).join('|')})(?![A-Za-z])`, 'g');
+    }
+    return s.replace(this._capsRe, (m) => m.toUpperCase().replace(/É/g, 'é'));
   },
   // Trainer data and story scripts use the rival's name as a key.
   trainerName(type, name) {

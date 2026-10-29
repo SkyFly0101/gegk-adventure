@@ -112,7 +112,9 @@ G.BattleCore = class BattleCore {
       yield* ui.showFoe(this.foe, false);
       yield* ui.message(`Wild ${this.foeParty[0].name} appeared!`, { wait: true });
     } else {
+      if (ui.showLineups) yield* ui.showLineups();
       yield* ui.message(`${this.trainer.fullName} would like to battle!`);
+      if (ui.hideLineups) yield* ui.hideLineups();
       this.setActive(this.foe, 0);
       yield* ui.trainerSlideOut();
       yield* ui.message(`${this.trainer.fullName} sent out ${this.foe.p.name}!`);
@@ -536,7 +538,7 @@ G.BattleCore = class BattleCore {
     stage = G.U.clamp(stage, -6, 6);
     acc *= user.stageMult('ACCURACY', stage);
     if (user.hasAbility('COMPOUNDEYES')) acc *= 1.3;
-    if (user.hasAbility('HUSTLE') && move.category === 'Physical') acc *= 0.8;
+    if (user.hasAbility('HUSTLE') && move.category !== 'Status' && this.isPhysicalType(this.moveType(user, move))) acc *= 0.8;
     if (target.hasAbility('SANDVEIL') && this.weather === 'sandstorm') acc *= 0.8;
     if (target.hasItem('BRIGHTPOWDER') || target.hasItem('LAXINCENSE')) acc *= 0.9;
     return G.U.rand(100) < acc;
@@ -628,7 +630,7 @@ G.BattleCore = class BattleCore {
       yield* this.damage(target, dmg);
       const done = before - target.hp;
       total += done; lastDmg = done; hitCount++; lastCrit = crit;
-      target.damageTaken = { amount: done, physical: move.category === 'Physical', from: user };
+      target.damageTaken = { amount: done, physical: this.isPhysicalType(type), from: user };
       target.fx.lastHitBy = { id: move.id, side: user.side };
       if (crit) yield* this.ui.message('A critical hit!');
       if (target.fx.endured === 'endure') { yield* this.ui.message(`${target.name} endured the hit!`); target.fx.endured = null; }
@@ -665,6 +667,8 @@ G.BattleCore = class BattleCore {
     yield* this.ui.message(`${user.name} kept going and crashed!`);
     yield* this.damage(user, Math.max(1, Math.floor(user.totalHP / 2)));
   }
+  // Gen 3: a move is physical or special by its type (FIRE, WATER... are special)
+  isPhysicalType(type) { return G.Data.types[type] ? !G.Data.types[type].special : true; }
   calcDamage(user, target, move, type, eff, handler) {
     let power = handler.power ? handler.power(this, user, target, move) : move.power;
     if (!power) return { damage: 0, crit: false };

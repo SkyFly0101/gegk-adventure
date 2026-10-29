@@ -20,6 +20,8 @@ G.PCScene = class PCScene extends G.Scene {
       if (r === 2) yield* this.boxMode('move');
     }
   }
+  // The PC's main menu sits over the map like FireRed's; the box view is full screen.
+  update() { this.transparent = !this.mode; super.update(); }
   *ask(text, choices) {
     return yield* this.msg.show(text, { choices, cancelIndex: choices.length - 1 });
   }
@@ -84,8 +86,8 @@ G.PCScene = class PCScene extends G.Scene {
     }
   }
   draw(ctx) {
-    ctx.fillStyle = '#7898c8'; ctx.fillRect(0, 0, 240, 160);
     if (this.mode) {
+      ctx.fillStyle = '#7898c8'; ctx.fillRect(0, 0, 240, 160);
       const b = this.box;
       G.UI.frame(ctx, 40, 4, 160, 20, this.cy < 0 ? 'msg' : 'menu');
       G.Font.draw(ctx, `◀ ${b.name} ▶`, 120, 7, 'dark', { align: 'center' });
@@ -101,8 +103,6 @@ G.PCScene = class PCScene extends G.Scene {
       }
       const sel = this.cy >= 0 ? b.mons[this.cy * 6 + this.cx] : null;
       G.Font.draw(ctx, sel ? `${sel.name}  Lv${sel.level}` : '', 120, 146, 'white', { align: 'center' });
-    } else {
-      G.Font.draw(ctx, "POKéMON STORAGE SYSTEM", 120, 30, 'white', { align: 'center' });
     }
     this.msg.draw(ctx);
   }

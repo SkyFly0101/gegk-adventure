@@ -12,7 +12,8 @@ G.Trainer = class Trainer {
     this.type = type;
     this.typeName = tt.name;
     this.name = name;
-    this.fullName = !tt.name || tt.name === 'Pokémon Trainer' ? name : `${tt.name} ${name}`;
+    // FireRed battle text writes trainer class and name in capitals (BUG CATCHER RICK)
+    this.fullName = (!tt.name || tt.name === 'Pokémon Trainer' ? name : `${tt.name} ${name}`).toUpperCase().replace(/É/g, 'é');
     this.gender = tt.gender;
     this.baseMoney = tt.baseMoney || 30;
     this.items = (t.items || []).slice();

@@ -6,7 +6,7 @@ G.EvolutionScene = class EvolutionScene extends G.Scene {
     super();
     this.p = pkmn; this.to = newSpecies; this.canCancel = canCancel;
     this.box = new G.MessageBox();
-    this.showNew = false; this.flash = 0; this.white = 0;
+    this.showNew = false; this.white = 0;
   }
   *main() {
     const p = this.p;
@@ -19,23 +19,28 @@ G.EvolutionScene = class EvolutionScene extends G.Scene {
     G.Audio.playME(null, 'evolutionStart');
     G.Audio.playMusicKey('evolution', true);
     let cancelled = false;
+    // turn white first, so the new form is never seen before it's done
+    const fade = function* (scene, from, to, sec) {
+      const t0 = G.time;
+      while (G.time - t0 < sec) { scene.white = G.U.lerp(from, to, (G.time - t0) / sec); yield; }
+      scene.white = to;
+    };
+    yield* fade(this, 0, 1, 0.8);
+    // then flicker between the old and new silhouettes, faster and faster
     const t0 = G.time;
-    const len = 5;
+    const len = 4.5;
     while (G.time - t0 < len) {
       const t = (G.time - t0) / len;
       const period = 0.5 - t * 0.42;
       this.showNew = Math.floor((G.time - t0) / period) % 2 === 1;
-      this.white = Math.min(1, t * 3);
       if (this.canCancel && G.Input.trigger('B')) { cancelled = true; break; }
       yield;
     }
-    this.white = 0;
+    this.showNew = !cancelled;
+    yield* fade(this, 1, 0, 0.5);
     if (cancelled) {
-      this.showNew = false;
       yield* this.box.show(`Huh? ${p.name} stopped evolving!`);
     } else {
-      this.showNew = true;
-      this.flash = 1;
       const oldName = p.name;
       p.evolveInto(this.to);
       G.Game.setOwned(this.to);
