@@ -107,6 +107,7 @@ G.Main = {
       this.canvas.focus();
     });
     document.getElementById('btnMute').addEventListener('click', () => { this.toggleMute(); this.canvas.focus(); });
+    if (G.Cloud) G.Cloud.setupButton();
   },
   toggleMute() {
     G.Audio.setMuted(!G.Audio.muted);

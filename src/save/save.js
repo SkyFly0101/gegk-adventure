@@ -36,6 +36,7 @@ G.Save = (() => {
     data.savedAt = Date.now();
     data.slot = slot;
     localStorage.setItem(key(slot), JSON.stringify(data));
+    if (G.Cloud) G.Cloud.push(slot, data); // signed in: also keep it in the cloud
     return data;
   }
 
@@ -79,6 +80,8 @@ G.Save = (() => {
       } catch (e) { console.error('Auto-save failed', e); }
     },
     remove(slot) { localStorage.removeItem(key(slot)); },
+    // Store save data as-is (cloud downloads).
+    writeRaw(slot, data) { localStorage.setItem(key(slot), JSON.stringify(data)); },
     drawIcon(ctx) {
       if (G.time > iconUntil) return;
       const x = 184, y = 146;
@@ -114,7 +117,7 @@ G.Save = (() => {
       if (clobber.length && !window.confirm(`This will overwrite ${clobber.map((s) => this.slotLabel(s)).join(', ')} with the saves from the file. Continue?`)) {
         return { ok: false, message: 'Import cancelled.' };
       }
-      for (const s of incoming) localStorage.setItem(key(s), JSON.stringify(slots[s]));
+      for (const s of incoming) { localStorage.setItem(key(s), JSON.stringify(slots[s])); if (G.Cloud) G.Cloud.push(s, slots[s]); }
       return { ok: true, message: `Imported ${incoming.length} save slot(s).` };
     },
   };

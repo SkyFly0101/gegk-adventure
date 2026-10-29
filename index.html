@@ -9,7 +9,7 @@
   html, body { margin: 0; height: 100%; background: #101018; color: #ddd; font-family: system-ui, sans-serif; }
   body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
   #screen { image-rendering: pixelated; image-rendering: crisp-edges; background: #000; outline: none; }
-  #bar { display: flex; gap: 8px; margin-top: 8px; font-size: 12px; align-items: center; opacity: .75; }
+  #bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; padding: 0 16px; font-size: 12px; align-items: center; opacity: .75; }
   #bar button, #bar select { font-size: 12px; background: #222; color: #ddd; border: 1px solid #444; border-radius: 4px; padding: 2px 8px; cursor: pointer; }
   #bar button:hover { background: #333; }
   #loading { position: absolute; font: 14px monospace; color: #aaa; }
@@ -24,6 +24,8 @@
   <button id="btnExport" title="Download all save slots as a JSON backup">Export saves</button>
   <button id="btnImport" title="Load save slots from a JSON backup">Import saves</button>
   <button id="btnMute" title="Toggle sound (M)">Sound: on</button>
+  <button id="btnCloud">Sign in to sync saves</button>
+  <span id="cloudStatus"></span>
   <input type="file" id="importFile" accept=".json,application/json" hidden>
 </div>
 <script>
@@ -34,6 +36,7 @@
 <!-- engine -->
 <script src="src/core/config.js"></script>
 <script src="src/config/sounds.js"></script>
+<script src="src/config/firebase.js"></script>
 <script src="src/core/util.js"></script>
 <script src="src/core/input.js"></script>
 <script src="src/core/assets.js"></script>
@@ -85,6 +88,7 @@
 <script src="src/story/levelcap.js"></script>
 <script src="src/story/quests.js"></script>
 <script src="src/save/save.js"></script>
+<script src="src/save/cloud.js"></script>
 <script src="src/main.js"></script>
 <script>if (/[?&]debug\b/.test(location.search)) document.write('<script src="src/debug.js"><\/script>');</script>
 </body>

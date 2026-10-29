@@ -54,6 +54,12 @@ The controls are also shown on the title screen and under *CONTROLS* in the main
   and location.
 * Saves live in your browser's `localStorage`. Use **Export saves** / **Import saves** under the
   game screen to back them up as a JSON file (import asks before overwriting existing slots).
+* **Cloud saves** — click **Sign in to sync saves** under the game screen and sign in with Google.
+  Every save then also goes to your account (Firebase, `src/save/cloud.js`; settings in
+  `src/config/firebase.js`), and signing in on another device downloads them, so **CONTINUE**
+  picks up where you left off. If the same slot changed on this device *and* in the cloud since
+  the last sync, the game asks which one to keep. Saves still work offline and sync later.
+  The Firestore rules only let each account read and write its own `saves/<account id>` document.
 
 ## Quests and level caps
 
