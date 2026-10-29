@@ -25,12 +25,19 @@ G.Online = (() => {
 
   // Something the database refused or failed: say what and why, under the chat.
   const denied = (e) => /permission/i.test(String(e && (e.code || e.message)));
-  function report(e, what) {
-    console.warn('Online:', what, e);
-    problem = denied(e)
-      ? `Can't ${what}: the database refused it. Make sure the Realtime Database rules (docs/realtime-database.rules.json) are published in Firebase.`
-      : `Can't ${what}: ${(e && e.message) || e}`;
-    setNote(problem);
+  const reported = new Set();
+  function report(e, what, data) {
+    if (reported.has(what)) return; // once is enough (positions are sent on every step)
+    reported.add(what);
+    console.warn('Online:', what, e, data || '');
+    if (!denied(e)) { problem = `Can't ${what}: ${(e && e.message) || e}`; setNote(problem); return; }
+    problem = `Can't ${what}: the database refused it.`;
+    setNote(problem + ' Checking why…');
+    // Reading your own nickname is allowed by the game's rules; if even that
+    // is refused, the database is still locked (the rules aren't published).
+    db.ref('names/' + user.uid).get().then(
+      () => setNote(problem + ` The rules are active but rejected this data${data ? ': ' + JSON.stringify(data) : ''}. Please tell Claude this message.`),
+      () => setNote(problem + ' The Realtime Database is still locked: in the Firebase console open Realtime Database → Rules (not Firestore), paste docs/realtime-database.rules.json and click Publish.'));
   }
 
   // ------------------------------------------------------------- players
@@ -122,8 +129,9 @@ G.Online = (() => {
         mine.onDisconnect().remove(); // closing the game removes us
         if (chatRoom === 'map') subscribeChat();
       }
-      mine.set({ x: p.x, y: p.y, d: p.direction, n: nick, c, t: firebase.database.ServerValue.TIMESTAMP })
-        .catch((e) => report(e, 'share your position'));
+      const pos = { x: p.x, y: p.y, d: p.direction, n: nick, c };
+      mine.set({ ...pos, t: firebase.database.ServerValue.TIMESTAMP })
+        .catch((e) => report(e, 'share your position', pos));
       lastSent = state; lastSendTime = performance.now();
     }
     for (const r of others.values()) r.update(G.dt || 1 / 60);
