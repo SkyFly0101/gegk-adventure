@@ -68,8 +68,8 @@ G.Touch = (() => {
   // Room left for the game screen once the controls are placed.
   function space() {
     const W = window.innerWidth, H = window.innerHeight;
-    if (W > H) return { w: W - 2 * Math.min(190, W * 0.24), h: H - 16 }; // landscape: controls at the sides
-    return { w: W - 12, h: H - 250 };                                        // portrait: controls underneath
+    if (W > H) return { w: W, h: H };  // landscape: the whole screen, buttons float over it
+    return { w: W, h: H - 230 };       // portrait: full width, buttons underneath
   }
 
   if (enabled) {

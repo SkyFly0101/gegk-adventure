@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- added to the Home Screen it opens full screen, without Safari's bars -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GEGK">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <title>GEGK Adventure</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <style>
@@ -21,7 +27,7 @@
   #chatRow select, #chatRow button { font-size: 12px; background: #222; color: #ddd; border: 1px solid #444; border-radius: 4px; padding: 2px 6px; cursor: pointer; }
   #chatNote { min-height: 14px; color: #f0a060; margin-top: 2px; }
   /* ---- phones and tablets (src/core/touch.js) ---- */
-  body.touch { justify-content: flex-start; padding-top: 6px; touch-action: manipulation; -webkit-user-select: none; user-select: none; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+  body.touch { justify-content: flex-start; padding: env(safe-area-inset-top) 0 0; touch-action: manipulation; -webkit-user-select: none; user-select: none; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
   body.touch #screen { touch-action: none; }
   body.touch #bar > span:first-child, body.touch #scaleSel, body.touch #scaleNote { display: none; }
   #touch { position: relative; width: 100%; max-width: 520px; height: 220px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; box-sizing: border-box; }
@@ -40,10 +46,16 @@
   #touch .round { position: absolute; width: 66px; height: 66px; border-radius: 50%; background: #8a2040; font-size: 20px; font-weight: 700; box-shadow: inset 0 -4px 0 #5a1028; }
   #touch .round.a { right: 0; top: 4px; } #touch .round.b { left: 0; bottom: 4px; }
   #touch .on { filter: brightness(1.5); }
+  /* landscape: the game fills the screen and the buttons float over it, see-through */
   @media (orientation: landscape) {
-    body.touch #touch { position: fixed; inset: 0; max-width: none; height: auto; padding: 0 2vw; pointer-events: none; }
-    body.touch #touch > * { pointer-events: auto; }
-    body.touch #touch .mid { bottom: 8px; }
+    body.touch { overflow: hidden; height: 100%; padding: 0; }
+    body.touch #screen { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    body.touch #bar, body.touch #chat { display: none; }
+    body.touch #touch { position: fixed; inset: 0; max-width: none; height: auto; align-items: flex-end; pointer-events: none;
+      padding: 0 calc(16px + env(safe-area-inset-right)) calc(14px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left)); }
+    body.touch #touch > * { pointer-events: auto; opacity: 0.45; }
+    body.touch #touch > .mid { opacity: 0.55; bottom: calc(6px + env(safe-area-inset-bottom)); }
+    body.touch #touch .arm, body.touch #touch .hub, body.touch #touch .pill { background: #50505e; }
   }
 </style>
 </head>
@@ -64,67 +76,67 @@
 <script>
   // Data is fetched as JSON when served over http(s). Opening index.html
   // directly (file://) can't fetch, so the pre-built bundle is used instead.
-  if (location.protocol === 'file:') document.write('<script src="data/bundle.js?v=002c770"><\/script>');
+  if (location.protocol === 'file:') document.write('<script src="data/bundle.js?v=7d810c2"><\/script>');
 </script>
 <!-- engine -->
-<script src="src/core/config.js?v=002c770"></script>
-<script src="src/config/sounds.js?v=002c770"></script>
-<script src="src/config/firebase.js?v=002c770"></script>
-<script src="src/core/util.js?v=002c770"></script>
-<script src="src/core/input.js?v=002c770"></script>
-<script src="src/core/touch.js?v=002c770"></script>
-<script src="src/core/assets.js?v=002c770"></script>
-<script src="src/core/audio.js?v=002c770"></script>
-<script src="src/core/font.js?v=002c770"></script>
-<script src="src/core/data.js?v=002c770"></script>
-<script src="src/core/ui.js?v=002c770"></script>
-<script src="src/core/message.js?v=002c770"></script>
-<script src="src/core/scene.js?v=002c770"></script>
-<script src="src/core/state.js?v=002c770"></script>
-<script src="src/core/items.js?v=002c770"></script>
+<script src="src/core/config.js?v=7d810c2"></script>
+<script src="src/config/sounds.js?v=7d810c2"></script>
+<script src="src/config/firebase.js?v=7d810c2"></script>
+<script src="src/core/util.js?v=7d810c2"></script>
+<script src="src/core/input.js?v=7d810c2"></script>
+<script src="src/core/touch.js?v=7d810c2"></script>
+<script src="src/core/assets.js?v=7d810c2"></script>
+<script src="src/core/audio.js?v=7d810c2"></script>
+<script src="src/core/font.js?v=7d810c2"></script>
+<script src="src/core/data.js?v=7d810c2"></script>
+<script src="src/core/ui.js?v=7d810c2"></script>
+<script src="src/core/message.js?v=7d810c2"></script>
+<script src="src/core/scene.js?v=7d810c2"></script>
+<script src="src/core/state.js?v=7d810c2"></script>
+<script src="src/core/items.js?v=7d810c2"></script>
 <!-- pokémon & battle -->
-<script src="src/battle/pokemon.js?v=002c770"></script>
-<script src="src/battle/trainer.js?v=002c770"></script>
-<script src="src/battle/battle_core.js?v=002c770"></script>
-<script src="src/battle/move_effects.js?v=002c770"></script>
-<script src="src/battle/battle_ai.js?v=002c770"></script>
-<script src="src/battle/battle_anim.js?v=002c770"></script>
-<script src="src/battle/battle_scene.js?v=002c770"></script>
-<script src="src/battle/evolution.js?v=002c770"></script>
+<script src="src/battle/pokemon.js?v=7d810c2"></script>
+<script src="src/battle/trainer.js?v=7d810c2"></script>
+<script src="src/battle/battle_core.js?v=7d810c2"></script>
+<script src="src/battle/move_effects.js?v=7d810c2"></script>
+<script src="src/battle/battle_ai.js?v=7d810c2"></script>
+<script src="src/battle/battle_anim.js?v=7d810c2"></script>
+<script src="src/battle/battle_scene.js?v=7d810c2"></script>
+<script src="src/battle/evolution.js?v=7d810c2"></script>
 <!-- overworld -->
-<script src="src/overworld/tilemap.js?v=002c770"></script>
-<script src="src/overworld/gamemap.js?v=002c770"></script>
-<script src="src/overworld/character.js?v=002c770"></script>
-<script src="src/overworld/event.js?v=002c770"></script>
-<script src="src/overworld/player.js?v=002c770"></script>
-<script src="src/overworld/screen.js?v=002c770"></script>
-<script src="src/overworld/ruby.js?v=002c770"></script>
-<script src="src/overworld/bridge.js?v=002c770"></script>
-<script src="src/overworld/interpreter.js?v=002c770"></script>
-<script src="src/overworld/field.js?v=002c770"></script>
-<script src="src/overworld/scene_map.js?v=002c770"></script>
+<script src="src/overworld/tilemap.js?v=7d810c2"></script>
+<script src="src/overworld/gamemap.js?v=7d810c2"></script>
+<script src="src/overworld/character.js?v=7d810c2"></script>
+<script src="src/overworld/event.js?v=7d810c2"></script>
+<script src="src/overworld/player.js?v=7d810c2"></script>
+<script src="src/overworld/screen.js?v=7d810c2"></script>
+<script src="src/overworld/ruby.js?v=7d810c2"></script>
+<script src="src/overworld/bridge.js?v=7d810c2"></script>
+<script src="src/overworld/interpreter.js?v=7d810c2"></script>
+<script src="src/overworld/field.js?v=7d810c2"></script>
+<script src="src/overworld/scene_map.js?v=7d810c2"></script>
 <!-- menus -->
-<script src="src/menus/common.js?v=002c770"></script>
-<script src="src/menus/title.js?v=002c770"></script>
-<script src="src/menus/start_menu.js?v=002c770"></script>
-<script src="src/menus/party.js?v=002c770"></script>
-<script src="src/menus/summary.js?v=002c770"></script>
-<script src="src/menus/bag.js?v=002c770"></script>
-<script src="src/menus/pokedex.js?v=002c770"></script>
-<script src="src/menus/trainer_card.js?v=002c770"></script>
-<script src="src/menus/options.js?v=002c770"></script>
-<script src="src/menus/pc.js?v=002c770"></script>
-<script src="src/menus/mart.js?v=002c770"></script>
-<script src="src/menus/town_map.js?v=002c770"></script>
-<script src="src/menus/quests.js?v=002c770"></script>
+<script src="src/menus/common.js?v=7d810c2"></script>
+<script src="src/menus/title.js?v=7d810c2"></script>
+<script src="src/menus/start_menu.js?v=7d810c2"></script>
+<script src="src/menus/party.js?v=7d810c2"></script>
+<script src="src/menus/summary.js?v=7d810c2"></script>
+<script src="src/menus/bag.js?v=7d810c2"></script>
+<script src="src/menus/pokedex.js?v=7d810c2"></script>
+<script src="src/menus/trainer_card.js?v=7d810c2"></script>
+<script src="src/menus/options.js?v=7d810c2"></script>
+<script src="src/menus/pc.js?v=7d810c2"></script>
+<script src="src/menus/mart.js?v=7d810c2"></script>
+<script src="src/menus/town_map.js?v=7d810c2"></script>
+<script src="src/menus/quests.js?v=7d810c2"></script>
 <!-- story & saves -->
-<script src="src/story/gegk.js?v=002c770"></script>
-<script src="src/story/levelcap.js?v=002c770"></script>
-<script src="src/story/quests.js?v=002c770"></script>
-<script src="src/save/save.js?v=002c770"></script>
-<script src="src/save/cloud.js?v=002c770"></script>
-<script src="src/online/online.js?v=002c770"></script>
-<script src="src/main.js?v=002c770"></script>
-<script>if (/[?&]debug\b/.test(location.search)) document.write('<script src="src/debug.js?v=002c770"><\/script>');</script>
+<script src="src/story/gegk.js?v=7d810c2"></script>
+<script src="src/story/levelcap.js?v=7d810c2"></script>
+<script src="src/story/quests.js?v=7d810c2"></script>
+<script src="src/save/save.js?v=7d810c2"></script>
+<script src="src/save/cloud.js?v=7d810c2"></script>
+<script src="src/online/online.js?v=7d810c2"></script>
+<script src="src/main.js?v=7d810c2"></script>
+<script>if (/[?&]debug\b/.test(location.search)) document.write('<script src="src/debug.js?v=7d810c2"><\/script>');</script>
 </body>
 </html>
