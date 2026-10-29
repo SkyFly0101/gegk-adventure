@@ -27,35 +27,51 @@
   #chatRow select, #chatRow button { font-size: 12px; background: #222; color: #ddd; border: 1px solid #444; border-radius: 4px; padding: 2px 6px; cursor: pointer; }
   #chatNote { min-height: 14px; color: #f0a060; margin-top: 2px; }
   /* ---- phones and tablets (src/core/touch.js) ---- */
-  body.touch { justify-content: flex-start; padding: env(safe-area-inset-top) 0 0; touch-action: manipulation; -webkit-user-select: none; user-select: none; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+  body.touch { justify-content: flex-start; padding: env(safe-area-inset-top) 0 0; touch-action: manipulation; -webkit-user-select: none; user-select: none; overscroll-behavior: none; -webkit-tap-highlight-color: transparent;
+    --t-fill: rgba(42, 42, 52, 0.62); --t-edge: rgba(170, 170, 190, 0.75); --t-lit: rgba(120, 120, 140, 0.85);
+    --t-red: rgba(138, 32, 64, 0.62); --t-red-edge: rgba(225, 110, 150, 0.85); --t-text: #e8e8f0; }
   body.touch #screen { touch-action: none; }
   body.touch #bar > span:first-child, body.touch #scaleSel, body.touch #scaleNote { display: none; }
-  #touch { position: relative; width: 100%; max-width: 520px; height: 220px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; box-sizing: border-box; }
-  #touch button { font-family: system-ui, sans-serif; color: #ddd; border: none; touch-action: none; }
-  #touch .pad { position: relative; width: 150px; height: 150px; touch-action: none; }
-  #touch .arm, #touch .hub { position: absolute; background: #2a2a34; box-shadow: inset 0 -3px 0 #16161c; }
-  #touch .up, #touch .down { left: 50px; width: 50px; height: 56px; }
-  #touch .up { top: 0; border-radius: 8px 8px 0 0; } #touch .down { bottom: 0; border-radius: 0 0 8px 8px; }
-  #touch .left, #touch .right { top: 50px; width: 56px; height: 50px; }
-  #touch .left { left: 0; border-radius: 8px 0 0 8px; } #touch .right { right: 0; border-radius: 0 8px 8px 0; }
-  #touch .hub { left: 50px; top: 50px; width: 50px; height: 50px; box-shadow: none; }
-  #touch .pad[data-dir="UP"] .up, #touch .pad[data-dir="DOWN"] .down, #touch .pad[data-dir="LEFT"] .left, #touch .pad[data-dir="RIGHT"] .right { background: #4a4a5c; }
-  #touch .mid { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); display: flex; gap: 14px; }
-  #touch .pill { width: 62px; height: 22px; border-radius: 11px; background: #2a2a34; font-size: 10px; letter-spacing: 1px; }
-  #touch .ab { position: relative; width: 150px; height: 130px; }
-  #touch .round { position: absolute; width: 66px; height: 66px; border-radius: 50%; background: #8a2040; font-size: 20px; font-weight: 700; box-shadow: inset 0 -4px 0 #5a1028; }
-  #touch .round.a { right: 0; top: 4px; } #touch .round.b { left: 0; bottom: 4px; }
-  #touch .on { filter: brightness(1.5); }
-  /* landscape: the game fills the screen and the buttons float over it, see-through */
+  #touch { position: relative; width: 100%; max-width: 560px; height: 270px; }
+  #touch button { position: absolute; font-family: system-ui, sans-serif; font-weight: 700; color: var(--t-text); touch-action: none;
+    background: var(--t-fill); border: 2px solid var(--t-edge); padding: 0; }
+  #touch .on { filter: brightness(1.6); }
+  #touch .shoulder { top: 8px; width: 96px; height: 40px; border-radius: 20px; font-size: 20px; }
+  #touch .shoulder.l { left: 12px; } #touch .shoulder.r { right: 12px; }
+  #touch .menu { display: none; top: 8px; left: 50%; transform: translateX(-50%); height: 30px; padding: 0 16px; border-radius: 15px; font-size: 13px; letter-spacing: 1px; }
+  #touch .pad { position: absolute; left: 14px; top: 64px; width: 156px; height: 156px; touch-action: none; }
+  #touch .pad svg { width: 100%; height: 100%; display: block; }
+  #touch .cross { fill: var(--t-fill); stroke: var(--t-edge); stroke-width: 3; }
+  #touch .lit { fill: transparent; }
+  #touch .pad[data-dir="UP"] .UP, #touch .pad[data-dir="DOWN"] .DOWN, #touch .pad[data-dir="LEFT"] .LEFT, #touch .pad[data-dir="RIGHT"] .RIGHT { fill: var(--t-lit); }
+  #touch .chev { fill: none; stroke: var(--t-text); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; opacity: 0.8; }
+  #touch .ring { fill: none; stroke: var(--t-text); stroke-width: 3; opacity: 0.8; }
+  #touch .ab { position: absolute; right: 12px; top: 58px; width: 176px; height: 176px; }
+  #touch .round { width: 82px; height: 82px; border-radius: 50%; font-size: 34px; background: var(--t-red); border-color: var(--t-red-edge); }
+  #touch .round.a { right: 0; top: 0; } #touch .round.b { left: 0; top: 66px; }
+  #touch .combo { right: 0; bottom: 0; width: 64px; height: 56px; border-radius: 14px 14px 14px 36px; font-size: 18px; background: var(--t-red); border-color: var(--t-red-edge); }
+  #touch .mid { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); width: 230px; height: 34px; }
+  #touch .pill { top: 0; width: 104px; height: 32px; border-radius: 16px; font-size: 13px; letter-spacing: 1px; }
+  #touch .pill[data-b="SELECT"] { left: 0; } #touch .pill[data-b="START"] { right: 0; }
+  /* landscape: the game fills the screen and the buttons float over its sides */
   @media (orientation: landscape) {
     body.touch { overflow: hidden; height: 100%; padding: 0; }
     body.touch #screen { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); }
     body.touch #bar, body.touch #chat { display: none; }
-    body.touch #touch { position: fixed; inset: 0; max-width: none; height: auto; align-items: flex-end; pointer-events: none;
-      padding: 0 calc(16px + env(safe-area-inset-right)) calc(14px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left)); }
-    body.touch #touch > * { pointer-events: auto; opacity: 0.45; }
-    body.touch #touch > .mid { opacity: 0.55; bottom: calc(6px + env(safe-area-inset-bottom)); }
-    body.touch #touch .arm, body.touch #touch .hub, body.touch #touch .pill { background: #50505e; }
+    body.touch #touch { position: fixed; inset: 0; max-width: none; height: auto; pointer-events: none; }
+    body.touch #touch > * { pointer-events: auto; }
+    body.touch #touch .shoulder.l { left: calc(14px + env(safe-area-inset-left)); }
+    body.touch #touch .shoulder.r { right: calc(14px + env(safe-area-inset-right)); }
+    body.touch #touch .menu { display: block; }
+    body.touch #touch .pad { top: auto; bottom: calc(16px + env(safe-area-inset-bottom)); left: calc(18px + env(safe-area-inset-left)); }
+    body.touch #touch .ab { top: auto; bottom: calc(14px + env(safe-area-inset-bottom)); right: calc(14px + env(safe-area-inset-right)); }
+    body.touch #touch .mid { bottom: calc(10px + env(safe-area-inset-bottom)); }
+    /* MENU shows the save / sign-in / chat bar over the game */
+    body.touch.menu-open #bar, body.touch.menu-open #chat { display: flex; position: fixed; left: 50%; transform: translateX(-50%); z-index: 5;
+      background: rgba(16, 16, 24, 0.94); border: 1px solid #444; border-radius: 8px; padding: 8px; opacity: 1; }
+    body.touch.menu-open #bar { top: 48px; width: min(560px, 80vw); box-sizing: border-box; }
+    body.touch.menu-open #chat[hidden] { display: none; }
+    body.touch.menu-open #chat { top: 100px; flex-direction: column; width: min(560px, 80vw); box-sizing: border-box; margin: 0; }
   }
 </style>
 </head>
@@ -64,7 +80,7 @@
   // Phones keep the page for up to 10 minutes after a new version goes live.
   // Check the live page's version and, if it's newer, load it (a ?v= address
   // isn't in the browser's cache). The publish step fills in the version.
-  window.GEGK_BUILD = '0cfd96f';
+  window.GEGK_BUILD = 'c7b6e8f';
   (function () {
     if (location.protocol === 'file:' || /^__/.test(window.GEGK_BUILD)) return;
     fetch(location.pathname + '?check=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
@@ -92,67 +108,67 @@
 <script>
   // Data is fetched as JSON when served over http(s). Opening index.html
   // directly (file://) can't fetch, so the pre-built bundle is used instead.
-  if (location.protocol === 'file:') document.write('<script src="data/bundle.js?v=0cfd96f"><\/script>');
+  if (location.protocol === 'file:') document.write('<script src="data/bundle.js?v=c7b6e8f"><\/script>');
 </script>
 <!-- engine -->
-<script src="src/core/config.js?v=0cfd96f"></script>
-<script src="src/config/sounds.js?v=0cfd96f"></script>
-<script src="src/config/firebase.js?v=0cfd96f"></script>
-<script src="src/core/util.js?v=0cfd96f"></script>
-<script src="src/core/input.js?v=0cfd96f"></script>
-<script src="src/core/touch.js?v=0cfd96f"></script>
-<script src="src/core/assets.js?v=0cfd96f"></script>
-<script src="src/core/audio.js?v=0cfd96f"></script>
-<script src="src/core/font.js?v=0cfd96f"></script>
-<script src="src/core/data.js?v=0cfd96f"></script>
-<script src="src/core/ui.js?v=0cfd96f"></script>
-<script src="src/core/message.js?v=0cfd96f"></script>
-<script src="src/core/scene.js?v=0cfd96f"></script>
-<script src="src/core/state.js?v=0cfd96f"></script>
-<script src="src/core/items.js?v=0cfd96f"></script>
+<script src="src/core/config.js?v=c7b6e8f"></script>
+<script src="src/config/sounds.js?v=c7b6e8f"></script>
+<script src="src/config/firebase.js?v=c7b6e8f"></script>
+<script src="src/core/util.js?v=c7b6e8f"></script>
+<script src="src/core/input.js?v=c7b6e8f"></script>
+<script src="src/core/touch.js?v=c7b6e8f"></script>
+<script src="src/core/assets.js?v=c7b6e8f"></script>
+<script src="src/core/audio.js?v=c7b6e8f"></script>
+<script src="src/core/font.js?v=c7b6e8f"></script>
+<script src="src/core/data.js?v=c7b6e8f"></script>
+<script src="src/core/ui.js?v=c7b6e8f"></script>
+<script src="src/core/message.js?v=c7b6e8f"></script>
+<script src="src/core/scene.js?v=c7b6e8f"></script>
+<script src="src/core/state.js?v=c7b6e8f"></script>
+<script src="src/core/items.js?v=c7b6e8f"></script>
 <!-- pokémon & battle -->
-<script src="src/battle/pokemon.js?v=0cfd96f"></script>
-<script src="src/battle/trainer.js?v=0cfd96f"></script>
-<script src="src/battle/battle_core.js?v=0cfd96f"></script>
-<script src="src/battle/move_effects.js?v=0cfd96f"></script>
-<script src="src/battle/battle_ai.js?v=0cfd96f"></script>
-<script src="src/battle/battle_anim.js?v=0cfd96f"></script>
-<script src="src/battle/battle_scene.js?v=0cfd96f"></script>
-<script src="src/battle/evolution.js?v=0cfd96f"></script>
+<script src="src/battle/pokemon.js?v=c7b6e8f"></script>
+<script src="src/battle/trainer.js?v=c7b6e8f"></script>
+<script src="src/battle/battle_core.js?v=c7b6e8f"></script>
+<script src="src/battle/move_effects.js?v=c7b6e8f"></script>
+<script src="src/battle/battle_ai.js?v=c7b6e8f"></script>
+<script src="src/battle/battle_anim.js?v=c7b6e8f"></script>
+<script src="src/battle/battle_scene.js?v=c7b6e8f"></script>
+<script src="src/battle/evolution.js?v=c7b6e8f"></script>
 <!-- overworld -->
-<script src="src/overworld/tilemap.js?v=0cfd96f"></script>
-<script src="src/overworld/gamemap.js?v=0cfd96f"></script>
-<script src="src/overworld/character.js?v=0cfd96f"></script>
-<script src="src/overworld/event.js?v=0cfd96f"></script>
-<script src="src/overworld/player.js?v=0cfd96f"></script>
-<script src="src/overworld/screen.js?v=0cfd96f"></script>
-<script src="src/overworld/ruby.js?v=0cfd96f"></script>
-<script src="src/overworld/bridge.js?v=0cfd96f"></script>
-<script src="src/overworld/interpreter.js?v=0cfd96f"></script>
-<script src="src/overworld/field.js?v=0cfd96f"></script>
-<script src="src/overworld/scene_map.js?v=0cfd96f"></script>
+<script src="src/overworld/tilemap.js?v=c7b6e8f"></script>
+<script src="src/overworld/gamemap.js?v=c7b6e8f"></script>
+<script src="src/overworld/character.js?v=c7b6e8f"></script>
+<script src="src/overworld/event.js?v=c7b6e8f"></script>
+<script src="src/overworld/player.js?v=c7b6e8f"></script>
+<script src="src/overworld/screen.js?v=c7b6e8f"></script>
+<script src="src/overworld/ruby.js?v=c7b6e8f"></script>
+<script src="src/overworld/bridge.js?v=c7b6e8f"></script>
+<script src="src/overworld/interpreter.js?v=c7b6e8f"></script>
+<script src="src/overworld/field.js?v=c7b6e8f"></script>
+<script src="src/overworld/scene_map.js?v=c7b6e8f"></script>
 <!-- menus -->
-<script src="src/menus/common.js?v=0cfd96f"></script>
-<script src="src/menus/title.js?v=0cfd96f"></script>
-<script src="src/menus/start_menu.js?v=0cfd96f"></script>
-<script src="src/menus/party.js?v=0cfd96f"></script>
-<script src="src/menus/summary.js?v=0cfd96f"></script>
-<script src="src/menus/bag.js?v=0cfd96f"></script>
-<script src="src/menus/pokedex.js?v=0cfd96f"></script>
-<script src="src/menus/trainer_card.js?v=0cfd96f"></script>
-<script src="src/menus/options.js?v=0cfd96f"></script>
-<script src="src/menus/pc.js?v=0cfd96f"></script>
-<script src="src/menus/mart.js?v=0cfd96f"></script>
-<script src="src/menus/town_map.js?v=0cfd96f"></script>
-<script src="src/menus/quests.js?v=0cfd96f"></script>
+<script src="src/menus/common.js?v=c7b6e8f"></script>
+<script src="src/menus/title.js?v=c7b6e8f"></script>
+<script src="src/menus/start_menu.js?v=c7b6e8f"></script>
+<script src="src/menus/party.js?v=c7b6e8f"></script>
+<script src="src/menus/summary.js?v=c7b6e8f"></script>
+<script src="src/menus/bag.js?v=c7b6e8f"></script>
+<script src="src/menus/pokedex.js?v=c7b6e8f"></script>
+<script src="src/menus/trainer_card.js?v=c7b6e8f"></script>
+<script src="src/menus/options.js?v=c7b6e8f"></script>
+<script src="src/menus/pc.js?v=c7b6e8f"></script>
+<script src="src/menus/mart.js?v=c7b6e8f"></script>
+<script src="src/menus/town_map.js?v=c7b6e8f"></script>
+<script src="src/menus/quests.js?v=c7b6e8f"></script>
 <!-- story & saves -->
-<script src="src/story/gegk.js?v=0cfd96f"></script>
-<script src="src/story/levelcap.js?v=0cfd96f"></script>
-<script src="src/story/quests.js?v=0cfd96f"></script>
-<script src="src/save/save.js?v=0cfd96f"></script>
-<script src="src/save/cloud.js?v=0cfd96f"></script>
-<script src="src/online/online.js?v=0cfd96f"></script>
-<script src="src/main.js?v=0cfd96f"></script>
-<script>if (/[?&]debug\b/.test(location.search)) document.write('<script src="src/debug.js?v=0cfd96f"><\/script>');</script>
+<script src="src/story/gegk.js?v=c7b6e8f"></script>
+<script src="src/story/levelcap.js?v=c7b6e8f"></script>
+<script src="src/story/quests.js?v=c7b6e8f"></script>
+<script src="src/save/save.js?v=c7b6e8f"></script>
+<script src="src/save/cloud.js?v=c7b6e8f"></script>
+<script src="src/online/online.js?v=c7b6e8f"></script>
+<script src="src/main.js?v=c7b6e8f"></script>
+<script>if (/[?&]debug\b/.test(location.search)) document.write('<script src="src/debug.js?v=c7b6e8f"><\/script>');</script>
 </body>
 </html>
