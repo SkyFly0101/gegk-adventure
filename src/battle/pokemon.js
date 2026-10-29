@@ -195,6 +195,8 @@ G.Pokemon = class Pokemon {
     Object.assign(p, o);
     p.calcStats();
     p.hp = G.U.clamp(o.hp, 0, p.stats.HP);
+    // moves whose PP changed (e.g. moved to FireRed values) never show more than the max
+    for (const m of p.moves || []) if (G.Data.moves[m.id]) m.pp = Math.min(m.pp, Pokemon.maxPP(m));
     return p;
   }
 };

@@ -204,3 +204,8 @@ which is how the Phase 3 playthrough was tested. Reload the page to go back to n
 
 Maps, story events, graphics and audio come from the Pokémon Essentials FRLG kit and the
 PKMN.NET Sprite Resource that you supplied.
+
+The kit's Pokémon data is from a modern Essentials version, so FireRed's (Gen 3) base stats,
+level-up / TM / tutor / egg moves and move stats are put back by `tools/gen3data.js`, from
+`tools/gen3_data.json`, which was extracted from [Pokémon Showdown](https://github.com/smogon/pokemon-showdown)'s
+data (MIT licence). `build.sh` applies it after `convert.js`.

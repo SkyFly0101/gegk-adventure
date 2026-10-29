@@ -451,8 +451,10 @@ G.Debug = {
   },
   // First step (numpad dir) of the shortest walk to (tx, ty) on this map,
   // using the player's real passability (events like Cut trees included).
-  bfsDir(tx, ty) {
+  bfsDir(tx, ty, water = G.Game.global.surfing) {
     const m = G.World.map, p = G.Game.playerChar, key = (x, y) => x + ',' + y;
+    // while surfing, stay on the water (stepping ashore ends Surf) unless
+    // the only way there is over land
     const prev = new Map([[key(p.x, p.y), null]]), q = [[p.x, p.y]];
     while (q.length) {
       const [x, y] = q.shift();
@@ -460,6 +462,7 @@ G.Debug = {
       for (const d of [2, 4, 6, 8]) {
         let nx = x + G.U.dx(d), ny = y + G.U.dy(d);
         if (!m.valid(nx, ny) || !p.passable(x, y, d)) continue;
+        if (water && !G.Terrain.isWater(m.terrainTag(nx, ny)) && !(nx === tx && ny === ty)) continue;
         if (m.terrainTag(nx, ny) === G.Terrain.Ledge) {
           // walking into a ledge (in its own direction) jumps to the tile beyond
           nx += G.U.dx(d); ny += G.U.dy(d);
@@ -471,7 +474,7 @@ G.Debug = {
       }
     }
     let k = key(tx, ty), d = null;
-    if (!prev.has(k)) return null;
+    if (!prev.has(k)) return water ? this.bfsDir(tx, ty, false) : null;
     while (prev.get(k)) { const [x, y, dd] = prev.get(k); d = dd; k = key(x, y); }
     return d;
   },
@@ -501,7 +504,18 @@ G.Debug = {
     const here = (x, y) => p.x === x && p.y === y;
     for (const l of links) {
       if (l.dir) {
-        const tiles = this.exits(l.dir).filter(([x, y]) => { const n = G.World.mapAt(x + G.U.dx(l.dir), y + G.U.dy(l.dir)); return n && n.id === to; });
+        let tiles = this.exits(l.dir);
+        if (G.Game.global.surfing) {
+          // surfing: the water tiles along that edge instead
+          tiles = [];
+          const n = l.dir === 2 || l.dir === 8 ? m.width : m.height;
+          for (let i = 0; i < n; i++) {
+            const x = l.dir === 2 || l.dir === 8 ? i : l.dir === 4 ? 0 : m.width - 1;
+            const y = l.dir === 4 || l.dir === 6 ? i : l.dir === 8 ? 0 : m.height - 1;
+            if (G.Terrain.isWater(m.terrainTag(x, y))) tiles.push([x, y]);
+          }
+        }
+        tiles = tiles.filter(([x, y]) => { const n = G.World.mapAt(x + G.U.dx(l.dir), y + G.U.dy(l.dir)); return n && n.id === to; });
         for (const [x, y] of tiles) {
           if (!here(x, y) && !this.bfsDir(x, y)) continue;
           if ((await this.stepTo(x, y)) !== 'arrived') continue;
@@ -530,6 +544,39 @@ G.Debug = {
       if (ms.messageBox.active) { await this.play({ max: 200 }); continue; }
       await this.sleep(100);
     }
+  },
+  // Walk next to an event (with the event-aware walker), face it, press A
+  // and play through whatever follows. choices answers YES/NO questions.
+  async talkTo(ev, { choices = [0, 0] } = {}) {
+    const p = G.Game.playerChar, codes = { 2: 'ArrowDown', 4: 'ArrowLeft', 6: 'ArrowRight', 8: 'ArrowUp' };
+    for (const [dx, dy, d] of [[0, 1, 8], [0, -1, 2], [1, 0, 4], [-1, 0, 6]]) {
+      const x = ev.x + dx, y = ev.y + dy;
+      if (!(p.x === x && p.y === y) && !this.bfsDir(x, y)) continue;
+      if ((await this.stepTo(x, y)) !== 'arrived') continue;
+      p.direction = d; await this.tap(codes[d], 1, 30); await this.tap('KeyZ');
+      await this.play({ choices: choices.slice(), max: 400 });
+      return 'talked';
+    }
+    return 'unreachable';
+  },
+  // Start surfing from the shore: face a neighbouring water tile and use Surf.
+  async startSurf() {
+    if (G.Game.global.surfing) return 'already';
+    const p = G.Game.playerChar, m = G.World.map, codes = { 2: 'ArrowDown', 4: 'ArrowLeft', 6: 'ArrowRight', 8: 'ArrowUp' };
+    for (const d of [2, 8, 4, 6]) {
+      const nx = p.x + G.U.dx(d), ny = p.y + G.U.dy(d);
+      if (!m.valid(nx, ny) || !G.Terrain.isWater(m.terrainTag(nx, ny))) continue;
+      p.direction = d; await this.tap(codes[d], 1, 30); await this.tap('KeyZ');
+      await this.play({ choices: [0], max: 200 }); await this.settle();
+      if (G.Game.global.surfing) return 'surfing';
+    }
+    return 'no water';
+  },
+  // Cut every reachable Cut tree on this map.
+  async cutTrees() {
+    const out = [];
+    for (const t of Object.values(G.World.map.events).filter((e) => /Cut Tree/.test(e.name) && !e.erased)) out.push(t.id + ' ' + (await this.talkTo(t)));
+    return out;
   },
   // Follow a list of map ids with goLink; stops at the first failure.
   async route(ids) {

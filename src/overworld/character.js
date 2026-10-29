@@ -549,6 +549,7 @@ G.Character = class Character {
       if (img) {
         const fw = img.width / 4, fh = img.height / 4;
         const row = { 2: 0, 4: 1, 6: 2, 8: 3 }[this.direction] || 0;
+        if (this.isPlayer && G.Game.global.surfing) this.drawSurfBase(ctx, sx, sy, row);
         const dx = sx + 8 - fw / 2;
         let dy = sy + 16 - fh + (this.yOffset || 0);
         if (/offset/i.test(this.characterName)) dy += 8;
@@ -565,6 +566,15 @@ G.Character = class Character {
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
     if (this.bubble) this.drawBubble(ctx, sx, sy);
+  }
+  // The Surf mount (Essentials' base_surf, a 4x4 sheet) the surfing player
+  // sits on, bobbing with them like FireRed's.
+  drawSurfBase(ctx, sx, sy, row) {
+    const path = G.Assets.character('base_surf');
+    const img = G.Assets.get(path);
+    if (!img) { G.Assets.load(path); return; }
+    const cw = img.width / 4, ch = img.height / 4;
+    ctx.drawImage(img, this.pattern * cw, row * ch, cw, ch, sx + 8 - cw / 2, sy + 25 - ch + (this.yOffset || 0), cw, ch);
   }
   drawBubble(ctx, sx, sy) {
     const b = this.bubble;
