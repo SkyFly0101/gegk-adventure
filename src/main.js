@@ -79,7 +79,9 @@ G.Main = {
     const apply = () => {
       // Use the chosen scale, shrinking it if the window is too small to fit.
       const fit = Math.max(1, Math.min(Math.floor(window.innerWidth / 240), Math.floor((window.innerHeight - 40) / 160)));
-      const s = Math.min(Number(sel.value), fit);
+      let s = Math.min(Number(sel.value), fit);
+      // phones: fill the space the touch controls leave (any size, not just whole steps)
+      if (G.Touch && G.Touch.enabled) { const r = G.Touch.space(); s = Math.max(0.5, Math.min(r.w / 240, r.h / 160)); }
       this.canvas.style.width = 240 * s + 'px';
       this.canvas.style.height = 160 * s + 'px';
       // a bigger scale than the window can show is shrunk to fit

@@ -127,7 +127,7 @@ G.ControlsHelpScene = class ControlsHelpScene extends G.Scene {
       G.Font.draw(ctx, k, 18, 28 + i * 12, 'red', { font: 'narrow' });
       G.Font.draw(ctx, v, 92, 28 + i * 12, 'dark', { font: 'narrow' });
     });
-    G.Font.draw(ctx, G.Input.padConnected ? 'Press A to continue' : 'Press Z to continue', 120, 136, 'gray', { align: 'center', font: 'small' });
+    G.Font.draw(ctx, G.Input.padConnected || (G.Touch && G.Touch.enabled) ? 'Press A to continue' : 'Press Z to continue', 120, 136, 'gray', { align: 'center', font: 'small' });
   }
 };
 

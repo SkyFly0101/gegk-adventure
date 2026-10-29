@@ -57,7 +57,10 @@ G.TitleScene = class TitleScene extends G.Scene {
     ctx.fillStyle = 'rgba(0,0,0,0.55)';
     ctx.fillRect(0, 128, 240, 32);
     const c = ['#f8f8f8', null];
-    if (G.Input.padConnected) {
+    if (G.Touch && G.Touch.enabled && !G.Input.padConnected) {
+      G.Font.draw(ctx, 'Use the buttons below the screen', 120, 129, c, { align: 'center', font: 'small', shadow: false });
+      G.Font.draw(ctx, 'Tap A or START to begin', 120, 143, c, { align: 'center', font: 'small', shadow: false });
+    } else if (G.Input.padConnected) {
       G.Font.draw(ctx, 'Controller connected', 120, 129, c, { align: 'center', font: 'small', shadow: false });
       G.Font.draw(ctx, 'D-pad/stick: Move   A   B   START   SELECT', 120, 143, c, { align: 'center', font: 'small', shadow: false });
     } else {

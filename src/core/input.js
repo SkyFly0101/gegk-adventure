@@ -43,7 +43,10 @@ G.Input = (() => {
     }
   }
 
-  function isDown(b) { return padDown.has(b) || G.Keys[b].some((c) => down.has(c) || tapped.has(c)); }
+  // On-screen touch buttons (src/core/touch.js); a quick tap still counts
+  const touchDown = new Set(), touchTapped = new Set();
+
+  function isDown(b) { return padDown.has(b) || touchDown.has(b) || touchTapped.has(b) || G.Keys[b].some((c) => down.has(c) || tapped.has(c)); }
 
   return {
     update() {
@@ -51,13 +54,19 @@ G.Input = (() => {
       pollPads();
       if (padDown.size && !padWas && G.Audio) G.Audio.unlock();
       for (const b of buttons) {
-        const tap = G.Keys[b].some((c) => tapped.has(c));
+        const tap = touchTapped.has(b) || G.Keys[b].some((c) => tapped.has(c));
         const held = isDown(b);
         if (tap && state[b] > 0) state[b] = 0; // re-pressed within one frame
         pressed[b] = held && !state[b];
         state[b] = held ? (state[b] || 0) + 1 : 0;
       }
       tapped.clear();
+      touchTapped.clear();
+    },
+    // A touch button going down / up.
+    touch(b, on) {
+      if (on) { if (!touchDown.has(b)) touchTapped.add(b); touchDown.add(b); G.Audio && G.Audio.unlock(); }
+      else touchDown.delete(b);
     },
     // True only on the frame the button went down.
     trigger(b) { return !!pressed[b]; },

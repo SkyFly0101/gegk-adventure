@@ -248,9 +248,13 @@ G.Online = (() => {
     document.body.appendChild(box);
     el = { box, log: box.querySelector('#chatLog'), room: box.querySelector('#chatRoom'), input: box.querySelector('#chatInput'),
       nick: box.querySelector('#chatNick'), note: box.querySelector('#chatNote') };
+    if (G.Touch && G.Touch.enabled) el.input.placeholder = 'Tap to chat';
     el.room.addEventListener('change', () => { chatRoom = el.room.value; subscribeChat(); });
     el.input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { send(el.input.value); el.input.value = ''; }
+      if (e.key === 'Enter') {
+        send(el.input.value); el.input.value = '';
+        if (G.Touch && G.Touch.enabled) el.input.blur(); // phones: close the keyboard
+      }
       else if (e.key === 'Escape') { el.input.blur(); G.Main.canvas.focus(); }
       e.stopPropagation();
     });
