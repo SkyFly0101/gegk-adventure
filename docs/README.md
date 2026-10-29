@@ -61,6 +61,19 @@ The controls are also shown on the title screen and under *CONTROLS* in the main
   the last sync, the game asks which one to keep. Saves still work offline and sync later.
   The Firestore rules only let each account read and write its own `saves/<account id>` document.
 
+## Playing online
+
+When you're signed in, you see other signed-in players walking around the same maps (with their
+nickname over their head), and a chat box appears under the game: press **T** to type, **Enter**
+to send, **Esc** to go back to the game. Pick **This area** (players on your map) or **Everyone**.
+New messages also pop up over the sender's head. The first time, the game asks for a nickname
+(1-12 letters/numbers); change it with the **Name** button next to the chat box.
+
+This uses Firebase's Realtime Database (`src/online/online.js`). Its security rules are in
+`docs/realtime-database.rules.json` (paste them into Firebase console → Realtime Database →
+Rules): players can only move themselves, and each player can send one message every 2 seconds.
+A simple word filter hides common swear words. Battles and trades between players aren't part of it.
+
 ## Quests and level caps
 
 These two are GEGK Adventure additions, not part of FireRed:

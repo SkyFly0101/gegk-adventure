@@ -25,7 +25,8 @@ G.Cloud = (() => {
     if (!G.FirebaseConfig || location.protocol === 'file:') { ready = Promise.resolve(false); return ready; }
     ready = (async () => {
       await loadScript(SDK + 'firebase-app-compat.js');
-      await Promise.all([loadScript(SDK + 'firebase-auth-compat.js'), loadScript(SDK + 'firebase-firestore-compat.js')]);
+      await Promise.all([loadScript(SDK + 'firebase-auth-compat.js'), loadScript(SDK + 'firebase-firestore-compat.js'),
+        loadScript(SDK + 'firebase-database-compat.js')]);
       firebase.initializeApp(G.FirebaseConfig);
       auth = firebase.auth();
       db = firebase.firestore();
@@ -33,6 +34,7 @@ G.Cloud = (() => {
         user = u;
         updateUI();
         if (u) sync();
+        if (G.Online) G.Online.onUser(u); // multiplayer and chat use the same sign-in
       });
       // finishing a sign-in that had to use a full-page redirect
       auth.getRedirectResult().catch((e) => setStatus('Sign-in failed: ' + e.message));

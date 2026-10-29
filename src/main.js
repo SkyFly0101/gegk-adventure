@@ -61,6 +61,7 @@ G.Main = {
     if (G.Input.trigger('A') || G.Input.trigger('START')) G.Audio.unlock();
     G.Scenes.update();
     G.Audio.update();
+    if (G.Online) G.Online.update();
     // play time runs in battles and menus too, like FireRed
     if (G.Game && G.Game.player && G.World && G.World.map) G.Game.player.playTime += G.dt;
   },

@@ -15,4 +15,7 @@ G.FirebaseConfig = {
   storageBucket: 'gegk-adventure.firebasestorage.app',
   messagingSenderId: '455949231989',
   appId: '1:455949231989:web:f0f09f71712507a89bd53c',
+  // Realtime Database: other players' positions and the chat (src/online/online.js).
+  // Its rules are in docs/realtime-database.rules.json.
+  databaseURL: 'https://gegk-adventure-default-rtdb.firebaseio.com',
 };

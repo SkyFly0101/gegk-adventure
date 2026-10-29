@@ -1,0 +1,37 @@
+{
+  "rules": {
+    "maps": {
+      "$map": {
+        ".read": "auth != null",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid",
+          ".validate": "newData.hasChildren(['x', 'y', 'd', 'n', 'c', 't']) && newData.child('x').isNumber() && newData.child('y').isNumber() && newData.child('d').isNumber() && newData.child('n').isString() && newData.child('n').val().matches(/^[A-Za-z0-9 _-]{1,12}$/) && newData.child('c').isString() && newData.child('c').val().length <= 40"
+        }
+      }
+    },
+    "names": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9 _-]{1,12}$/)"
+      }
+    },
+    "chatTimes": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.val() === now && (!data.exists() || data.val() <= now - 2000)"
+      }
+    },
+    "chat": {
+      "$room": {
+        ".read": "auth != null",
+        ".indexOn": ["t"],
+        "$msg": {
+          ".write": "auth != null && !data.exists()",
+          ".validate": "newData.hasChildren(['u', 'n', 'm', 't']) && newData.child('u').val() === auth.uid && newData.child('t').val() === now && newData.child('m').isString() && newData.child('m').val().length >= 1 && newData.child('m').val().length <= 120 && newData.child('n').isString() && newData.child('n').val().matches(/^[A-Za-z0-9 _-]{1,12}$/) && newData.parent().parent().parent().child('chatTimes').child(auth.uid).val() === now"
+        }
+      }
+    }
+  }
+}

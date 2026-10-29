@@ -321,12 +321,15 @@ G.MapSceneClass = class MapScene extends G.Scene {
     const pc = G.Game.playerChar;
     // The intro map (Oak's speech) never shows the player character.
     if (G.World.map.id !== 1) sprites.push({ z: pc.zIndex(cam), ch: pc, order: 11 });
+    // other players online on the maps around us
+    if (G.Online && G.World.map.id !== 1) for (const r of G.Online.visible()) sprites.push({ z: r.zIndex(cam), ch: r, order: 10.5 });
     sprites.sort((a, b) => a.z - b.z || a.order - b.order);
     for (const s of sprites) {
       if (s.tile) G.Tilemap.drawTile(ctx, s.ts, s.id, s.sx, s.sy);
       else s.ch.draw(ctx, cam);
     }
     this.drawMapAnimations(ctx, cam);
+    if (G.Online && G.World.map.id !== 1) G.Online.drawOverlay(ctx, cam);
     this.drawDarkness(ctx, cam);
     G.Screen.drawMapEffects(ctx);
     G.Screen.drawPictures(ctx);
